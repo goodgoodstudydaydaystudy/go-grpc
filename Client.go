@@ -23,7 +23,7 @@ func main()  {
 	client := pb.NewControlClient(conn)
 
 	ConsumeResp, err := client.Pay(context.Background(), &pb.ConsumeReq{
-		ItemId: 1,
+		ItemId: 1,		// 怎么在键盘输入呢	TODO
 	})
 	if err != nil {
 		log.Fatalf("Consume not succee %v", err)
