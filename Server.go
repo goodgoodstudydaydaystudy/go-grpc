@@ -1,41 +1,43 @@
 package main
 
 import (
-		"fmt"
-		"google.golang.org/grpc/reflection"
-		"log"
-		"net"
-		"context"
-		"google.golang.org/grpc"
-		pb "gRPC/pb"
+	"context"
+	"fmt"
+	pb "gRPC/pb"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
+	"log"
+	"net"
 )
 
 const (
-	Address = "127.0.0.1:50051"
+	Address = ":50051"
 )
 
-type SaveServer struct {
+type ControlServer struct {
 
 }
 
-func (s *SaveServer) Pay(ctx context.Context, in *pb.ConsumeReq) (*pb.ConsumeResp, error){
-	return &pb.ConsumeResp{Message:"消费成功"}, nil
+func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb.ConsumeResp, error){
+	return &pb.ConsumeResp{OrderId: consumeReq.GetItemId()}, nil	// 返回Resp里的字段？
 }
-
-//var SaveService = SaveServer{}
 
 func main()  {
-	lis, err := net.Listen("TCP", Address)
+	lis, err := net.Listen("tcp", Address)
 	if err != nil{
 		log.Fatalf("failed to listen: %v", err)
 	}
+	fmt.Printf("listen succee")
 
 	// 创建grpc服务器
 	s := grpc.NewServer()
-	pb.RegisterSaveServer(s, &SaveServer{})
+
+	// 注册ControlServer
+	pb.RegisterControlServer(s, &ControlServer{})
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil{
 		log.Fatalf("failed to server: %v", err)
 	}
+	fmt.Printf("creat grpc server succee")
 }
 
