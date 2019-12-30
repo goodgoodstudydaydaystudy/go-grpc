@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"database/sql"
+	//"database/sql"
 	"fmt"
 	pb "gRPC/pb"
 	"google.golang.org/grpc"
@@ -42,13 +42,13 @@ func main()  {
 	fmt.Printf("creat grpc server succee")
 }
 
-func ControlMySql()  {
-
-	// connect mysql
-	db, err := sql.Open("mysql", "root:284927463@/order_sql")
-	if err != nil{
-		log.Printf("failel to connect mysql %v\n", err)
-	}
-
-
-}
+//func ControlMySql()  {
+//
+//	// connect mysql
+//	db, err := sql.Open("mysql", "root:284927463@/order_sql")
+//	if err != nil{
+//		log.Printf("failel to connect mysql %v\n", err)
+//	}
+//
+//
+//}
