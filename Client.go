@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	pb "gRPC/pb"
 	"google.golang.org/grpc"
 	"log"
@@ -22,11 +23,45 @@ func main()  {
 	// 初始化客户端
 	client := pb.NewControlClient(conn)
 
+	// 希望这个处理过程从main函数中拆出来。
 	ConsumeResp, err := client.Pay(context.Background(), &pb.ConsumeReq{
-		ItemId: 1,		// 怎么在键盘输入呢	TODO
+		ItemId: 1,
 	})
 	if err != nil {
 		log.Fatalf("Consume not succee %v", err)
 	}
 	log.Printf("Pay succee %v", ConsumeResp)
+}
+
+// send Server TODO
+func ConsumeInfo(itemid int64, num int64, userid int32) {
+	_ = &pb.ConsumeReq{ItemId:itemid, ItemNum:num, UserId:userid}
+	return
+}
+
+// Pay input
+func Imp() (itemid int, num int, userid int) {
+	var (
+		item int
+		itemnum int
+		user int
+	)
+	fmt.Printf("Please input item id")
+	itemId, err := fmt.Scanln(&item)
+	if err != nil{
+		log.Printf("item id is err:", err)
+	}
+
+	fmt.Printf("Please input num")
+	itemNum, err := fmt.Scanln(&itemnum)
+	if err != nil{
+		log.Printf("num is err:", err)
+	}
+
+	fmt.Printf("Please input user id")
+	userId, err := fmt.Scanln(&user)
+	if err != nil{
+		log.Printf("user_id is err:", err)
+	}
+	return itemId, itemNum, userId
 }
