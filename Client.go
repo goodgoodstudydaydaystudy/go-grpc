@@ -23,24 +23,28 @@ func main()  {
 	// 初始化客户端
 	client := pb.NewControlClient(conn)
 
-	// 希望这个处理过程从main函数中拆出来。
+	itemid, num, userid := Inp()
+
+	// 希望这个处理过程从main函数中拆出来。TODO
 	ConsumeResp, err := client.Pay(context.Background(), &pb.ConsumeReq{
-		ItemId: 1,
+		ItemId: itemid, ItemNum:num, UserId:userid,
 	})
 	if err != nil {
 		log.Fatalf("Consume not succee %v", err)
 	}
 	log.Printf("Pay succee %v", ConsumeResp)
+
+
 }
 
-// send Server TODO
-func ConsumeInfo(itemid int64, num int64, userid int32) {
-	_ = &pb.ConsumeReq{ItemId:itemid, ItemNum:num, UserId:userid}
-	return
-}
+//// send Server TODO
+//func ConsumeInfo(itemid int64, num int64, userid int32) {
+//	_ = &pb.ConsumeReq{ItemId:itemid, ItemNum:num, UserId:userid}
+//	return
+//}
 
 // Pay input
-func Imp() (itemid int, num int, userid int) {
+func Inp() (itemid int64, num int64, userid int32) {
 	var (
 		item int
 		itemnum int
@@ -63,5 +67,5 @@ func Imp() (itemid int, num int, userid int) {
 	if err != nil{
 		log.Printf("user_id is err:", err)
 	}
-	return itemId, itemNum, userId
+	return int64(itemId), int64(itemNum), int32(userId)
 }

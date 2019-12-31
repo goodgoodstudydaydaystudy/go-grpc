@@ -4,12 +4,25 @@
     <list default="true" id="4cb89532-314a-42db-9c89-cd77de8e6afa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client.go" beforeDir="false" afterPath="$PROJECT_DIR$/Client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server.go" beforeDir="false" afterPath="$PROJECT_DIR$/Server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="FavoritesManager">
     <favorites_list name="gRPC" />
@@ -40,15 +53,17 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="configurable.Global.GOPATH.is.expanded" value="true" />
     <property name="configurable.Module.GOPATH.is.expanded" value="true" />
     <property name="configurable.Project.GOPATH.is.expanded" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.goide.configuration.GoLibrariesConfigurableProvider" />
   </component>
   <component name="RunManager" selected="Go Build.go build Client.go">
@@ -73,7 +88,7 @@
     <configuration name="go build gRPC" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="gRPC" />
       <working_directory value="$PROJECT_DIR$/" />
-      <kind value="PACKAGE" />
+      <kind value="FILE" />
       <filePath value="$PROJECT_DIR$/Client.go" />
       <package value="gRPC" />
       <directory value="$PROJECT_DIR$/" />
@@ -81,8 +96,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build Server.go" />
         <item itemvalue="Go Build.go build Client.go" />
+        <item itemvalue="Go Build.go build Server.go" />
         <item itemvalue="Go Build.go build gRPC" />
       </list>
     </recent_temporary>
@@ -111,30 +126,34 @@
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
     <state x="354" y="333" key="#Go_Modules_(vgo)/0.23.2560.1337@0.23.2560.1337" timestamp="1577360618149" />
-    <state x="1040" y="381" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1577415546179">
+    <state x="880" y="357" key="#SQL_Dialects" timestamp="1577724059311">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state x="1040" y="381" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1337@0.23.2560.1337" timestamp="1577415546179" />
-    <state x="1037" y="371" key="#go_build_gRPC" timestamp="1577439162548">
+    <state x="880" y="357" key="#SQL_Dialects/0.23.2560.1337@0.23.2560.1337" timestamp="1577724059311" />
+    <state x="1040" y="381" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1577724134354">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state x="1037" y="371" key="#go_build_gRPC/0.23.2560.1337@0.23.2560.1337" timestamp="1577439162548" />
-    <state width="1841" height="197" key="GridCell.Tab.0.bottom" timestamp="1577441617453">
+    <state x="1040" y="381" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1337@0.23.2560.1337" timestamp="1577724134354" />
+    <state x="1037" y="371" key="#go_build_gRPC" timestamp="1577687758969">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state width="1841" height="197" key="GridCell.Tab.0.bottom/0.23.2560.1337@0.23.2560.1337" timestamp="1577441617453" />
-    <state width="1841" height="197" key="GridCell.Tab.0.center" timestamp="1577441617452">
+    <state x="1037" y="371" key="#go_build_gRPC/0.23.2560.1337@0.23.2560.1337" timestamp="1577687758969" />
+    <state width="2518" height="212" key="GridCell.Tab.0.bottom" timestamp="1577704327859">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state width="1841" height="197" key="GridCell.Tab.0.center/0.23.2560.1337@0.23.2560.1337" timestamp="1577441617452" />
-    <state width="1841" height="197" key="GridCell.Tab.0.left" timestamp="1577441617452">
+    <state width="2518" height="212" key="GridCell.Tab.0.bottom/0.23.2560.1337@0.23.2560.1337" timestamp="1577704327859" />
+    <state width="2518" height="212" key="GridCell.Tab.0.center" timestamp="1577704327859">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state width="1841" height="197" key="GridCell.Tab.0.left/0.23.2560.1337@0.23.2560.1337" timestamp="1577441617452" />
-    <state width="1841" height="197" key="GridCell.Tab.0.right" timestamp="1577441617453">
+    <state width="2518" height="212" key="GridCell.Tab.0.center/0.23.2560.1337@0.23.2560.1337" timestamp="1577704327859" />
+    <state width="2518" height="212" key="GridCell.Tab.0.left" timestamp="1577704327859">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
-    <state width="1841" height="197" key="GridCell.Tab.0.right/0.23.2560.1337@0.23.2560.1337" timestamp="1577441617453" />
+    <state width="2518" height="212" key="GridCell.Tab.0.left/0.23.2560.1337@0.23.2560.1337" timestamp="1577704327859" />
+    <state width="2518" height="212" key="GridCell.Tab.0.right" timestamp="1577704327859">
+      <screen x="0" y="23" width="2560" height="1337" />
+    </state>
+    <state width="2518" height="212" key="GridCell.Tab.0.right/0.23.2560.1337@0.23.2560.1337" timestamp="1577704327859" />
     <state x="979" y="361" key="SettingsEditor" timestamp="1577421511108">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
