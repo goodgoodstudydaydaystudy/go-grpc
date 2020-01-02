@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	pb "goodgoodstudy.com/go-grpc/pkg/pb"
+	pb "goodgoodstudy.com/pkg/pb"
 	"log"
 )
 
@@ -26,19 +26,51 @@ func WriteMySql() {
 }
 
 // insert 'item_info' tables
-func Insert(db *sql.DB, item_id int64, num int32) {
+func Insert(db *sql.DB, ItemId int64, num int32) {
 	stmt, err := db.Prepare("insert ITEMINFO(ITEM_ID, NUM) values (?, ?)")
 	if err != nil {
-		log.Printf("insert failed:", err, "\n")
+		log.Printf("insert is failed: %v\n", err)
 	}
+	defer stmt.Close()
 	// Exec() 需要传入数据 TODO
 	res, err := stmt.Exec()
 	classID, err := res.LastInsertId()
 	if err != nil {
-		log.Printf("lasetInsertId failed:", err, "\n")
+		log.Printf("lasetInsertId failed: %v\n", err)
 	}
 	fmt.Println(classID)
 }
+
+// query写了都不知道在哪里跑…
+func Query() {
+	db, err := sql.Open("mysql", "root:284927463@/order_sql")
+	if err != nil {
+		log.Printf("failel to connect mysql %v\n", err)
+	}
+	defer db.Close()
+
+	var (
+		ITEM_ID string
+		PRICE int
+	)
+	rows, err := db.Query("select PRICE from ITEM_INFO where ITEM_ID = ?", 2)
+	if err != nil {
+		log.Println(err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		err := rows.Scan(&PRICE)
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Println(ITEM_ID, PRICE)
+	}
+	err = rows.Err()
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 
 //mysql -uroot -p284927463 order_sql
 //SELECT * FROM ITEM_INFO;
