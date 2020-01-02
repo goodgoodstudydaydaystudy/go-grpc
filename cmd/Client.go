@@ -1,9 +1,10 @@
-package main
+ package main
 
 import (
+	"fmt"
 	"log"
 
-	"goodgoodstudy.com/go-grpc/pkg/client"
+	"go-grpc/pkg/client"
 )
 
 func main() {
@@ -19,6 +20,35 @@ func main() {
 		log.Println("consume failed,", err)
 		return
 	}
+	// 怎么把Inp的返回值传给client包哦
+	// 除此之外，这里还要做什么
 
 	log.Println(resp)
 }
+
+ func Inp() (itemid int64, num int64, userid int32) {
+	var(
+		item int
+		item_num int
+		user int
+	)
+	fmt.Printf("Please intput item_id:")
+	itemId, err := fmt.Scanln(&item)
+	if err != nil {
+		log.Println(err)
+	}
+
+	fmt.Printf("Please intput num:")
+	itemNum, err := fmt.Scanln(&item_num)
+	if err != nil {
+		log.Println(err)
+	}
+
+	fmt.Printf("Please intput user_id:")
+	userId, err := fmt.Scanln(&user)
+	if err != nil {
+		log.Println(err)
+	}
+
+	return int64(itemId), int64(itemNum), int32(userId)
+ }
