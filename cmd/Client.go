@@ -1,10 +1,10 @@
- package main
+package main
 
 import (
 	"fmt"
 	"log"
 
-	"go-grpc/pkg/client"
+	"goodgoodstudy.com/pkg/client"
 )
 
 func main() {
@@ -26,10 +26,10 @@ func main() {
 	log.Println(resp)
 }
 
- func Inp() (itemid int64, num int64, userid int32) {
+ func Inp() (ItemId int64, num int64, UserId int32) {
 	var(
 		item int
-		item_num int
+		ItemNum int
 		user int
 	)
 	fmt.Printf("Please intput item_id:")
@@ -39,7 +39,7 @@ func main() {
 	}
 
 	fmt.Printf("Please intput num:")
-	itemNum, err := fmt.Scanln(&item_num)
+	itemNum, err := fmt.Scanln(&ItemNum)
 	if err != nil {
 		log.Println(err)
 	}
