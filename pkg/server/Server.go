@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	pb "goodgoodstudy.com/pkg/pb"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb"
 	"log"
 )
 

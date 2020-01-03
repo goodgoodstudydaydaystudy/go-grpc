@@ -1,7 +1,7 @@
 package client
 
 import (
-	pb "goodgoodstudy.com/pkg/pb"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb"
 	"google.golang.org/grpc"
 	"log"
 )

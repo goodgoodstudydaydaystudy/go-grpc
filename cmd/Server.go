@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	pb "goodgoodstudy.com/pkg/pb"
-	"goodgoodstudy.com/pkg/server"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb"
+	"goodgoodstudy.com/go-grpc/pkg/server"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"

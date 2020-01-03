@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"goodgoodstudy.com/pkg/client"
+	"goodgoodstudy.com/go-grpc/pkg/client"
 )
 
 func main() {
