@@ -25,17 +25,20 @@ func NewConsumeClient() (*ConsumeClient, error) {
 	client := &ConsumeClient{}
 
 	client.stub = pb.NewControlClient(conn)
-	return &ConsumeClient{}, nil // TODO
+	return client, nil
 }
 
 // 获取input数据
 func (c *ConsumeClient) Pay(req *pb.ConsumeReq) (resp *pb.ConsumeResp, err error) {
-	// TODO
-	data := &pb.ConsumeReq{ ItemId:req.ItemId,
-							ItemNum:req.ItemNum,
-							UserId:req.UserId,
-							Description:req.Description,
-	}
-	c.stub.Pay(context.Background(), data)	// TODO 这里有个错误，但不知道原因
-	return &pb.ConsumeResp{Message:"success"}, nil		// TODO 但这不是和服务器的返回一样了吗，而且还有orderid…
+	//req.ItemId = pb.ConsumeReq{}.ItemId
+	//req.ItemNum = pb.ConsumeReq{}.ItemNum
+	//req.UserId = pb.ConsumeReq{}.UserId
+	//req.Description = pb.ConsumeReq{}.Description
+
+	c.stub.Pay(context.Background(), &pb.ConsumeReq{ItemId: req.ItemId,
+													ItemNum: req.ItemNum,
+													UserId: req.UserId,
+													Description: req.Description,
+	})
+	return , nil		// TODO 但这不是和服务器的返回一样了吗，而且还有orderid…
 }
