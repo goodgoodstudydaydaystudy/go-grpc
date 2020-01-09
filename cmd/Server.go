@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb"
 	"goodgoodstudy.com/go-grpc/pkg/server"
 
@@ -16,11 +15,12 @@ const (
 )
 
 func main() {
+	log.Println("listening to:", Address)
 	lis, err := net.Listen("tcp", Address)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	fmt.Printf("listen succee")
+	log.Printf("listen")
 
 	// 创建grpc服务器
 	s := grpc.NewServer()
@@ -32,5 +32,5 @@ func main() {
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to server: %v", err)
 	}
-	fmt.Printf("creat grpc server succee")
+	log.Printf("creat grpc server success")
 }
