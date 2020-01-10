@@ -13,7 +13,7 @@ func main() {
 	// 初始化客户端
 	consumeClient, err := client.NewConsumeClient()
 	if err != nil {
-		log.Fatalln(err)
+		log.Println("new client:", err)
 	}
 
 	resp, err := consumeClient.Pay(nil) // TODO
@@ -22,12 +22,14 @@ func main() {
 		return
 	}
 
+
+
 	log.Println(resp)
 }
 
 
 // 读取终端输入
-func Input() map[string]string {
+func Input() {
 	var err error
 	input := bufio.NewReader(os.Stdin)
 
@@ -36,6 +38,7 @@ func Input() map[string]string {
 	if err != nil {
 		log.Println("input item_id", err)
 	}
+	client.ConsumeClient{}.Pay()
 
 	fmt.Printf("Please enter Count:")
 	itemnum, err := input.ReadString('\n')
@@ -57,12 +60,4 @@ func Input() map[string]string {
 	if err != nil {
 		log.Println("description", err)
 	}
-
-	var InputMap = map[string]string{
-		"item_id": item_id,
-		"itemCount": itemnum,
-		"user_id": userid,
-		"descri": descr
-	}
-	return InputMap
 }
