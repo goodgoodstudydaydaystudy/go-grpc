@@ -28,17 +28,12 @@ func NewConsumeClient() (*ConsumeClient, error) {
 	return client, nil
 }
 
-// 获取input数据
+// 发送 购买订单 数据
 func (c *ConsumeClient) Pay(req *pb.ConsumeReq) (resp *pb.ConsumeResp, err error) {
-	//req.ItemId = pb.ConsumeReq{}.ItemId
-	//req.ItemNum = pb.ConsumeReq{}.ItemNum
-	//req.UserId = pb.ConsumeReq{}.UserId
-	//req.Description = pb.ConsumeReq{}.Description
 
-	c.stub.Pay(context.Background(), &pb.ConsumeReq{ItemId: req.ItemId,
-													ItemNum: req.ItemNum,
-													UserId: req.UserId,
-													Description: req.Description,
-	})
-	return , nil		// TODO 但这不是和服务器的返回一样了吗，而且还有orderid…
+	PayRep, err := c.stub.Pay(context.Background(), req)
+	if err != nil{
+		log.Println("stub.Pay failed:", err)
+	}
+	return PayRep, nil
 }
