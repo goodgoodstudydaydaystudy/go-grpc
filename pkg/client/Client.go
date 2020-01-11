@@ -30,9 +30,8 @@ func NewConsumeClient() (*ConsumeClient, error) {
 
 // 发送 购买订单 数据
 func (c *ConsumeClient) Pay(req *pb.ConsumeReq) (resp *pb.ConsumeResp, err error) {
-
 	PayRep, err := c.stub.Pay(context.Background(), req)
-	if err != nil{
+	if err != nil {
 		log.Println("stub.Pay failed:", err)
 	}
 	return PayRep, nil
