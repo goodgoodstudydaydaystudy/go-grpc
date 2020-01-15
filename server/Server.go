@@ -3,7 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
-	pb "goodgoodstudy.com/go-grpc/pkg/pb"
+	"goodgoodstudy.com/go-grpc/pkg/pb/Pay"
 	"math/rand"
 	"time"
 )
@@ -12,7 +12,7 @@ type ControlServer struct {
 }
 
 // 付款功能-打印
-func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb.ConsumeResp, error) {
+func (s *ControlServer) Pay(ctx context.Context, consumeReq *Pay.ConsumeReq) (*Pay.ConsumeResp, error) {
 	fmt.Println("itemId: ", consumeReq.GetItemId())
 	fmt.Println("itemCount", consumeReq.GetItemNum())
 	fmt.Println("userId", consumeReq.GetUserId())
@@ -20,7 +20,7 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
 
 	rand.Seed(time.Now().Unix())
 	rnd := rand.Int63n(10)
-	return &pb.ConsumeResp{OrderId: rnd, Message:"consume success"}, nil // 返回Resp里的字段？
+	return &Pay.ConsumeResp{OrderId: rnd, Message:"consume success"}, nil // 返回Resp里的字段？
 }
 
 //func WriteMySql() {
