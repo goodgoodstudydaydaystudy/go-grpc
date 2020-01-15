@@ -1,8 +1,8 @@
-package account
+package server
 
 import (
 	"context"
-	rpb "goodgoodstudy.com/go-grpc/pkg/pb/Register"
+	rpb "goodgoodstudy.com/go-grpc/pkg/pb/Account"
 	"log"
 	"math/rand"
 	"strings"
