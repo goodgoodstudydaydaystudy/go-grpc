@@ -11,16 +11,16 @@ import (
 type ControlServer struct {
 }
 
+// 付款功能-打印
 func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb.ConsumeResp, error) {
-	// send to 'WriteSql' TODO
-	fmt.Printf("itemId:", consumeReq.GetItemId())
-	fmt.Printf("itemCount", consumeReq.GetItemNum())
-	fmt.Printf("userId", consumeReq.GetUserId())
-	fmt.Printf("descripition", consumeReq.GetDescription())
+	fmt.Println("itemId: ", consumeReq.GetItemId())
+	fmt.Println("itemCount", consumeReq.GetItemNum())
+	fmt.Println("userId", consumeReq.GetUserId())
+	fmt.Println("descripition", consumeReq.GetDescription())
 
 	rand.Seed(time.Now().Unix())
 	rnd := rand.Int63n(10)
-	return &pb.ConsumeResp{OrderId: rnd, Message:"success"}, nil // 返回Resp里的字段？
+	return &pb.ConsumeResp{OrderId: rnd, Message:"consume success"}, nil // 返回Resp里的字段？
 }
 
 //func WriteMySql() {
