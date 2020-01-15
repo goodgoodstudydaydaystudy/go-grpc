@@ -24,7 +24,7 @@ func NewConsumeClient() (*ConsumeClient, error) {
 	}
 
 	controlClient := pb.NewControlClient(conn)
-	return &ConsumeClient{
+	return &ConsumeClient{		// 学习
 		conn: conn,
 		cli:  controlClient,
 	}, nil
