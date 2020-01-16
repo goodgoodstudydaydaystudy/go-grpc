@@ -1,10 +1,10 @@
 package main
 
 import (
-	"goodgoodstudy.com/go-grpc/pkg/DB"
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/Account"
 	"goodgoodstudy.com/go-grpc/pkg/pb/Pay"
-	"goodgoodstudy.com/go-grpc/server"
+	"goodgoodstudy.com/go-grpc/pkg/server/account"
+	"goodgoodstudy.com/go-grpc/pkg/server/pay"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"log"
@@ -27,16 +27,12 @@ func main() {
 	s := grpc.NewServer()
 
 	// 注册ControlServer
-	Pay.RegisterControlServer(s, &server.ControlServer{})
-	rpb.RegisterAccountServer(s, &server.Server{})
+	Pay.RegisterControlServer(s, &pay.ControlServer{})
+	rpb.RegisterAccountServer(s, &account.Server{})
 
 	// 注册反射服务
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to server: %v", err)
-	}
-	err = DB.InitDB()
-	if err != nil {
-		log.Println("InitDB failed: ", err)
 	}
 }

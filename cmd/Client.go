@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"goodgoodstudy.com/go-grpc/client"
-	"goodgoodstudy.com/go-grpc/pkg/account"
+	"goodgoodstudy.com/go-grpc/pkg/server/account"
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/Account"
 	"goodgoodstudy.com/go-grpc/pkg/pb/Pay"
 	"log"
@@ -55,7 +55,21 @@ func Consume(ctx context.Context, consumeClient *client.ConsumeClient)  {
 }
 
 // 注册接口
-func Register(ctx context.Context, accountClient *client.Client)  {
+func Register(ctx context.Context, accountClient *client.Client) (message string) {
+	// 判断账密长度
+	//accountLen := strings.Count(accountStr, "")
+	//passwordLen := strings.Count(passwordStr, "")
+	//
+	//switch {
+	//case accountLen > 15:
+	//	return &rpb.RegisResp{Message:"account too long"}, nil
+	//case accountLen < 6 :
+	//	return &rpb.RegisResp{Message:"account too short"}, nil
+	//case passwordLen > 20:
+	//	return &rpb.RegisResp{Message:"password too long"}, nil
+	//case passwordLen < 8 :
+	//	return &rpb.RegisResp{Message:"password too short"}, nil
+
 	MD5account := account.Encryption("7777777")
 	MD5password := account.Encryption("6666666")
 
@@ -64,6 +78,7 @@ func Register(ctx context.Context, accountClient *client.Client)  {
 		log.Println("accountClient.Register failed: ", err)
 	}
 	log.Println(registerResp)
+	return nil
 }
 
 // 登录接口
