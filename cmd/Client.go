@@ -1,25 +1,19 @@
 package main
 
 import (
-	"bufio"
 	"context"
-	"fmt"
 	"goodgoodstudy.com/go-grpc/client"
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/Account"
 	"goodgoodstudy.com/go-grpc/pkg/pb/Pay"
 	"log"
-	"os"
-	"strconv"
-	"strings"
 )
 
-type TestArgs struct {
-	id int64
-	count int64
-	user int64
-	descri string
-
-}
+//type TestArgs struct {
+//	id int64
+//	count int64
+//	user int64
+//	descri string
+//}
 
 func main() {
 
@@ -36,13 +30,11 @@ func main() {
 
 	ctx := context.Background()
 
-	Input()	//输入信息
-	log.Println("input id: ", TestArgs{}.id)
 	// 付款接口
-	Consu(ctx, consumeClient)
+	Consume(ctx, consumeClient)
 
 	// 注册接口
-	Regis(ctx, accountClient)
+	Register(ctx, accountClient)
 
 	// 登录接口
 	Login(ctx, accountClient)
@@ -52,22 +44,22 @@ func main() {
 }
 
 // 付款接口
-func Consu(ctx context.Context, consumeClient *client.ConsumeClient)  {
-	consuResp, err := consumeClient.Pay(ctx, &Pay.ConsumeReq{ItemId: TestArgs{}.id, ItemNum: 2, UserId:3, Description:"aaaa"})
+func Consume(ctx context.Context, consumeClient *client.ConsumeClient)  {
+	consumeResp, err := consumeClient.Pay(ctx, &Pay.ConsumeReq{ItemId: 1, ItemNum: 2, UserId:3, Description:"aaaa"})
 	if err != nil {
 		log.Println("consume failed,", err)
 		return
 	}
-	log.Println(consuResp)
+	log.Println(consumeResp)
 }
 
 // 注册接口
-func Regis(ctx context.Context, accountClient *client.Client)  {
-	regisResp, err := accountClient.Register(ctx, &rpb.RegisReq{Account:"777", Password:"666"})
+func Register(ctx context.Context, accountClient *client.Client)  {
+	registerResp, err := accountClient.Register(ctx, &rpb.RegisReq{Account:"777", Password:"666"})
 	if err != nil {
 		log.Println("regisClient.Regis failed: ", err)
 	}
-	log.Println(regisResp)
+	log.Println(registerResp)
 }
 
 // 登录接口
@@ -81,50 +73,55 @@ func Login(ctx context.Context, accountClient *client.Client)  {
 
 // 读取终端输入
 // 这个函数没有意义
-func Input() (*TestArgs, error){
-	input := bufio.NewReader(os.Stdin)
-
-	fmt.Printf("Please enter item id:")
-	itemId, err := input.ReadString('\n')
-	if err != nil {
-		log.Println("input item_id", err)
-	}
-	//inputId := strings.Trim(itemId, "\n")
-	itemid, _:= strconv.ParseInt(strings.TrimSpace(itemId), 10, 64)
-	//consumeClient.Pay(ctx, &pb.ConsumeReq{ItemId: id})
-	//log.Println("itemid :", itemid)							// input
-	//log.Println("itemid type:", reflect.TypeOf(itemid))		// int64
-
-
-	fmt.Printf("Please enter Count:")
-	itemnum, err := input.ReadString('\n')
-	if err != nil {
-		log.Println("input itemCount", err)
-	}
-	itemcount, _ := strconv.ParseInt(itemnum, 10, 64)
-	//consumeClient.Pay(ctx, &pb.ConsumeReq{ItemNum: num})
-
-	fmt.Printf("Please enter userId:")
-	userid, err := input.ReadString('\n')
-	if err != nil {
-		log.Println("input userid", err)
-	}
-	userId, _ := strconv.ParseInt(userid, 10, 32)
-	//consumeClient.Pay(ctx, &pb.ConsumeReq{UserId: int32(constomerid)})
-
-	fmt.Printf("remark or not:")
-	descri, err := input.ReadString('\n')
-	if descri == "" {
-		descri = "nil"
-	}
-	if err != nil {
-		log.Println("description", err)
-	}
-	//consumeClient.Pay(ctx, &pb.ConsumeReq{Description: descr})
-	return &TestArgs{		// 这个是不是赋值操作咧
-		id:     itemid,
-		count:  itemcount,
-		user:   userId,
-		descri: descri,
-	}, nil
-}
+//func Input() *TestArgs {
+//	var t *TestArgs
+//	var input *bufio.Reader
+//
+//	input = bufio.NewReader(os.Stdin)
+//
+//	fmt.Printf("Please enter item id:")
+//	itemId, err := input.ReadString('\n')
+//	if err != nil {
+//		log.Println("input item_id", err)
+//	}
+//	t.id, err = strconv.ParseInt(strings.TrimSpace(itemId), 10, 64)
+//	if err != nil {
+//		log.Println("itemid strconv.ParseInt failed: ", err)
+//	}
+//	//consumeClient.Pay(ctx, &pb.ConsumeReq{ItemId: id})
+//	log.Println("itemid :", t.id) // input
+//	//log.Println("itemid type:", reflect.TypeOf(itemid))		// int64
+//
+//
+//	fmt.Printf("Please enter Count:")
+//	num, err := input.ReadString('\n')
+//	if err != nil {
+//		log.Println("input itemCount", err)
+//	}
+//	t.count, _ = strconv.ParseInt(num, 10, 64)
+//	//consumeClient.Pay(ctx, &pb.ConsumeReq{ItemNum: num})
+//
+//	fmt.Printf("Please enter userId:")
+//	uuid, err := input.ReadString('\n')
+//	if err != nil {
+//		log.Println("input userid", err)
+//	}
+//	t.user, _ = strconv.ParseInt(uuid, 10, 32)
+//	//consumeClient.Pay(ctx, &pb.ConsumeReq{UserId: int32(constomerid)})
+//
+//	fmt.Printf("remark or not:")
+//	t.descri, err = input.ReadString('\n')
+//	if t.descri == "" {
+//		t.descri = "nil"
+//	}
+//	if err != nil {
+//		log.Println("description", err)
+//	}
+//	//consumeClient.Pay(ctx, &pb.ConsumeReq{Description: descr})
+//	return TestArgs{
+//		id:     ,
+//		count:  0,
+//		user:   0,
+//		descri: "",
+//	}
+//}
