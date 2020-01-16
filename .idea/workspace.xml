@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="4cb89532-314a-42db-9c89-cd77de8e6afa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client.go" beforeDir="false" afterPath="$PROJECT_DIR$/Client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/Client.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/Client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/client/Client.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/client/Client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/server/Server.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/server/Server.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +68,16 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.goide.configuration.GoLibrariesConfigurableProvider" />
   </component>
-  <component name="RunManager" selected="Go Build.go build Client.go">
+  <component name="RunManager" selected="Go Build.go build Client.go (1)">
+    <configuration name="go build Client.go (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="gRPC" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/cmd/Client.go" />
+      <package value="goodgoodstudy.com/go-grpc" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build Client.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="gRPC" />
       <working_directory value="$PROJECT_DIR$/" />
@@ -94,8 +105,19 @@
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
+    <configuration name="go build goodgoodstudy.com/go-grpc/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="gRPC" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/cmd/Server.go" />
+      <package value="goodgoodstudy.com/go-grpc/cmd" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build Client.go (1)" />
+        <item itemvalue="Go Build.go build goodgoodstudy.com/go-grpc/cmd" />
         <item itemvalue="Go Build.go build Client.go" />
         <item itemvalue="Go Build.go build Server.go" />
         <item itemvalue="Go Build.go build gRPC" />
@@ -138,25 +160,49 @@
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
     <state x="1037" y="371" key="#go_build_gRPC/0.23.2560.1337@0.23.2560.1337" timestamp="1577687758969" />
-    <state width="2518" height="212" key="GridCell.Tab.0.bottom" timestamp="1577704327859">
-      <screen x="0" y="23" width="2560" height="1337" />
+    <state x="989" y="363" key="#go_build_goodgoodstudy.com/go-grpc/cmd" timestamp="1578848291007">
+      <screen x="0" y="0" width="2560" height="1440" />
     </state>
+    <state x="989" y="363" key="#go_build_goodgoodstudy.com/go-grpc/cmd/0.0.2560.1440@0.0.2560.1440" timestamp="1578848291007" />
+    <state x="865" y="320" key="CommitChangelistDialog2" timestamp="1578881676426">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="865" y="320" key="CommitChangelistDialog2/0.0.2560.1440@0.0.2560.1440" timestamp="1578881676426" />
+    <state width="2518" height="285" key="GridCell.Tab.0.bottom" timestamp="1578900570349">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state width="2518" height="285" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1578900570349" />
     <state width="2518" height="212" key="GridCell.Tab.0.bottom/0.23.2560.1337@0.23.2560.1337" timestamp="1577704327859" />
-    <state width="2518" height="212" key="GridCell.Tab.0.center" timestamp="1577704327859">
-      <screen x="0" y="23" width="2560" height="1337" />
+    <state width="2518" height="285" key="GridCell.Tab.0.center" timestamp="1578900570349">
+      <screen x="0" y="0" width="2560" height="1440" />
     </state>
+    <state width="2518" height="285" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1578900570349" />
     <state width="2518" height="212" key="GridCell.Tab.0.center/0.23.2560.1337@0.23.2560.1337" timestamp="1577704327859" />
-    <state width="2518" height="212" key="GridCell.Tab.0.left" timestamp="1577704327859">
-      <screen x="0" y="23" width="2560" height="1337" />
+    <state width="2518" height="285" key="GridCell.Tab.0.left" timestamp="1578900570348">
+      <screen x="0" y="0" width="2560" height="1440" />
     </state>
+    <state width="2518" height="285" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1578900570348" />
     <state width="2518" height="212" key="GridCell.Tab.0.left/0.23.2560.1337@0.23.2560.1337" timestamp="1577704327859" />
-    <state width="2518" height="212" key="GridCell.Tab.0.right" timestamp="1577704327859">
-      <screen x="0" y="23" width="2560" height="1337" />
+    <state width="2518" height="285" key="GridCell.Tab.0.right" timestamp="1578900570349">
+      <screen x="0" y="0" width="2560" height="1440" />
     </state>
+    <state width="2518" height="285" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1578900570349" />
     <state width="2518" height="212" key="GridCell.Tab.0.right/0.23.2560.1337@0.23.2560.1337" timestamp="1577704327859" />
     <state x="979" y="361" key="SettingsEditor" timestamp="1577421511108">
       <screen x="0" y="23" width="2560" height="1337" />
     </state>
     <state x="979" y="361" key="SettingsEditor/0.23.2560.1337@0.23.2560.1337" timestamp="1577421511108" />
+    <state x="100" y="100" width="2360" height="1240" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1578901495047">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="100" y="100" width="2360" height="1240" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1578901495047" />
+    <state x="100" y="100" width="2360" height="1240" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1578901495048">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="100" y="100" width="2360" height="1240" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/0.0.2560.1440@0.0.2560.1440" timestamp="1578901495048" />
+    <state x="945" y="331" width="670" height="676" key="search.everywhere.popup" timestamp="1578883720952">
+      <screen x="0" y="0" width="2560" height="1440" />
+    </state>
+    <state x="945" y="331" width="670" height="676" key="search.everywhere.popup/0.0.2560.1440@0.0.2560.1440" timestamp="1578883720952" />
   </component>
 </project>
