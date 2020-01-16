@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"goodgoodstudy.com/go-grpc/client"
+	"goodgoodstudy.com/go-grpc/pkg/account"
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/Account"
 	"goodgoodstudy.com/go-grpc/pkg/pb/Pay"
 	"log"
@@ -55,21 +56,28 @@ func Consume(ctx context.Context, consumeClient *client.ConsumeClient)  {
 
 // 注册接口
 func Register(ctx context.Context, accountClient *client.Client)  {
-	registerResp, err := accountClient.Register(ctx, &rpb.RegisReq{Account:"777", Password:"666"})
+	MD5account := account.Encryption("7777777")
+	MD5password := account.Encryption("6666666")
+
+	registerResp, err := accountClient.Register(ctx, &rpb.RegisReq{Account:MD5account, Password:MD5password})
 	if err != nil {
-		log.Println("regisClient.Regis failed: ", err)
+		log.Println("accountClient.Register failed: ", err)
 	}
 	log.Println(registerResp)
 }
 
 // 登录接口
 func Login(ctx context.Context, accountClient *client.Client)  {
-	loginResp, err := accountClient.Login(ctx, &rpb.LoginReq{Account: "0903", Password: "888"})
+	MD5account := account.Encryption("8888888")
+	MD5password := account.Encryption("101010101")
+
+	loginResp, err := accountClient.Login(ctx, &rpb.LoginReq{Account: MD5account, Password: MD5password})
 	if err != nil {
 		log.Println("accountClient.Login failed: ", err)
 	}
 	log.Println(loginResp)
 }
+
 
 // 读取终端输入
 // 这个函数没有意义
