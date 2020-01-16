@@ -1,6 +1,7 @@
 package main
 
 import (
+	"goodgoodstudy.com/go-grpc/pkg/DB"
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/Account"
 	"goodgoodstudy.com/go-grpc/pkg/pb/Pay"
 	"goodgoodstudy.com/go-grpc/server"
@@ -33,5 +34,9 @@ func main() {
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to server: %v", err)
+	}
+	err = DB.InitDB()
+	if err != nil {
+		log.Println("InitDB failed: ", err)
 	}
 }
