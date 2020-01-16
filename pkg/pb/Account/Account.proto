@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package Account;
+package account;
 
 service Account {
     rpc Register(RegisReq) returns (RegisResp) {}

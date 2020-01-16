@@ -2,7 +2,7 @@ package main
 
 import (
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/Account"
-	"goodgoodstudy.com/go-grpc/pkg/pb/Pay"
+	pb  "goodgoodstudy.com/go-grpc/pkg/pb/pay"
 	"goodgoodstudy.com/go-grpc/pkg/server/account"
 	"goodgoodstudy.com/go-grpc/pkg/server/pay"
 	"google.golang.org/grpc"
@@ -27,7 +27,7 @@ func main() {
 	s := grpc.NewServer()
 
 	// 注册ControlServer
-	Pay.RegisterControlServer(s, &pay.ControlServer{})
+	pb.RegisterControlServer(s, &pay.ControlServer{})
 	rpb.RegisterAccountServer(s, &account.Server{})
 
 	// 注册反射服务

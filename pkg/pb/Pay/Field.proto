@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package Field;
+package field;
 
 service Control{
     rpc Pay(ConsumeReq) returns (ConsumeResp) {}

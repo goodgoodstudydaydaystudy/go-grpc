@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"goodgoodstudy.com/go-grpc/client"
-	"goodgoodstudy.com/go-grpc/pkg/server/account"
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/Account"
-	"goodgoodstudy.com/go-grpc/pkg/pb/Pay"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb/pay"
+	"goodgoodstudy.com/go-grpc/pkg/server/account"
 	"log"
 )
 
@@ -46,7 +46,7 @@ func main() {
 
 // 付款接口
 func Consume(ctx context.Context, consumeClient *client.ConsumeClient)  {
-	consumeResp, err := consumeClient.Pay(ctx, &Pay.ConsumeReq{ItemId: 1, ItemNum: 2, UserId:3, Description:"aaaa"})
+	consumeResp, err := consumeClient.Pay(ctx, &pb.ConsumeReq{ItemId: 1, ItemNum: 2, UserId:3, Description:"aaaa"})
 	if err != nil {
 		log.Println("consume failed,", err)
 		return

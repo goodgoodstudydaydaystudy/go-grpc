@@ -2,7 +2,7 @@ package client
 
 import (
 	"context"
-	"goodgoodstudy.com/go-grpc/pkg/pb/Pay"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb/pay"
 	"google.golang.org/grpc"
 	"log"
 )
@@ -14,7 +14,7 @@ const (
 type ConsumeClient struct {
 	Conn *grpc.ClientConn // 用于关闭连接等
 
-	Cli Pay.ControlClient
+	Cli pb.ControlClient
 }
 
 func NewConsumeClient() (*ConsumeClient, error) {
@@ -23,7 +23,7 @@ func NewConsumeClient() (*ConsumeClient, error) {
 		log.Printf("failed to listen: %v", err)
 	}
 
-	controlClient := Pay.NewControlClient(conn)
+	controlClient := pb.NewControlClient(conn)
 	return &ConsumeClient{		// 学习
 		Conn: conn,
 		Cli:  controlClient,
@@ -35,7 +35,7 @@ func (c *ConsumeClient) Close() error {
 }
 
 // 发送 购买订单 数据
-func (c *ConsumeClient) Pay(ctx context.Context, req *Pay.ConsumeReq) (resp *Pay.ConsumeResp, err error) {
+func (c *ConsumeClient) Pay(ctx context.Context, req *pb.ConsumeReq) (resp *pb.ConsumeResp, err error) {
 	resp, err = c.Cli.Pay(ctx, req) // 注意这里没有用:=而已=, 因为函数声明里面返回值已经有名称了, 等于声明了变量
 	if err != nil {
 		log.Println("Pay failed:", err)
