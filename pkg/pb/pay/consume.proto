@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package consume;
+
+service Control{
+    rpc Pay(ConsumeReq) returns (ConsumeResp) {}
+}
+
+message ConsumeReq{
+    int64 item_id = 1;
+    string description = 2;
+    int64 item_num = 3;
+    int32 user_id = 4;
+}
+
+message ConsumeResp{
+    string message = 1;
+    int64 order_id = 2;
+}

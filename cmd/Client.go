@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"goodgoodstudy.com/go-grpc/client"
-	rpb "goodgoodstudy.com/go-grpc/pkg/pb/Account"
+	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/pay"
-	"goodgoodstudy.com/go-grpc/pkg/server/account"
+	md "goodgoodstudy.com/go-grpc/pkg/utils"
 	"log"
 )
 
@@ -70,21 +70,21 @@ func Register(ctx context.Context, accountClient *client.Client) (message string
 	//case passwordLen < 8 :
 	//	return &rpb.RegisResp{Message:"password too short"}, nil
 
-	MD5account := account.Encryption("7777777")
-	MD5password := account.Encryption("6666666")
+	MD5account := md.Encryption("7777777")
+	MD5password := md.Encryption("6666666")
 
 	registerResp, err := accountClient.Register(ctx, &rpb.RegisReq{Account:MD5account, Password:MD5password})
 	if err != nil {
 		log.Println("accountClient.Register failed: ", err)
 	}
 	log.Println(registerResp)
-	return nil
+	return
 }
 
 // 登录接口
 func Login(ctx context.Context, accountClient *client.Client)  {
-	MD5account := account.Encryption("8888888")
-	MD5password := account.Encryption("101010101")
+	MD5account := md.Encryption("8888888")
+	MD5password := md.Encryption("101010101")
 
 	loginResp, err := accountClient.Login(ctx, &rpb.LoginReq{Account: MD5account, Password: MD5password})
 	if err != nil {
