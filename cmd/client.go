@@ -84,10 +84,7 @@ func Register(ctx context.Context, accountClient *ap.Client) (message string) {
 
 // 登录接口
 func Login(ctx context.Context, accountClient *ap.Client)  {
-	md5Account := md.Encryption("8888888")
-	md5Password := md.Encryption("101010101")
-
-	loginResp, err := accountClient.Login(ctx, &rpb.LoginReq{Account: md5Account, Password: md5Password})
+	loginResp, err := accountClient.Login(ctx, "account77", "password8888")
 	if err != nil {
 		log.Println("accountClient.Login failed: ", err)
 	}
