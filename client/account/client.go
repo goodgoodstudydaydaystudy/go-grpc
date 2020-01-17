@@ -8,7 +8,6 @@ import (
 	"log"
 )
 
-
 const portRegistered = ":50051"
 
 type Client struct {
@@ -35,7 +34,7 @@ func (c *Client) Close() error {
 }
 
 // 发送注册信息
-func (c *Client) Register(ctx context.Context, req *pb.RegisReq) (resp *pb.RegisResp, err error){
+func (c *Client) Register(ctx context.Context, req *pb.RegisReq) (resp *pb.RegisResp, err error) {
 	resp, err = c.Cli.Register(ctx, req)
 	if err != nil {
 		log.Println("cli.Registered failed: ", err)
@@ -46,7 +45,7 @@ func (c *Client) Register(ctx context.Context, req *pb.RegisReq) (resp *pb.Regis
 // 登录信息
 func (c *Client) Login(ctx context.Context, account string, password string) (resp *pb.LoginResp, err error) {
 	md5Password := md.Encryption(password)
-	req := &pb.LoginReq{Account:account, Password:md5Password}
+	req := &pb.LoginReq{Account: account, Password: md5Password}
 	resp, err = c.Cli.Login(ctx, req)
 	if err != nil {
 		log.Println("c.cli.LogIn:, ", err)
