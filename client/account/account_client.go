@@ -45,9 +45,8 @@ func (c *Client) Register(ctx context.Context, req *pb.RegisReq) (resp *pb.Regis
 
 // 登录信息
 func (c *Client) Login(ctx context.Context, account string, password string) (resp *pb.LoginResp, err error) {
-	md5Account := md.Encryption(account)
 	md5Password := md.Encryption(password)
-	req := &pb.LoginReq{Account:md5Account, Password:md5Password}
+	req := &pb.LoginReq{Account:account, Password:md5Password}
 	resp, err = c.Cli.Login(ctx, req)
 	if err != nil {
 		log.Println("c.cli.LogIn:, ", err)
