@@ -24,7 +24,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type RegisReq struct {
+type RegisterReq struct {
 	Account              string   `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
 	Password             string   `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -32,46 +32,46 @@ type RegisReq struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RegisReq) Reset()         { *m = RegisReq{} }
-func (m *RegisReq) String() string { return proto.CompactTextString(m) }
-func (*RegisReq) ProtoMessage()    {}
-func (*RegisReq) Descriptor() ([]byte, []int) {
+func (m *RegisterReq) Reset()         { *m = RegisterReq{} }
+func (m *RegisterReq) String() string { return proto.CompactTextString(m) }
+func (*RegisterReq) ProtoMessage()    {}
+func (*RegisterReq) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8e28828dcb8d24f0, []int{0}
 }
 
-func (m *RegisReq) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RegisReq.Unmarshal(m, b)
+func (m *RegisterReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RegisterReq.Unmarshal(m, b)
 }
-func (m *RegisReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RegisReq.Marshal(b, m, deterministic)
+func (m *RegisterReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RegisterReq.Marshal(b, m, deterministic)
 }
-func (m *RegisReq) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RegisReq.Merge(m, src)
+func (m *RegisterReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RegisterReq.Merge(m, src)
 }
-func (m *RegisReq) XXX_Size() int {
-	return xxx_messageInfo_RegisReq.Size(m)
+func (m *RegisterReq) XXX_Size() int {
+	return xxx_messageInfo_RegisterReq.Size(m)
 }
-func (m *RegisReq) XXX_DiscardUnknown() {
-	xxx_messageInfo_RegisReq.DiscardUnknown(m)
+func (m *RegisterReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_RegisterReq.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_RegisReq proto.InternalMessageInfo
+var xxx_messageInfo_RegisterReq proto.InternalMessageInfo
 
-func (m *RegisReq) GetAccount() string {
+func (m *RegisterReq) GetAccount() string {
 	if m != nil {
 		return m.Account
 	}
 	return ""
 }
 
-func (m *RegisReq) GetPassword() string {
+func (m *RegisterReq) GetPassword() string {
 	if m != nil {
 		return m.Password
 	}
 	return ""
 }
 
-type RegisResp struct {
+type RegisterResp struct {
 	Message              string   `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
 	UeserId              int32    `protobuf:"varint,2,opt,name=ueser_id,json=ueserId,proto3" json:"ueser_id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -79,39 +79,39 @@ type RegisResp struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RegisResp) Reset()         { *m = RegisResp{} }
-func (m *RegisResp) String() string { return proto.CompactTextString(m) }
-func (*RegisResp) ProtoMessage()    {}
-func (*RegisResp) Descriptor() ([]byte, []int) {
+func (m *RegisterResp) Reset()         { *m = RegisterResp{} }
+func (m *RegisterResp) String() string { return proto.CompactTextString(m) }
+func (*RegisterResp) ProtoMessage()    {}
+func (*RegisterResp) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8e28828dcb8d24f0, []int{1}
 }
 
-func (m *RegisResp) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RegisResp.Unmarshal(m, b)
+func (m *RegisterResp) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RegisterResp.Unmarshal(m, b)
 }
-func (m *RegisResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RegisResp.Marshal(b, m, deterministic)
+func (m *RegisterResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RegisterResp.Marshal(b, m, deterministic)
 }
-func (m *RegisResp) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RegisResp.Merge(m, src)
+func (m *RegisterResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RegisterResp.Merge(m, src)
 }
-func (m *RegisResp) XXX_Size() int {
-	return xxx_messageInfo_RegisResp.Size(m)
+func (m *RegisterResp) XXX_Size() int {
+	return xxx_messageInfo_RegisterResp.Size(m)
 }
-func (m *RegisResp) XXX_DiscardUnknown() {
-	xxx_messageInfo_RegisResp.DiscardUnknown(m)
+func (m *RegisterResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_RegisterResp.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_RegisResp proto.InternalMessageInfo
+var xxx_messageInfo_RegisterResp proto.InternalMessageInfo
 
-func (m *RegisResp) GetMessage() string {
+func (m *RegisterResp) GetMessage() string {
 	if m != nil {
 		return m.Message
 	}
 	return ""
 }
 
-func (m *RegisResp) GetUeserId() int32 {
+func (m *RegisterResp) GetUeserId() int32 {
 	if m != nil {
 		return m.UeserId
 	}
@@ -205,8 +205,8 @@ func (m *LoginResp) GetMessage() string {
 }
 
 func init() {
-	proto.RegisterType((*RegisReq)(nil), "account.RegisReq")
-	proto.RegisterType((*RegisResp)(nil), "account.RegisResp")
+	proto.RegisterType((*RegisterReq)(nil), "account.RegisterReq")
+	proto.RegisterType((*RegisterResp)(nil), "account.RegisterResp")
 	proto.RegisterType((*LoginReq)(nil), "account.LoginReq")
 	proto.RegisterType((*LoginResp)(nil), "account.LoginResp")
 }
@@ -214,20 +214,20 @@ func init() {
 func init() { proto.RegisterFile("account.proto", fileDescriptor_8e28828dcb8d24f0) }
 
 var fileDescriptor_8e28828dcb8d24f0 = []byte{
-	// 196 bytes of a gzipped FileDescriptorProto
+	// 201 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4d, 0x4c, 0x4e, 0xce,
-	0x2f, 0xcd, 0x2b, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x87, 0x72, 0x95, 0x1c, 0xb8,
-	0x38, 0x82, 0x52, 0xd3, 0x33, 0x8b, 0x83, 0x52, 0x0b, 0x85, 0x24, 0xb8, 0x60, 0xc2, 0x12, 0x8c,
-	0x0a, 0x8c, 0x1a, 0x9c, 0x41, 0x30, 0xae, 0x90, 0x14, 0x17, 0x47, 0x41, 0x62, 0x71, 0x71, 0x79,
-	0x7e, 0x51, 0x8a, 0x04, 0x13, 0x58, 0x0a, 0xce, 0x57, 0x72, 0xe0, 0xe2, 0x84, 0x9a, 0x50, 0x5c,
-	0x00, 0x32, 0x22, 0x37, 0xb5, 0xb8, 0x38, 0x31, 0x3d, 0x15, 0x66, 0x04, 0x94, 0x2b, 0x24, 0xc9,
-	0xc5, 0x51, 0x9a, 0x5a, 0x9c, 0x5a, 0x14, 0x9f, 0x09, 0x31, 0x82, 0x35, 0x88, 0x1d, 0xcc, 0xf7,
-	0x04, 0x99, 0xc0, 0xe1, 0x93, 0x9f, 0x9e, 0x99, 0x47, 0xbe, 0x1b, 0x54, 0xb9, 0x38, 0xa1, 0x26,
-	0xe0, 0x73, 0x83, 0x51, 0x01, 0x17, 0xbb, 0x23, 0xd4, 0x34, 0x63, 0xa8, 0xbf, 0x4b, 0x52, 0x8b,
-	0x84, 0x04, 0xf5, 0x60, 0x81, 0x03, 0x0b, 0x0a, 0x29, 0x21, 0x74, 0xa1, 0xe2, 0x02, 0x25, 0x06,
-	0x21, 0x03, 0x2e, 0x56, 0xb0, 0x35, 0x48, 0x3a, 0x60, 0x0e, 0x47, 0xd2, 0x01, 0x77, 0x89, 0x12,
-	0x43, 0x12, 0x1b, 0x38, 0xb8, 0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x35, 0x3d, 0xc1, 0x54,
-	0x7f, 0x01, 0x00, 0x00,
+	0x2f, 0xcd, 0x2b, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x87, 0x72, 0x95, 0x9c, 0xb9,
+	0xb8, 0x83, 0x52, 0xd3, 0x33, 0x8b, 0x4b, 0x52, 0x8b, 0x82, 0x52, 0x0b, 0x85, 0x24, 0xb8, 0x60,
+	0x32, 0x12, 0x8c, 0x0a, 0x8c, 0x1a, 0x9c, 0x41, 0x30, 0xae, 0x90, 0x14, 0x17, 0x47, 0x41, 0x62,
+	0x71, 0x71, 0x79, 0x7e, 0x51, 0x8a, 0x04, 0x13, 0x58, 0x0a, 0xce, 0x57, 0x72, 0xe6, 0xe2, 0x41,
+	0x18, 0x52, 0x5c, 0x00, 0x32, 0x25, 0x37, 0xb5, 0xb8, 0x38, 0x31, 0x3d, 0x15, 0x66, 0x0a, 0x94,
+	0x2b, 0x24, 0xc9, 0xc5, 0x51, 0x9a, 0x5a, 0x9c, 0x5a, 0x14, 0x9f, 0x09, 0x31, 0x85, 0x35, 0x88,
+	0x1d, 0xcc, 0xf7, 0x4c, 0x51, 0x72, 0xe0, 0xe2, 0xf0, 0xc9, 0x4f, 0xcf, 0xcc, 0x23, 0xdf, 0x19,
+	0xaa, 0x5c, 0x9c, 0x50, 0x13, 0xf0, 0xb9, 0xc1, 0xa8, 0x8c, 0x8b, 0xdd, 0x11, 0x6a, 0x9a, 0x25,
+	0x17, 0x07, 0xcc, 0xe1, 0x42, 0x22, 0x7a, 0xb0, 0x20, 0x42, 0x0a, 0x10, 0x29, 0x51, 0x2c, 0xa2,
+	0xc5, 0x05, 0x4a, 0x0c, 0x42, 0x06, 0x5c, 0xac, 0x60, 0xcb, 0x84, 0x04, 0xe1, 0x2a, 0x60, 0xce,
+	0x97, 0x12, 0x42, 0x17, 0x02, 0xe9, 0x48, 0x62, 0x03, 0x07, 0xbd, 0x31, 0x20, 0x00, 0x00, 0xff,
+	0xff, 0x64, 0x8c, 0xd3, 0xdc, 0x8b, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -242,7 +242,7 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type AccountClient interface {
-	Register(ctx context.Context, in *RegisReq, opts ...grpc.CallOption) (*RegisResp, error)
+	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
 }
 
@@ -254,8 +254,8 @@ func NewAccountClient(cc *grpc.ClientConn) AccountClient {
 	return &accountClient{cc}
 }
 
-func (c *accountClient) Register(ctx context.Context, in *RegisReq, opts ...grpc.CallOption) (*RegisResp, error) {
-	out := new(RegisResp)
+func (c *accountClient) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error) {
+	out := new(RegisterResp)
 	err := c.cc.Invoke(ctx, "/account.Account/Register", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -274,7 +274,7 @@ func (c *accountClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.Ca
 
 // AccountServer is the server API for Account service.
 type AccountServer interface {
-	Register(context.Context, *RegisReq) (*RegisResp, error)
+	Register(context.Context, *RegisterReq) (*RegisterResp, error)
 	Login(context.Context, *LoginReq) (*LoginResp, error)
 }
 
@@ -282,7 +282,7 @@ type AccountServer interface {
 type UnimplementedAccountServer struct {
 }
 
-func (*UnimplementedAccountServer) Register(ctx context.Context, req *RegisReq) (*RegisResp, error) {
+func (*UnimplementedAccountServer) Register(ctx context.Context, req *RegisterReq) (*RegisterResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
 func (*UnimplementedAccountServer) Login(ctx context.Context, req *LoginReq) (*LoginResp, error) {
@@ -294,7 +294,7 @@ func RegisterAccountServer(s *grpc.Server, srv AccountServer) {
 }
 
 func _Account_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisReq)
+	in := new(RegisterReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -306,7 +306,7 @@ func _Account_Register_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: "/account.Account/Register",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).Register(ctx, req.(*RegisReq))
+		return srv.(AccountServer).Register(ctx, req.(*RegisterReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

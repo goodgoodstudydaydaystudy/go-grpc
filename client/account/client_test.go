@@ -14,7 +14,7 @@ func TestClient_Register(t *testing.T) {
 	}
 
 	ctx := context.Background()
-	resp, err := cli.Register(ctx, &pb.RegisReq{
+	resp, err := cli.Register(ctx, &pb.RegisterReq{
 		Account:  "test01",
 		Password: "123456",
 	})

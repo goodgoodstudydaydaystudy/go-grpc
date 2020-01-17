@@ -2,8 +2,10 @@ package client
 
 import (
 	"context"
+
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	md "goodgoodstudy.com/go-grpc/pkg/utils"
+
 	"google.golang.org/grpc"
 	"log"
 )
@@ -13,6 +15,11 @@ const portRegistered = ":50051"
 type Client struct {
 	Conn *grpc.ClientConn
 	Cli  pb.AccountClient
+}
+
+type Info struct {
+	Password string
+	Account  string
 }
 
 // 注册功能
@@ -34,7 +41,8 @@ func (c *Client) Close() error {
 }
 
 // 发送注册信息
-func (c *Client) Register(ctx context.Context, req *pb.RegisReq) (resp *pb.RegisResp, err error) {
+func (c *Client) Register(ctx context.Context, req *pb.RegisterReq) (resp *pb.RegisterResp, err error) {
+	req.Password = md.Encryption(req.Password)
 	resp, err = c.Cli.Register(ctx, req)
 	if err != nil {
 		log.Println("cli.Registered failed: ", err)

@@ -74,7 +74,7 @@ func Register(ctx context.Context, accountClient *ap.Client) (message string) {
 	md5Account := md.Encryption("7777777")
 	md5Password := md.Encryption("6666666")
 
-	registerResp, err := accountClient.Register(ctx, &rpb.RegisReq{Account:md5Account, Password:md5Password})
+	registerResp, err := accountClient.Register(ctx, &rpb.RegisterReq{Account:md5Account, Password:md5Password})
 	if err != nil {
 		log.Println("accountClient.Register failed: ", err)
 	}
