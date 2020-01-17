@@ -1,9 +1,7 @@
 package main
 
 import (
-	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
-	pb  "goodgoodstudy.com/go-grpc/pkg/pb/pay"
-	"goodgoodstudy.com/go-grpc/pkg/server/account"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb/pay"
 	"goodgoodstudy.com/go-grpc/pkg/server/pay"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -12,12 +10,12 @@ import (
 )
 
 const (
-	Address = ":50051"
+	PAY_PORT = ":50051"
 )
 
 func main() {
-	log.Println("listening to:", Address)
-	lis, err := net.Listen("tcp", Address)
+	log.Println("listening to:", PAY_PORT)
+	lis, err := net.Listen("tcp", PAY_PORT)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -28,7 +26,6 @@ func main() {
 
 	// 注册ControlServer
 	pb.RegisterControlServer(s, &pay.ControlServer{})
-	rpb.RegisterAccountServer(s, &account.Server{})
 
 	// 注册反射服务
 	reflection.Register(s)
