@@ -2,7 +2,8 @@ package main
 
 import (
 	"context"
-	"goodgoodstudy.com/go-grpc/client"
+	ap "goodgoodstudy.com/go-grpc/client/account"
+	pp "goodgoodstudy.com/go-grpc/client/pay"
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/pay"
 	md "goodgoodstudy.com/go-grpc/pkg/utils"
@@ -19,12 +20,12 @@ import (
 func main() {
 
 	// 初始化客户端
-	consumeClient, err := client.NewConsumeClient()
+	consumeClient, err := pp.NewConsumeClient()
 	if err != nil {
 		log.Println("new client:", err)
 	}
 
-	accountClient, err := client.NewAccountClient()
+	accountClient, err := ap.NewAccountClient()
 	if err != nil {
 		log.Println("new client:", err)
 	}
@@ -45,7 +46,7 @@ func main() {
 }
 
 // 付款接口
-func Consume(ctx context.Context, consumeClient *client.ConsumeClient)  {
+func Consume(ctx context.Context, consumeClient *pp.ConsumeClient)  {
 	consumeResp, err := consumeClient.Pay(ctx, &pb.ConsumeReq{ItemId: 1, ItemNum: 2, UserId:3, Description:"aaaa"})
 	if err != nil {
 		log.Println("consume failed,", err)
@@ -55,7 +56,7 @@ func Consume(ctx context.Context, consumeClient *client.ConsumeClient)  {
 }
 
 // 注册接口
-func Register(ctx context.Context, accountClient *client.Client) (message string) {
+func Register(ctx context.Context, accountClient *ap.Client) (message string) {
 	// 判断账密长度
 	//accountLen := strings.Count(accountStr, "")
 	//passwordLen := strings.Count(passwordStr, "")
@@ -70,10 +71,10 @@ func Register(ctx context.Context, accountClient *client.Client) (message string
 	//case passwordLen < 8 :
 	//	return &rpb.RegisResp{Message:"password too short"}, nil
 
-	MD5account := md.Encryption("7777777")
-	MD5password := md.Encryption("6666666")
+	md5Account := md.Encryption("7777777")
+	md5Password := md.Encryption("6666666")
 
-	registerResp, err := accountClient.Register(ctx, &rpb.RegisReq{Account:MD5account, Password:MD5password})
+	registerResp, err := accountClient.Register(ctx, &rpb.RegisReq{Account:md5Account, Password:md5Password})
 	if err != nil {
 		log.Println("accountClient.Register failed: ", err)
 	}
@@ -82,11 +83,11 @@ func Register(ctx context.Context, accountClient *client.Client) (message string
 }
 
 // 登录接口
-func Login(ctx context.Context, accountClient *client.Client)  {
-	MD5account := md.Encryption("8888888")
-	MD5password := md.Encryption("101010101")
+func Login(ctx context.Context, accountClient *ap.Client)  {
+	md5Account := md.Encryption("8888888")
+	md5Password := md.Encryption("101010101")
 
-	loginResp, err := accountClient.Login(ctx, &rpb.LoginReq{Account: MD5account, Password: MD5password})
+	loginResp, err := accountClient.Login(ctx, &rpb.LoginReq{Account: md5Account, Password: md5Password})
 	if err != nil {
 		log.Println("accountClient.Login failed: ", err)
 	}

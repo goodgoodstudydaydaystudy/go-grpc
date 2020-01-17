@@ -34,8 +34,8 @@ func (c *Client) Close() error {
 }
 
 // 发送注册信息
-func (c *Client) Register(ctx context.Context, Req *pb.RegisReq) (Resp *pb.RegisResp, err error){
-	Resp, err = c.Cli.Register(ctx, Req)
+func (c *Client) Register(ctx context.Context, req *pb.RegisReq) (resp *pb.RegisResp, err error){
+	resp, err = c.Cli.Register(ctx, req)
 	if err != nil {
 		log.Println("cli.Registered failed: ", err)
 	}
