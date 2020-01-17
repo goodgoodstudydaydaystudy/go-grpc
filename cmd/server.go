@@ -1,7 +1,7 @@
 package main
 
 import (
-	rpb "goodgoodstudy.com/go-grpc/pkg/pb/Account"
+	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	pb  "goodgoodstudy.com/go-grpc/pkg/pb/pay"
 	"goodgoodstudy.com/go-grpc/pkg/server/account"
 	"goodgoodstudy.com/go-grpc/pkg/server/pay"

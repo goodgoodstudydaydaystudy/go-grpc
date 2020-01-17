@@ -2,7 +2,7 @@ package client
 
 import (
 	"context"
-	pb "goodgoodstudy.com/go-grpc/pkg/pb/Account"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	"google.golang.org/grpc"
 	"log"
 )

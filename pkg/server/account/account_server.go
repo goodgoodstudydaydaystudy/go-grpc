@@ -2,7 +2,7 @@ package account
 
 import (
 	"context"
-	rpb "goodgoodstudy.com/go-grpc/pkg/pb/Account"
+	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	"log"
 	"math/rand"
 )
