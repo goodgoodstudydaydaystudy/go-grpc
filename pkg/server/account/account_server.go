@@ -3,7 +3,6 @@ package account
 import (
 	"context"
 	"goodgoodstudy.com/go-grpc/pkg/db"
-
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 
 	"log"
@@ -26,6 +25,7 @@ func (s *Server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.Regis
 	// 注册id
 	userId := rand.Int31()
 	err := db.InsertUserInfo("t_member", userId, req.GetAccount(), req.GetPassword())
+
 	if err != nil {
 		log.Println("db.insert failed: ", err)
 		return &rpb.RegisterResp{Message:"register failed"}, err
