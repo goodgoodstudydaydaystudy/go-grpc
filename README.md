@@ -13,7 +13,7 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
 Client的方法，不知道对不对。
 ```
 
-- [√] 规范命名
+- [x] 规范命名
 - [ ] 简单了解client和server的拦截器
 - [ ] Account Server
   - [ ] 在server启动的时候建立数据库连接, 建立失败则启动失败
