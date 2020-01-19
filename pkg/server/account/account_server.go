@@ -2,8 +2,8 @@ package account
 
 import (
 	"context"
-	"goodgoodstudy.com/go-grpc/pkg/db"
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
+	"goodgoodstudy.com/go-grpc/pkg/server/account/db"
 
 	"log"
 	"math/rand"
