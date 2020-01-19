@@ -8,8 +8,8 @@ import (
 )
 
 // 写入't_member'table
-func InsertUserInfo(t string,i int32, a string, p string) error {
-	if t != "t_member" {
+func InsertUserInfo(tableName string,userId int32, account string, password string) error {
+	if tableName != "t_member" {
 		log.Println("table name error")
 		return nil
 	}
@@ -24,7 +24,7 @@ func InsertUserInfo(t string,i int32, a string, p string) error {
 		log.Println("tx.Prepare failed: ", err)
 		return err
 	}
-	_, err = stmt.Exec(i, a, p)
+	_, err = stmt.Exec(userId, account, password)
 	if err != nil {
 		log.Println("Exec failed: ", err)
 		return err
