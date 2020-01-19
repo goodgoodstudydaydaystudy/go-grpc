@@ -46,8 +46,10 @@ func (c *Client) Register(ctx context.Context, req *pb.RegisterReq) (resp *pb.Re
 	resp, err = c.Cli.Register(ctx, req)
 	if err != nil {
 		log.Println("cli.Registered failed: ", err)
+		log.Println(resp.GetMessage(), nil)
+		return resp, nil
 	}
-	return
+	return resp, nil
 }
 
 // 登录信息
