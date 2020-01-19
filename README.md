@@ -14,7 +14,7 @@ Client的方法，不知道对不对。
 ```
 
 - [x] 规范命名
-- [ ] 简单了解client和server的拦截器
+- [x] 简单了解client和server的拦截器
 - [ ] Account Server
   - [x] 在server启动的时候建立数据库连接, 建立失败则启动失败
   - [x] 在server关闭的时候关闭数据库连接
