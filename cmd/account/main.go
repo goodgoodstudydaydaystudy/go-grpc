@@ -1,29 +1,33 @@
 package main
 
 import (
-	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
-	"goodgoodstudy.com/go-grpc/pkg/server/account"
+	"log"
+	"net"
+
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	"log"
-	"net"
+	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
+	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
+	"goodgoodstudy.com/go-grpc/pkg/server/account"
 )
 
 const (
-	PORT_LOGIN = ":50051"
+	port = ":50051"
 )
 
 func main() {
-	log.Println("listening to:", PORT_LOGIN)
-	lis, err := net.Listen("tcp", PORT_LOGIN)
+	log.Println("listening to:", port)
+	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	log.Printf("listen")
 
 	// 创建grpc服务器
-	s := grpc.NewServer()
+	s := grpc.NewServer(
+		grpc.UnaryInterceptor(server.StatusCodeUnaryInterceptor), // 拦截器
+	)
 
 	// 注册ControlServer
 	rpb.RegisterAccountServer(s, &account.Server{})
