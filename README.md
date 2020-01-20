@@ -21,6 +21,6 @@ Client的方法，不知道对不对。
   - [ ] 尝试返回自定义错误码
   - [x] server结构体私有化, 提供New函数
 - [ ] Account Client
-  - [ ] client结构体私有化
+  - [x] client结构体私有化
   - [ ] 测试自定义错误码能不能用
 - [ ] 仿照account修改pay的server和client, 先不要做pay的db
