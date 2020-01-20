@@ -25,7 +25,8 @@ func main() {
 	s := grpc.NewServer()
 
 	// 注册ControlServer
-	pb.RegisterControlServer(s, &pay.ControlServer{})
+	payServer, err := pay.NewConsumeServer()
+	pb.RegisterControlServer(s, payServer)
 
 	// 注册反射服务
 	reflection.Register(s)
