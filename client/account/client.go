@@ -2,6 +2,8 @@ package client
 
 import (
 	"context"
+	_ "database/sql"
+	_ "github.com/mattn/go-sqlite3"
 	"log"
 
 	"google.golang.org/grpc"
@@ -15,13 +17,9 @@ import (
 const portRegistered = ":50051"
 
 type Client struct {
-	Conn *grpc.ClientConn // TODO 说100次变量名不要乱用大写.
-	Cli  pb.AccountClient
-}
-
-type Info struct {
-	Password string
-	Account  string
+	conn *grpc.ClientConn
+	cli  pb.AccountClient
+	message string
 }
 
 // 注册功能
@@ -33,39 +31,37 @@ func NewAccountClient() (*Client, error) {
 	if err != nil {
 		log.Println("connecting failed")
 	}
-	NewAccountClient := pb.NewAccountClient(conn)
+	newAccountClient := pb.NewAccountClient(conn)
+
 	return &Client{
-		Conn: conn,
-		Cli:  NewAccountClient,
+		conn: conn,
+		cli:  newAccountClient,
 	}, nil
 }
 
+
 // 关闭连接
 func (c *Client) Close() error {
-	return c.Conn.Close()
+	return c.conn.Close()
 }
 
 // 发送注册信息
 func (c *Client) Register(ctx context.Context, req *pb.RegisterReq) (*pb.RegisterResp, protocol.ServerError) {
 	req.Password = md.Encryption(req.Password)
-	resp, err := c.Cli.Register(ctx, req)
+	resp, err := c.cli.Register(ctx, req)
 	if err != nil {
 		log.Println("cli.Registered failed: ", err)
 		log.Println(resp.GetMessage(), nil)
 		return resp, nil
 	}
-<<<<<<< HEAD
-	return resp, nil
-=======
 	return resp, protocol.ToServerError(err)
->>>>>>> 92d0bf38d6c02060c76631971f9f7ffd239b1681
 }
 
 // 登录信息
 func (c *Client) Login(ctx context.Context, account string, password string) (*pb.LoginResp, protocol.ServerError) {
 	md5Password := md.Encryption(password)
 	req := &pb.LoginReq{Account: account, Password: md5Password}
-	resp, err := c.Cli.Login(ctx, req)
+	resp, err := c.cli.Login(ctx, req)
 	if err != nil {
 		log.Println("c.cli.LogIn failed:, ", err)
 	}

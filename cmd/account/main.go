@@ -16,6 +16,8 @@ const (
 	port = ":50051"
 )
 
+
+
 func main() {
 	log.Println("listening to:", port)
 	lis, err := net.Listen("tcp", port)
@@ -30,7 +32,13 @@ func main() {
 	)
 
 	// 注册ControlServer
-	rpb.RegisterAccountServer(s, &account.Server{})
+	accountServer, err := account.NewAccountServer()
+	rpb.RegisterAccountServer(s, accountServer) // TODO 修改了account_server的自定义返回后，发现会与返回值有冲突
+
+	if err != nil {
+		log.Println("account main open db failed")
+		return
+	}
 
 	// 注册反射服务
 	reflection.Register(s)

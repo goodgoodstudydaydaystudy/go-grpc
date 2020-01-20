@@ -1,40 +1,75 @@
 package db
 
 import (
-	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
-	ec "goodgoodstudy.com/go-grpc/pkg/server/account/error_tips"
+	"github.com/jmoiron/sqlx"
 
 	"log"
 )
 
-// 写入't_member'table
-func InsertUserInfo(tableName string,userId int32, account string, password string) (string, error) {
-	if tableName != "t_member" {
-		log.Println("t able name error")
-		return "", nil
-	}
-	db, err := sql.Open("mysql", "root:8918112lu@/goodStudy")
-	if err != nil {
-		log.Println("DB.Begin failed: ", err)
-		return "", err
-	}
-	stmt, err := db.Prepare("INSERT t_member SET userid=?, account=?, md5=?")
+type connDb struct {
+	conn *sqlx.DB
+	err error
+}
 
+
+// 写入't_member'table
+func InsertUserInfo(tableName string, userId int32, account string, password string) error {
+	if tableName != "t_member" {
+		log.Println("table name error")
+		return nil
+	}
+	db := connDb{}.conn
+
+	stmt, err := db.Prepare("INSERT t_member SET userid=?, account=?, md5=?")
 	if err != nil {
-		//errorMessage := ec.ErrorInfo{}.DbError(err).Message
-		errorMessage := ec.AccountConflict.Message
 		log.Println("tx.Prepare failed: ", err)
-		return errorMessage, err
+		return err
 	}
 	_, err = stmt.Exec(userId, account, password)
 	if err != nil {
 		log.Println("Exec failed: ", err)
-		return "", err
+		return err
 	}
-	return "success", nil
+	return nil
 }
 
+// 查询
+func QueryUserInfo(tbName string, account string) error {
+	if tbName != "t_member" {
+		log.Println("table name error")
+		return nil
+	}
+	db := connDb{}.conn
+
+	stmt, err := db.Prepare("SELECT * FROM t_table WHERE account=?")
+	if err != nil {
+		log.Println("query prepare failed:", err)
+	}
+
+	rows, err := stmt.Query(account)
+	if err != nil {
+		log.Println("query account failed: ", err)
+	}
+
+	for rows.Next() {
+		var account string
+		err := rows.Scan(&account)
+		if err != nil {
+			log.Println("query account result error: ", err)
+			return err
+		}
+	}
+	return nil
+}
+
+func Conn() (*sqlx.DB, error) {
+	db ,err := sqlx.Open("sqlite3", "root:8918112lu@/goodStudy")
+	if err != nil {
+		log.Println("DB open failed: ", err)
+	}
+	return db, err
+}
 
 
 // mysql -u root -p8918112lu;

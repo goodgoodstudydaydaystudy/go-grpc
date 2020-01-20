@@ -10,12 +10,6 @@ import (
 	"log"
 )
 
-//type TestArgs struct {
-//	id int64
-//	count int64
-//	user int64
-//	descri string
-//}
 
 func main() {
 
@@ -57,20 +51,6 @@ func Consume(ctx context.Context, consumeClient *pp.ConsumeClient)  {
 
 // 注册接口
 func Register(ctx context.Context, accountClient *ap.Client) (message string) {
-	// 判断账密长度
-	//accountLen := strings.Count(accountStr, "")
-	//passwordLen := strings.Count(passwordStr, "")
-	//
-	//switch {
-	//case accountLen > 15:
-	//	return &rpb.RegisResp{Message:"account too long"}, nil
-	//case accountLen < 6 :
-	//	return &rpb.RegisResp{Message:"account too short"}, nil
-	//case passwordLen > 20:
-	//	return &rpb.RegisResp{Message:"password too long"}, nil
-	//case passwordLen < 8 :
-	//	return &rpb.RegisResp{Message:"password too short"}, nil
-
 	md5Account := md.Encryption("7777777")
 	md5Password := md.Encryption("6666666")
 
