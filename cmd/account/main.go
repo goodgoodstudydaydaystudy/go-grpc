@@ -16,8 +16,6 @@ const (
 	port = ":50051"
 )
 
-
-
 func main() {
 	log.Println("listening to:", port)
 	lis, err := net.Listen("tcp", port)
@@ -26,14 +24,14 @@ func main() {
 	}
 	log.Printf("listen")
 
-	// 创建grpc服务器
+	// 创建gRPC服务器
 	s := grpc.NewServer(
 		grpc.UnaryInterceptor(server.StatusCodeUnaryInterceptor), // 拦截器
 	)
 
 	// 注册ControlServer
-	accountServer, err := account.NewAccountServer()
-	rpb.RegisterAccountServer(s, accountServer) // TODO 修改了account_server的自定义返回后，发现会与返回值有冲突
+	accountServer, err := account.NewAccountServer() // 通过server结构体私有化禁止外部随意访问，指定接口访问内部变量
+	rpb.RegisterAccountServer(s, accountServer)
 
 	if err != nil {
 		log.Println("account main open db failed")

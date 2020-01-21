@@ -16,14 +16,14 @@ import (
 
 const portRegistered = ":50051"
 
-type Client struct {
+type accountClient struct {
 	conn *grpc.ClientConn
 	cli  pb.AccountClient
 	message string
 }
 
 // 注册功能
-func NewAccountClient() (*Client, error) {
+func NewAccountClient() (*accountClient, error) {
 	conn, err := grpc.Dial(portRegistered,
 		grpc.WithInsecure(),
 		grpc.WithUnaryInterceptor(client.StatusCodeUnaryInterceptor), // 拦截器
@@ -33,7 +33,7 @@ func NewAccountClient() (*Client, error) {
 	}
 	newAccountClient := pb.NewAccountClient(conn)
 
-	return &Client{
+	return &accountClient{
 		conn: conn,
 		cli:  newAccountClient,
 	}, nil
@@ -41,12 +41,12 @@ func NewAccountClient() (*Client, error) {
 
 
 // 关闭连接
-func (c *Client) Close() error {
+func (c *accountClient) Close() error {
 	return c.conn.Close()
 }
 
 // 发送注册信息
-func (c *Client) Register(ctx context.Context, req *pb.RegisterReq) (*pb.RegisterResp, protocol.ServerError) {
+func (c *accountClient) Register(ctx context.Context, req *pb.RegisterReq) (*pb.RegisterResp, protocol.ServerError) {
 	req.Password = md.Encryption(req.Password)
 	resp, err := c.cli.Register(ctx, req)
 	if err != nil {
@@ -58,7 +58,7 @@ func (c *Client) Register(ctx context.Context, req *pb.RegisterReq) (*pb.Registe
 }
 
 // 登录信息
-func (c *Client) Login(ctx context.Context, account string, password string) (*pb.LoginResp, protocol.ServerError) {
+func (c *accountClient) Login(ctx context.Context, account string, password string) (*pb.LoginResp, protocol.ServerError) {
 	md5Password := md.Encryption(password)
 	req := &pb.LoginReq{Account: account, Password: md5Password}
 	resp, err := c.cli.Login(ctx, req)

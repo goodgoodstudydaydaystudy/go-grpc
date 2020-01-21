@@ -30,8 +30,6 @@ func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.Regis
 
 // 登录
 func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (*rpb.LoginResp, error) {
-	log.Println("LogIn account: ", req.GetAccount())
-	log.Println("LogIn password: ", req.GetPassword())
 	return &rpb.LoginResp{Message: "login success"}, nil
 }
 

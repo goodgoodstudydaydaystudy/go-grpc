@@ -2,10 +2,8 @@ package pay
 
 import (
 	"context"
-	"github.com/jmoiron/sqlx"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/pay"
 	"goodgoodstudy.com/go-grpc/pkg/server/account/db"
-	"log"
 	"math/rand"
 	"time"
 )
@@ -21,14 +19,6 @@ func (s *controlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
 	return &pb.ConsumeResp{OrderId: rnd, Message:"consume success"}, nil // 返回Resp里的字段？
 }
 
-// conn db
-func (s *controlServer) New() (*sqlx.DB, error) {
-	db ,err := sqlx.Open("sqlite3", "root:8918112lu@/goodStudy")
-	if err != nil {
-		log.Println("DB open failed: ", err)
-	}
-	return db, nil
-}
 
 func NewConsumeServer() (*controlServer, error) {
 	_, err := db.Conn()
