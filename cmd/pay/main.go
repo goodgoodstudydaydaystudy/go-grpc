@@ -10,12 +10,12 @@ import (
 )
 
 const (
-	PAY_PORT = ":50051"
+	PayPort = ":50051"
 )
 
 func main() {
-	log.Println("listening to:", PAY_PORT)
-	lis, err := net.Listen("tcp", PAY_PORT)
+	log.Println("listening to:", PayPort)
+	lis, err := net.Listen("tcp", PayPort)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}

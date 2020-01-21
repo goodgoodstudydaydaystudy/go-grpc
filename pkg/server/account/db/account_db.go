@@ -19,9 +19,9 @@ func InsertUserInfo(tableName string, userId int32, account string, password str
 		log.Println("table name error")
 		return nil
 	}
-	db := connDb{}.conn
+	//db := connDb{}.conn
 
-	stmt, err := db.Prepare("INSERT t_member SET userid=?, account=?, md5=?")
+	stmt, err := connDb{}.conn.Prepare("INSERT t_member SET userid=?, account=?, md5=?")
 	if err != nil {
 		log.Println("tx.Prepare failed: ", err)
 		return err
@@ -42,7 +42,7 @@ func QueryUserInfo(tbName string, account string) error {
 	}
 	db := connDb{}.conn
 
-	stmt, err := db.Prepare("SELECT * FROM t_table WHERE account=?")
+	stmt, err := db.Prepare("SELECT * FROM t_table WHERE account=?;")
 	if err != nil {
 		log.Println("query prepare failed:", err)
 	}
@@ -76,7 +76,7 @@ func Conn() (*sqlx.DB, error) {
 // use goodStudy;
 // select * from t_member;
 
-// 创建裤 CREATE DATABASE goodStudy;
+// 创建库 CREATE DATABASE goodStudy;
 // 创建表↓
 //CREATE TABLE IF NOT EXISTS t_member(
 //	id INT UNSIGNED AUTO_INCREMENT,
