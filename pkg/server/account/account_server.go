@@ -10,7 +10,7 @@ import (
 )
 
 type server struct {
-	dao *dao.ConnDb
+	db dao.AccountDao
 }
 
 // 服务器方法
@@ -20,7 +20,7 @@ type server struct {
 func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.RegisterResp, error) {
 	// 返回给用户的注册id
 	userId := rand.Int31()
-	err := s.dao.InsertInfo(userId, req.GetAccount(), req.GetPassword())
+	err := s.db.InsertInfo(userId, req.GetAccount(), req.GetPassword())
 	if err != nil {
 		log.Println("db.insert failed: ", err)
 		return &rpb.RegisterResp{Message: "register failed"}, err
@@ -35,8 +35,8 @@ func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (*rpb.LoginResp, 
 
 // server connDb
 func NewAccountServer() (*server, error) {
-	db, err := dao.NewConnDb()
+	db, err := dao.NewAccountDao("mysql")
 	return &server{
-		dao: db,
+		db: db,
 	}, err
 }

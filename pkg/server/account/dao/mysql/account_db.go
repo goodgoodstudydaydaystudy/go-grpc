@@ -1,4 +1,4 @@
-package dao
+package mysql
 
 import (
 	_ "database/sql/driver"
@@ -8,24 +8,24 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type ConnDb struct {
+type accountMysql struct {
 	conn *sqlx.DB
 }
 
 // 创建conn，连接db
 // 构造函数一般放在结构体下方紧挨着, 容易找
-func NewConnDb() (*ConnDb, error) {
+func NewAccountMysql() (*accountMysql, error) {
 	db, err := sqlx.Open("mysql", "root:8918112lu@/goodStudy")
 	if err != nil {
 		log.Println("DB open failed: ", err)
 	}
-	return &ConnDb{
+	return &accountMysql{
 		conn: db,
 	}, err
 }
 
 // 写入't_member'table
-func (c *ConnDb) InsertInfo(userId int32, account string, password string) error {
+func (c *accountMysql) InsertInfo(userId int32, account string, password string) error {
 	stmt, err := c.conn.Prepare("INSERT t_member SET userid=?, account=?, md5=?")
 	if err != nil {
 		log.Println("tx.Prepare failed: ", err)
@@ -40,7 +40,7 @@ func (c *ConnDb) InsertInfo(userId int32, account string, password string) error
 }
 
 // 查询
-func (c *ConnDb) QueryInfo(account string) error {
+func (c *accountMysql) QueryInfo(account string) error {
 	stmt, err := c.conn.Prepare("SELECT * FROM t_table WHERE account=?;")
 	if err != nil {
 		log.Println("query prepare failed:", err)
