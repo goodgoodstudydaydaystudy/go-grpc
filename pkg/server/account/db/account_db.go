@@ -1,17 +1,16 @@
 package db
 
 import (
-	"database/sql"
 	_ "database/sql/driver"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jmoiron/sqlx"
 )
 
 type connDb struct {
-	conn *sql.DB
+	conn *sqlx.DB
 }
-
 
 // 写入't_member'table
 func (c *connDb) InsertInfo(userId int32, account string, password string) error {
@@ -53,20 +52,34 @@ func (c *connDb) QueryInfo(account string) error {
 }
 
 
-func NewConnDb() (*connDb, error) {
-	db ,err := sql.Open("mysql", "root:8918112lu@/goodStudy")
+// TODO
+// 创建conn，保存conn
+// conn是给server调用
+// server需要访问 InsertInfo 传入数据
+	// 提供访问db内部的接口
+// InsertInfo 写入数据库
+
+
+func openDb() (*connDb, error) {
+	db, err := openDb()
+	if err == nil {
+		return &connDb{conn:db}, nil
+	}
+	return &connDb{conn:db}, err
+}
+
+// 创建conn，连接db
+func NewConnDb() (*sqlx.DB, error) {
+	db ,err := sqlx.Open("mysql", "root:8918112lu@/goodStudy")
 	if err != nil {
 		log.Println("DB open failed: ", err)
 	}
-	return &connDb{
-		conn: db,
-	}, nil
+	return db, err
+}
+func Insert(userId int32, account string, password string) error {
+	// TODO 调用InsertInfo
 }
 
-func Insert(userId int32, account string, password string) error {
-	err := Insert(userId, account, password)
-	return err
-}
 
 
 // mysql -u root -p8918112lu;
