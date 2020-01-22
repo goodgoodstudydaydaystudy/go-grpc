@@ -1,4 +1,4 @@
-package db
+package dao
 
 import (
 	_ "database/sql/driver"
@@ -8,12 +8,24 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type connDb struct {
+type ConnDb struct {
 	conn *sqlx.DB
 }
 
+// 创建conn，连接db
+// 构造函数一般放在结构体下方紧挨着, 容易找
+func NewConnDb() (*ConnDb, error) {
+	db, err := sqlx.Open("mysql", "root:8918112lu@/goodStudy")
+	if err != nil {
+		log.Println("DB open failed: ", err)
+	}
+	return &ConnDb{
+		conn: db,
+	}, err
+}
+
 // 写入't_member'table
-func (c *connDb) InsertInfo(userId int32, account string, password string) error {
+func (c *ConnDb) InsertInfo(userId int32, account string, password string) error {
 	stmt, err := c.conn.Prepare("INSERT t_member SET userid=?, account=?, md5=?")
 	if err != nil {
 		log.Println("tx.Prepare failed: ", err)
@@ -27,9 +39,8 @@ func (c *connDb) InsertInfo(userId int32, account string, password string) error
 	return nil
 }
 
-
 // 查询
-func (c *connDb) QueryInfo(account string) error {
+func (c *ConnDb) QueryInfo(account string) error {
 	stmt, err := c.conn.Prepare("SELECT * FROM t_table WHERE account=?;")
 	if err != nil {
 		log.Println("query prepare failed:", err)
@@ -51,36 +62,12 @@ func (c *connDb) QueryInfo(account string) error {
 	return nil
 }
 
-
 // TODO
 // 创建conn，保存conn
 // conn是给server调用
 // server需要访问 InsertInfo 传入数据
-	// 提供访问db内部的接口
+// 提供访问db内部的接口
 // InsertInfo 写入数据库
-
-
-func openDb() (*connDb, error) {
-	db, err := openDb()
-	if err == nil {
-		return &connDb{conn:db}, nil
-	}
-	return &connDb{conn:db}, err
-}
-
-// 创建conn，连接db
-func NewConnDb() (*sqlx.DB, error) {
-	db ,err := sqlx.Open("mysql", "root:8918112lu@/goodStudy")
-	if err != nil {
-		log.Println("DB open failed: ", err)
-	}
-	return db, err
-}
-func Insert(userId int32, account string, password string) error {
-	// TODO 调用InsertInfo
-}
-
-
 
 // mysql -u root -p8918112lu;
 // use goodStudy;
