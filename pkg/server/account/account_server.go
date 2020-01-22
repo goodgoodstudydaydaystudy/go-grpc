@@ -20,7 +20,7 @@ type server struct {
 func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.RegisterResp, error) {
 	// 返回给用户的注册id
 	userId := rand.Int31()
-	err := db.InsertUserInfo("t_member", userId, req.GetAccount(), req.GetPassword())
+	err := db.Insert(userId, req.GetAccount(), req.GetPassword())
 	if err != nil {
 		log.Println("db.insert failed: ", err)
 		return &rpb.RegisterResp{Message: "register failed"}, err
@@ -35,6 +35,6 @@ func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (*rpb.LoginResp, 
 
 // server connDb
 func NewAccountServer() (*server, error){
-	_, err := db.Conn()
+	_, err := db.NewConnDb()
 	return &server{}, err
 }

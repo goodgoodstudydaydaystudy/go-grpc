@@ -1,27 +1,21 @@
 package db
 
 import (
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/jmoiron/sqlx"
-
+	"database/sql"
+	_ "database/sql/driver"
 	"log"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type connDb struct {
-	conn *sqlx.DB
-	err error
+	conn *sql.DB
 }
 
 
 // 写入't_member'table
-func InsertUserInfo(tableName string, userId int32, account string, password string) error {
-	if tableName != "t_member" {
-		log.Println("table name error")
-		return nil
-	}
-	//db := connDb{}.conn
-
-	stmt, err := connDb{}.conn.Prepare("INSERT t_member SET userid=?, account=?, md5=?")
+func (c *connDb) InsertInfo(userId int32, account string, password string) error {
+	stmt, err := c.conn.Prepare("INSERT t_member SET userid=?, account=?, md5=?")
 	if err != nil {
 		log.Println("tx.Prepare failed: ", err)
 		return err
@@ -34,15 +28,10 @@ func InsertUserInfo(tableName string, userId int32, account string, password str
 	return nil
 }
 
-// 查询
-func QueryUserInfo(tbName string, account string) error {
-	if tbName != "t_member" {
-		log.Println("table name error")
-		return nil
-	}
-	db := connDb{}.conn
 
-	stmt, err := db.Prepare("SELECT * FROM t_table WHERE account=?;")
+// 查询
+func (c *connDb) QueryInfo(account string) error {
+	stmt, err := c.conn.Prepare("SELECT * FROM t_table WHERE account=?;")
 	if err != nil {
 		log.Println("query prepare failed:", err)
 	}
@@ -63,12 +52,20 @@ func QueryUserInfo(tbName string, account string) error {
 	return nil
 }
 
-func Conn() (*sqlx.DB, error) {
-	db ,err := sqlx.Open("sqlite3", "root:8918112lu@/goodStudy")
+
+func NewConnDb() (*connDb, error) {
+	db ,err := sql.Open("mysql", "root:8918112lu@/goodStudy")
 	if err != nil {
 		log.Println("DB open failed: ", err)
 	}
-	return db, err
+	return &connDb{
+		conn: db,
+	}, nil
+}
+
+func Insert(userId int32, account string, password string) error {
+	err := Insert(userId, account, password)
+	return err
 }
 
 

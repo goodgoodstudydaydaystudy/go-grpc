@@ -21,6 +21,6 @@ func (s *controlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
 
 
 func NewConsumeServer() (*controlServer, error) {
-	_, err := db.Conn()
+	_, err := db.NewConnDb()
 	return &controlServer{}, err
 }
