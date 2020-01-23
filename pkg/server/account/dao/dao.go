@@ -12,6 +12,7 @@ type AccountDao interface {
 	QueryInfo(account string) error
 }
 
+// TODO 返回 interface，但return 的方法去不在接口中。。
 func NewAccountDao(dbType string) (AccountDao, error) {
 	switch dbType {
 	case "mysql":

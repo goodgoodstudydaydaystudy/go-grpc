@@ -19,6 +19,7 @@ type consumeClient struct {
 	cli pb.ControlClient
 }
 
+
 func NewConsumeClient() (*consumeClient, error) {
 	conn, err := grpc.Dial(PORT,
 		grpc.WithInsecure(),
@@ -35,9 +36,11 @@ func NewConsumeClient() (*consumeClient, error) {
 	}, nil
 }
 
+
 func (c *consumeClient) Close() error {
 	return c.conn.Close()
 }
+
 
 // 发送 购买订单 数据
 func (c *consumeClient) Pay(ctx context.Context, req *pb.ConsumeReq) (*pb.ConsumeResp,  protocol.ServerError) {

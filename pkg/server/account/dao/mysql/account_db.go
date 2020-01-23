@@ -8,6 +8,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+
 type accountMysql struct {
 	conn *sqlx.DB
 }
@@ -62,12 +63,6 @@ func (c *accountMysql) QueryInfo(account string) error {
 	return nil
 }
 
-// TODO
-// 创建conn，保存conn
-// conn是给server调用
-// server需要访问 InsertInfo 传入数据
-// 提供访问db内部的接口
-// InsertInfo 写入数据库
 
 // mysql -u root -p8918112lu;
 // use goodStudy;
