@@ -32,7 +32,7 @@ func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.Regis
 		log.Println("db.insert failed: ", err)
 		return &rpb.RegisterResp{Message: ""}, protocol.ToServerError(err)
 	}
-	return &rpb.RegisterResp{Message: "register success", UeserId: userId}, protocol.ToServerError(err)
+	return &rpb.RegisterResp{Message: "register success", UeserId: userId}, err
 }
 
 // 登录功能

@@ -1,13 +1,13 @@
 package main
 
 import (
+	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
 	"log"
 	"net"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	"goodgoodstudy.com/go-grpc/pkg/server/account"
 )

@@ -6,6 +6,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 
@@ -16,7 +17,7 @@ type accountMysql struct {
 // 创建conn，连接db
 // 构造函数一般放在结构体下方紧挨着, 容易找
 func NewAccountMysql() (*accountMysql, error) {
-	db, err := sqlx.Open("mysql", "root:8918112lu@/goodStudy")
+	db, err := sqlx.Connect("mysql", "root:8918112lu@/goodStudy")
 	if err != nil {
 		log.Println("DB open failed: ", err)
 	}
@@ -27,14 +28,9 @@ func NewAccountMysql() (*accountMysql, error) {
 
 // 写入't_member'table
 func (c *accountMysql) InsertInfo(userId int32, account string, password string) error {
-	stmt, err := c.conn.Prepare("INSERT t_member SET userid=?, account=?, md5=?")
+	_, err := c.conn.Exec("INSERT t_member SET userid=?, account=?, md5=?", userId, account, password)
 	if err != nil {
-		log.Println("tx.Prepare failed: ", err)
-		return err
-	}
-	_, err = stmt.Exec(userId, account, password)
-	if err != nil {
-		log.Println("Exec failed: ", err)
+		log.Println("account insert failed: ", err)
 		return err
 	}
 	return nil
