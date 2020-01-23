@@ -3,7 +3,6 @@ package client
 import (
 	"context"
 	_ "database/sql"
-	_ "github.com/mattn/go-sqlite3"
 	"log"
 
 	"google.golang.org/grpc"
@@ -16,13 +15,11 @@ import (
 
 const portRegistered = ":50051"
 
-
 type accountClient struct {
-	conn *grpc.ClientConn
-	cli  pb.AccountClient
+	conn    *grpc.ClientConn
+	cli     pb.AccountClient
 	message string
 }
-
 
 // 注册服务功能
 func NewAccountClient() (*accountClient, error) {
@@ -41,12 +38,10 @@ func NewAccountClient() (*accountClient, error) {
 	}, nil
 }
 
-
 // 关闭连接
 func (c *accountClient) Close() error {
 	return c.conn.Close()
 }
-
 
 // 发送注册信息
 func (c *accountClient) Register(ctx context.Context, req *pb.RegisterReq) (*pb.RegisterResp, protocol.ServerError) {
@@ -58,7 +53,6 @@ func (c *accountClient) Register(ctx context.Context, req *pb.RegisterReq) (*pb.
 	}
 	return resp, protocol.ToServerError(err)
 }
-
 
 // 登录信息
 func (c *accountClient) Login(ctx context.Context, account string, password string) (*pb.LoginResp, protocol.ServerError) {
