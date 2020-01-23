@@ -8,7 +8,7 @@ import (
 )
 
 type AccountDao interface {
-	InsertInfo(userId int32, account string, password string) error
+	InsertInfo(account string, password string) error
 	QueryInfo(account string) error
 }
 

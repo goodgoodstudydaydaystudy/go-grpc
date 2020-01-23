@@ -27,8 +27,8 @@ func NewAccountMysql() (*accountMysql, error) {
 }
 
 // 写入't_member'table
-func (c *accountMysql) InsertInfo(userId int32, account string, password string) error {
-	_, err := c.conn.Exec("INSERT t_member SET userid=?, account=?, md5=?", userId, account, password)
+func (c *accountMysql) InsertInfo(account string, password string) error {
+	_, err := c.conn.Exec("INSERT t_member SET account=?, password=?", account, password)
 	if err != nil {
 		log.Println("account insert failed: ", err)
 		return err
@@ -64,12 +64,13 @@ func (c *accountMysql) QueryInfo(account string) error {
 // use goodStudy;
 // select * from t_member;
 
+// DROP TABLE t_member;
+
 // 创建库 CREATE DATABASE goodStudy;
 // 创建表↓
 //CREATE TABLE IF NOT EXISTS t_member(
 //	id INT UNSIGNED AUTO_INCREMENT,
-//	userId INT NOT NULL,
 //	account VARCHAR(255) NOT NULL UNIQUE,
-//	md5 VARCHAR(255) NOT NULL,
+//	pass VARCHAR(255) NOT NULL,
 //	PRIMARY KEY (id)
 //	)ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -6,7 +6,6 @@ import (
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	"goodgoodstudy.com/go-grpc/pkg/server/account/dao"
 	"log"
-	"math/rand"
 )
 
 type server struct {
@@ -26,13 +25,12 @@ func NewAccountServer() (*server, error) {
 // TODO 返回"已注册"的错误信息
 func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.RegisterResp, error) {
 	// 返回给用户的注册id
-	userId := rand.Int31()
-	err := s.db.InsertInfo(userId, req.GetAccount(), req.GetPassword())
+	err := s.db.InsertInfo(req.GetAccount(), req.GetPassword())
 	if err != nil {
 		log.Println("db.insert failed: ", err)
 		return &rpb.RegisterResp{Message: ""}, protocol.ToServerError(err)
 	}
-	return &rpb.RegisterResp{Message: "register success", UeserId: userId}, err
+	return &rpb.RegisterResp{Message: "register success"}, err
 }
 
 // 登录功能
