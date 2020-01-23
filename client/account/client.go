@@ -3,11 +3,11 @@ package client
 import (
 	"context"
 	_ "database/sql"
+	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/client"
 	"log"
 
 	"google.golang.org/grpc"
 
-	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/client"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	"goodgoodstudy.com/go-grpc/pkg/procotol"
 	md "goodgoodstudy.com/go-grpc/pkg/utils"
