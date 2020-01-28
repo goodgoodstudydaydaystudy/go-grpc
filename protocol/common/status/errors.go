@@ -9,13 +9,17 @@ const (
 	// -1000 ~ -1999 Account
 	ErrAccountExists = -1000 // 账号已存在
 
+	ErrAccountNotExists = -1001 //账号或密码错误
+
 	// -2000 ~ -2999 Pay
 	ErrBalanceNotEnough = -2000 // 余额不足
 )
 
 var CodeMessageMap = map[int]string{
-	Success:          "成功",
-	ErrAccountExists: "账号已存在",
+	Success:          	 "成功",
+	ErrAccountExists: 	 "账号已存在",
+	ErrAccountNotExists: "账号或密码错误",
+	ErrBalanceNotEnough: "余额不足",
 }
 
 // MessageFromCode get message associated with the code

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/pay"
 	"goodgoodstudy.com/go-grpc/pkg/server/pay"
 	"google.golang.org/grpc"
@@ -22,11 +23,13 @@ func main() {
 	log.Printf("listen")
 
 	// 创建grpc服务器
-	s := grpc.NewServer()
+	s := grpc.NewServer(
+		grpc.UnaryInterceptor(server.StatusCodeUnaryInterceptor), // 拦截器
+		)
 
-	// 注册ControlServer
+	// 注册ConsumeServer
 	payServer, err := pay.NewConsumeServer()
-	pb.RegisterControlServer(s, payServer)
+	pb.RegisterConsumeServer(s, payServer)
 
 	// 注册反射服务
 	reflection.Register(s)

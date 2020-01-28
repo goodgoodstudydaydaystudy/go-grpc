@@ -16,7 +16,7 @@ const (
 type consumeClient struct {
 	conn *grpc.ClientConn // 用于关闭连接等
 
-	cli pb.ControlClient
+	cli pb.ConsumeClient
 }
 
 
@@ -29,7 +29,7 @@ func NewConsumeClient() (*consumeClient, error) {
 		log.Println("payClient connecting failed")
 	}
 
-	controlClient := pb.NewControlClient(conn)
+	controlClient := pb.NewConsumeClient(conn)
 	return &consumeClient{		// 学习
 		conn: conn,
 		cli:  controlClient,
@@ -47,6 +47,7 @@ func (c *consumeClient) Pay(ctx context.Context, req *pb.ConsumeReq) (*pb.Consum
 	resp, err := c.cli.Pay(ctx, req) // 注意这里没有用:=而已=, 因为函数声明里面返回值已经有名称了, 等于声明了变量
 	if err != nil {
 		log.Println("Pay failed:", err)
+		return resp, protocol.ToServerError(err)
 	}
-	return resp, protocol.ToServerError(err) // 注意这里没有写返回哪个变量, 因为函数声明的返回值里面给了变量名字, 默认就是返回那些变量（原本是没有的）
+	return resp, nil // 注意这里没有写返回哪个变量, 因为函数声明的返回值里面给了变量名字, 默认就是返回那些变量（原本是没有的）
 }

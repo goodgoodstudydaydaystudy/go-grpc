@@ -36,10 +36,8 @@ func main() {
 	rpb.RegisterAccountServer(s, accountServer)
 
 	if err != nil {
-		log.Println("account main open db failed")
-		return
+		log.Println(err)
 	}
-
 	// 注册反射服务
 	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
