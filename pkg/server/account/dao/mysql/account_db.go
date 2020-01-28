@@ -29,7 +29,7 @@ func NewAccountMysql() (*accountMysql, error) {
 // 写入't_member'table
 func (c *accountMysql) InsertInfo(account string, password string, name string) error {
 	accountInfo := "INSERT INTO t_member(account, password, name) VALUE (?, ?, ?)"
-	_, err := c.conn.Exec(accountInfo, account, password)
+	_, err := c.conn.Exec(accountInfo, account, password, name)
 	if err != nil {
 		log.Println("account insert failed: ", err)
 		return err
@@ -39,28 +39,21 @@ func (c *accountMysql) InsertInfo(account string, password string, name string) 
 
 // TODO 尝试用结构体增加 QueryInfo 的查询结果
 // 查询
-func (c *accountMysql) QueryInfo(account string, req string) (int32, string, error) {
-	switch req {
-	case "id":
-		var r int
-		err := c.conn.Get(&r, "SELECT id FROM t_member WHERE account=?", account)
-		if err != nil {
-			log.Println("query id failed: ", err)
-			return 0, "", err
-		}
-		resp := int32(r)
-		return resp, "", nil
-
-	case "password":
-		var resp string
-		err := c.conn.Get(&resp, "SELECT password FROM t_member WHERE account=?", account)
-		if err != nil {
-			log.Println("query password failed: ", err)
-			return 0, "", err
-		}
-		return 0, resp, nil
+func (c *accountMysql) QueryInfo(account string) (int32, string, string, string, error) {
+	rows := c.conn.QueryRow("SELECT * FROM t_member WHERE account=?", account)
+	var (
+		id 		 	   int
+		password 	   string
+		name 	 	   string
+		outputAccount  string
+	)
+	err := rows.Scan(&id, &name, &password, &account)
+	if err != nil {
+		log.Println(err)
+		return 0, "", "", "" , nil
 	}
-	return 0, "", nil
+	outputId := int32(id)
+	return outputId, outputAccount, password, name, nil
 }
 
 
