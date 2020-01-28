@@ -18,9 +18,9 @@ Client的方法，不知道对不对。
 - [ ] Account Server
   - [x] 在server启动的时候建立数据库连接, 建立失败则启动失败
   - [x] 在server关闭的时候关闭数据库连接
-  - [ ] 尝试返回自定义错误码
+  - [x] 尝试返回自定义错误码
   - [x] server结构体私有化, 提供New函数
-- [ ] Account Client
+- [x] Account Client
   - [x] client结构体私有化
-  - [ ] 测试自定义错误码能不能用
-- [ ] 仿照account修改pay的server和client, 先不要做pay的db
+  - [x] 测试自定义错误码能不能用
+- [x] 仿照account修改pay的server和client, 先不要做pay的db
