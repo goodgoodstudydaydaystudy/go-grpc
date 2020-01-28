@@ -28,7 +28,8 @@ func NewAccountMysql() (*accountMysql, error) {
 
 // 写入't_member'table
 func (c *accountMysql) InsertInfo(account string, password string) error {
-	_, err := c.conn.Exec("INSERT t_member SET account=?, password=?", account, password)
+	accountInfo := "INSERT INTO t_member(account, password) VALUE (?, ?)"
+	_, err := c.conn.Exec(accountInfo, account, password)
 	if err != nil {
 		log.Println("account insert failed: ", err)
 		return err
@@ -37,30 +38,18 @@ func (c *accountMysql) InsertInfo(account string, password string) error {
 }
 
 // 查询
-func (c *accountMysql) QueryInfo(account string) error {
-	stmt, err := c.conn.Prepare("SELECT * FROM t_table WHERE account=?;")
+func (c *accountMysql) QueryInfo(account string) (string, error) {
+	var password string
+	err := c.conn.Get(&password, "SELECT password FROM t_member WHERE account=?", account)
 	if err != nil {
-		log.Println("query prepare failed:", err)
+		log.Println("query account result error: ", err)
+		return "", err
 	}
-
-	rows, err := stmt.Query(account)
-	if err != nil {
-		log.Println("query account failed: ", err)
-	}
-
-	for rows.Next() {
-		var account string
-		err := rows.Scan(&account)
-		if err != nil {
-			log.Println("query account result error: ", err)
-			return err
-		}
-	}
-	return nil
+	return password, nil
 }
 
 
-// mysql -u root -p8918112lu;
+// mysql goodStudy -uroot -p8918112lu;
 // use goodStudy;
 // select * from t_member;
 
@@ -71,6 +60,6 @@ func (c *accountMysql) QueryInfo(account string) error {
 //CREATE TABLE IF NOT EXISTS t_member(
 //	id INT UNSIGNED AUTO_INCREMENT,
 //	account VARCHAR(255) NOT NULL UNIQUE,
-//	pass VARCHAR(255) NOT NULL,
+//	password VARCHAR(255) NOT NULL,
 //	PRIMARY KEY (id)
 //	)ENGINE=InnoDB DEFAULT CHARSET=utf8;

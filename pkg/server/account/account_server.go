@@ -2,10 +2,11 @@ package account
 
 import (
 	"context"
+	"log"
+
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	"goodgoodstudy.com/go-grpc/pkg/server/account/dao"
-	"log"
 )
 
 type server struct {
@@ -22,19 +23,24 @@ func NewAccountServer() (*server, error) {
 
 // 方法名要和rpc接口一致，否则client注册服务器会报错
 // server的注册功能
-// TODO 返回"已注册"的错误信息
+// 返回"已注册"的错误信息
 func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.RegisterResp, error) {
 	// 返回给用户的注册id
 	err := s.db.InsertInfo(req.GetAccount(), req.GetPassword())
 	if err != nil {
 		log.Println("db.insert failed: ", err)
-		return &rpb.RegisterResp{Message: ""}, protocol.ToServerError(err)
+		return &rpb.RegisterResp{}, protocol.NewServerError(-1000)
 	}
-	return &rpb.RegisterResp{Message: "register success"}, err
+	return &rpb.RegisterResp{}, nil
 }
 
 // 登录功能
 func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (*rpb.LoginResp, error) {
-	return &rpb.LoginResp{}, protocol.NewServerError(-999, "test custom error")
-	//return &rpb.LoginResp{Message: "login success"}, nil
+	dbPassword, err := s.db.QueryInfo(req.GetAccount())
+	isResult := dbPassword != req.GetPassword()
+	if err != nil || isResult {
+		log.Println("server login failed: ", err)
+		return &rpb.LoginResp{}, protocol.NewServerError(-1001)
+	}
+	return &rpb.LoginResp{}, nil
 }
