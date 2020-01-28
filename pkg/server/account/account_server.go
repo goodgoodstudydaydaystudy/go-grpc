@@ -3,6 +3,7 @@ package account
 import (
 	"context"
 	"log"
+	"math/rand"
 
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
@@ -24,14 +25,15 @@ func NewAccountServer() (*server, error) {
 // 方法名要和rpc接口一致，否则client注册服务器会报错
 // server的注册功能
 // 返回"已注册"的错误信息
+// 返回给用户的注册id
 func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.RegisterResp, error) {
-	// 返回给用户的注册id
 	err := s.db.InsertInfo(req.GetAccount(), req.GetPassword())
 	if err != nil {
 		log.Println("db.insert failed: ", err)
 		return &rpb.RegisterResp{}, protocol.NewServerError(-1000)
 	}
-	return &rpb.RegisterResp{}, nil
+	userId := rand.Int31n(100)
+	return &rpb.RegisterResp{UserId:userId}, nil
 }
 
 // 登录功能

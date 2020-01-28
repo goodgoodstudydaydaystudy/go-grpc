@@ -13,7 +13,7 @@ message RegisterReq {
 }
 
 message RegisterResp {
-    int32 ueser_id = 2;
+    int32 user_id = 2;
 }
 
 message LoginReq {
