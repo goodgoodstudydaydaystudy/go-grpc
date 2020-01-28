@@ -37,23 +37,22 @@ func (c *accountMysql) InsertInfo(account string, password string, name string) 
 	return nil
 }
 
-// TODO 尝试用结构体增加 QueryInfo 的查询结果
 // 查询
-func (c *accountMysql) QueryInfo(account string) (int32, string, string, string, error) {
+func (c *accountMysql) QueryInfo(account string) (int32, string, string, error) {
 	rows := c.conn.QueryRow("SELECT * FROM t_member WHERE account=?", account)
 	var (
 		id 		 	   int
 		password 	   string
 		name 	 	   string
-		outputAccount  string
 	)
 	err := rows.Scan(&id, &name, &password, &account)
 	if err != nil {
 		log.Println(err)
-		return 0, "", "", "" , nil
+		return 0, "", "" , nil
 	}
 	outputId := int32(id)
-	return outputId, outputAccount, password, name, nil
+	log.Printf("output: \nuserId: %v\npassword: %v\nname: %v\n", id, password, name) // right
+	return outputId, password, name, nil
 }
 
 
