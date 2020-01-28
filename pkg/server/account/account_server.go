@@ -31,7 +31,7 @@ func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.Regis
 		return &rpb.RegisterResp{}, protocol.NewServerError(-1000)
 	}
 	userId, _, err := s.db.QueryInfo(req.GetAccount(), "id")
-	return &rpb.RegisterResp{UserId:userId, Name:req.GetName()}, nil
+	return &rpb.RegisterResp{UserId:userId}, nil
 }
 
 // 登录功能
