@@ -8,8 +8,8 @@ import (
 )
 
 type AccountDao interface {
-	InsertInfo(account string, password string) error
-	QueryInfo(account string) (string, error)
+	InsertInfo(account string, password string, name string) error
+	QueryInfo(account string, req string) (int32, string, error)
 }
 
 func NewAccountDao(dbType string) (AccountDao, error) {

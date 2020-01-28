@@ -2,12 +2,10 @@ package account
 
 import (
 	"context"
-	"log"
-	"math/rand"
-
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	"goodgoodstudy.com/go-grpc/pkg/server/account/dao"
+	"log"
 )
 
 type server struct {
@@ -27,18 +25,18 @@ func NewAccountServer() (*server, error) {
 // 返回"已注册"的错误信息
 // 返回给用户的注册id
 func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.RegisterResp, error) {
-	err := s.db.InsertInfo(req.GetAccount(), req.GetPassword())
+	err := s.db.InsertInfo(req.GetAccount(), req.GetPassword(), req.GetName())
 	if err != nil {
 		log.Println("db.insert failed: ", err)
 		return &rpb.RegisterResp{}, protocol.NewServerError(-1000)
 	}
-	userId := rand.Int31n(100)
-	return &rpb.RegisterResp{UserId:userId}, nil
+	userId, _, err := s.db.QueryInfo(req.GetAccount(), "id")
+	return &rpb.RegisterResp{UserId:userId, Name:req.GetName()}, nil
 }
 
 // 登录功能
 func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (*rpb.LoginResp, error) {
-	dbPassword, err := s.db.QueryInfo(req.GetAccount())
+	_, dbPassword, err := s.db.QueryInfo(req.GetAccount(), "password")
 	isResult := dbPassword != req.GetPassword()
 	if err != nil || isResult {
 		log.Println("server login failed: ", err)

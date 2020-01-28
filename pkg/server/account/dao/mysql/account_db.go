@@ -9,7 +9,6 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-
 type accountMysql struct {
 	conn *sqlx.DB
 }
@@ -26,9 +25,10 @@ func NewAccountMysql() (*accountMysql, error) {
 	}, err
 }
 
+
 // 写入't_member'table
-func (c *accountMysql) InsertInfo(account string, password string) error {
-	accountInfo := "INSERT INTO t_member(account, password) VALUE (?, ?)"
+func (c *accountMysql) InsertInfo(account string, password string, name string) error {
+	accountInfo := "INSERT INTO t_member(account, password, name) VALUE (?, ?, ?)"
 	_, err := c.conn.Exec(accountInfo, account, password)
 	if err != nil {
 		log.Println("account insert failed: ", err)
@@ -37,20 +37,34 @@ func (c *accountMysql) InsertInfo(account string, password string) error {
 	return nil
 }
 
+// TODO 尝试用结构体增加 QueryInfo 的查询结果
 // 查询
-func (c *accountMysql) QueryInfo(account string) (string, error) {
-	var password string
-	err := c.conn.Get(&password, "SELECT password FROM t_member WHERE account=?", account)
-	if err != nil {
-		log.Println("query account result error: ", err)
-		return "", err
+func (c *accountMysql) QueryInfo(account string, req string) (int32, string, error) {
+	switch req {
+	case "id":
+		var r int
+		err := c.conn.Get(&r, "SELECT id FROM t_member WHERE account=?", account)
+		if err != nil {
+			log.Println("query id failed: ", err)
+			return 0, "", err
+		}
+		resp := int32(r)
+		return resp, "", nil
+
+	case "password":
+		var resp string
+		err := c.conn.Get(&resp, "SELECT password FROM t_member WHERE account=?", account)
+		if err != nil {
+			log.Println("query password failed: ", err)
+			return 0, "", err
+		}
+		return 0, resp, nil
 	}
-	return password, nil
+	return 0, "", nil
 }
 
 
 // mysql goodStudy -uroot -p8918112lu;
-// use goodStudy;
 // select * from t_member;
 
 // DROP TABLE t_member;

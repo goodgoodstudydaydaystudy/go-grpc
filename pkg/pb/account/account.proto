@@ -10,10 +10,12 @@ service Account {
 message RegisterReq {
     string account = 1;
     string password = 2;
+    string name = 3;
 }
 
 message RegisterResp {
-    int32 user_id = 2;
+    int32 user_id = 1;
+    string name = 2;
 }
 
 message LoginReq {
