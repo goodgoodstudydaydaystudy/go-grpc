@@ -24,3 +24,6 @@ Client的方法，不知道对不对。
   - [x] client结构体私有化
   - [x] 测试自定义错误码能不能用
 - [x] 仿照account修改pay的server和client, 先不要做pay的db
+
+- [ ] 注册增加“性别”，登录resp返回增加“性别”
+  - [ ] 简化新增属性的修改工作
