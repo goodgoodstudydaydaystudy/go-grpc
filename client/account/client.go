@@ -51,7 +51,7 @@ func (c *accountClient) Register(ctx context.Context, req *pb.RegisterReq) (*pb.
 		log.Println("cli.Registered failed: ", err)
 		return resp, protocol.ToServerError(err)
 	}
-	return resp, protocol.NewServerError(0)
+	return resp, nil
 }
 
 // 登录信息
@@ -59,10 +59,9 @@ func (c *accountClient) Login(ctx context.Context, account string, password stri
 	md5Password := md.Encryption(password)
 	req := &pb.LoginReq{Account: account, Password: md5Password}
 	resp, err := c.cli.Login(ctx, req)
-	log.Println("client login resp: ", resp)
 	if err != nil {
 		log.Println("cli.LogIn failed:, ", err)
 		return resp, protocol.ToServerError(err)
 	}
-	return resp, protocol.NewServerError(0)
+	return resp, nil
 }

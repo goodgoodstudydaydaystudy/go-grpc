@@ -24,13 +24,13 @@ func NewAccountServer() (*server, error) {
 // server的注册功能
 // 返回"已注册"的错误信息
 // 返回给用户的注册id
+// TODO 把 req 传给 db，就不用把所有 变量名拆出来了吧
 func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.RegisterResp, error) {
-	err := s.db.InsertInfo(req.GetAccount(), req.GetPassword(), req.GetName())
+	err := s.db.InsertInfo(req)
 	if err != nil {
 		log.Println("db.insert failed: ", err)
 		return &rpb.RegisterResp{}, protocol.NewServerError(-1000)
 	}
-
 	userId, _, _, err := s.db.QueryInfo(req.GetAccount())
 	return &rpb.RegisterResp{UserId:userId}, nil
 }

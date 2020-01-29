@@ -2,13 +2,14 @@ package dao
 
 import (
 	"fmt"
+	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 
 	"goodgoodstudy.com/go-grpc/pkg/procotol"
 	"goodgoodstudy.com/go-grpc/pkg/server/account/dao/mysql"
 )
 
 type AccountDao interface {
-	InsertInfo(account string, password string, name string) error
+	InsertInfo(req *rpb.RegisterReq) error
 	QueryInfo(account string) (int32, string, string, error)
 }
 

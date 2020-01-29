@@ -2,6 +2,7 @@ package mysql
 
 import (
 	_ "database/sql/driver"
+	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -27,9 +28,9 @@ func NewAccountMysql() (*accountMysql, error) {
 
 
 // 写入't_member'table
-func (c *accountMysql) InsertInfo(account string, password string, name string) error {
-	accountInfo := "INSERT INTO t_member(account, password, name) VALUE (?, ?, ?)"
-	_, err := c.conn.Exec(accountInfo, account, password, name)
+func (c *accountMysql) InsertInfo(req *rpb.RegisterReq) error {
+	accountInfo := "INSERT INTO t_member(account, password, name, gender) VALUE (?, ?, ?, ?)"
+	_, err := c.conn.Exec(accountInfo, req.GetAccount(), req.GetPassword(), req.Name, req.GetGender())
 	if err != nil {
 		log.Println("account insert failed: ", err)
 		return err
@@ -51,7 +52,6 @@ func (c *accountMysql) QueryInfo(account string) (int32, string, string, error) 
 		return 0, "", "" , nil
 	}
 	outputId := int32(id)
-	log.Printf("output: \nuserId: %v\npassword: %v\nname: %v\n", id, password, name) // right
 	return outputId, password, name, nil
 }
 
@@ -67,5 +67,7 @@ func (c *accountMysql) QueryInfo(account string) (int32, string, string, error) 
 //	id INT UNSIGNED AUTO_INCREMENT,
 //	account VARCHAR(255) NOT NULL UNIQUE,
 //	password VARCHAR(255) NOT NULL,
+//  name CHAR(255) NOT NULL,
+//  gender CHAR(10) NOT NULL,
 //	PRIMARY KEY (id)
 //	)ENGINE=InnoDB DEFAULT CHARSET=utf8;
