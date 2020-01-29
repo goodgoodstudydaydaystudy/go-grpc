@@ -5,6 +5,7 @@ const (
 
 	// -1 ~ -99 Internal System error
 	ErrSys = -2 // 服务器错误, 默认错误
+	ErrDB  = -3 // 数据库错误
 
 	// -1000 ~ -1999 Account
 	ErrAccountExists = -1000 // 账号已存在
@@ -16,10 +17,11 @@ const (
 )
 
 var CodeMessageMap = map[int]string{
-	Success:          	 "成功",
-	ErrAccountExists: 	 "账号已存在",
+	Success:             "成功",
+	ErrAccountExists:    "账号已存在",
 	ErrAccountNotExists: "账号或密码错误",
 	ErrBalanceNotEnough: "余额不足",
+	ErrDB:               "数据库错误",
 }
 
 // MessageFromCode get message associated with the code

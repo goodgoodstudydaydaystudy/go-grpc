@@ -24,7 +24,7 @@ func NewAccountServer() (*server, error) {
 // server的注册功能
 // 返回"已注册"的错误信息
 // 返回给用户的注册id
-// TODO 把 req 传给 db，就不用把所有 变量名拆出来了吧
+// 把 req 传给 db, 是偷懒的做法, 但是确实是最有效的, 可以这么做
 func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.RegisterResp, error) {
 	err := s.db.InsertInfo(req)
 	if err != nil {
@@ -32,18 +32,18 @@ func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.Regis
 		return &rpb.RegisterResp{}, protocol.NewServerError(-1000)
 	}
 	userId, _, _, err := s.db.QueryInfo(req.GetAccount())
-	return &rpb.RegisterResp{UserId:userId}, nil
+	return &rpb.RegisterResp{UserId: userId}, nil
 }
 
 // 登录功能
 func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (*rpb.LoginResp, error) {
 	_, dbPassword, userName, err := s.db.QueryInfo(req.GetAccount())
 	log.Printf("server userName: %v", userName)
-	log.Println("server login err: ", err)  // nil
+	log.Println("server login err: ", err) // nil
 	isResult := dbPassword != req.GetPassword()
 	if err != nil || isResult {
 		log.Println("server login failed: ", err)
 		return &rpb.LoginResp{}, protocol.NewServerError(-1001)
 	}
-	return &rpb.LoginResp{Name:userName}, nil
+	return &rpb.LoginResp{Name: userName}, nil
 }

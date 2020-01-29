@@ -7,15 +7,29 @@ service Account {
     rpc Login(LoginReq) returns (LoginResp) {}
 }
 
+enum Gender {
+    UNKNOWN = 0;
+    FEMALE = 1;
+    MALE = 2;
+}
+
 message RegisterReq {
     string account = 1;
     string password = 2;
     string name = 3;
-    string gender = 4;
+    Gender gender = 4; // 这类离散类型的值, 或者说枚举类型, 应该用enum类型或者用int类型, 不要用string
 }
 
 message RegisterResp {
     int32 user_id = 1;
+}
+
+// User信息, 应当在登录成功后返回给client, 需要给client知道的信息就往这里面加
+message UserInfo {
+    uint32 user_id = 1;
+    string account = 2;
+    string nickname = 3;
+    Gender gender = 4;
 }
 
 message LoginReq {
@@ -24,6 +38,5 @@ message LoginReq {
 }
 
 message LoginResp {
-    string name = 1;
-    string gender = 2;
+    UserInfo user_info = 1;
 }
