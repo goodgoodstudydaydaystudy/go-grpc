@@ -31,19 +31,21 @@ func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.Regis
 		log.Println("db.insert failed: ", err)
 		return &rpb.RegisterResp{}, protocol.NewServerError(-1000)
 	}
-	userId, _, _, err := s.db.QueryInfo(req.GetAccount())
+	userId, _, err := s.db.QueryInfo(req.GetAccount())
 	return &rpb.RegisterResp{UserId: userId}, nil
 }
 
 // 登录功能
 func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (*rpb.LoginResp, error) {
-	_, dbPassword, userName, err := s.db.QueryInfo(req.GetAccount())
-	log.Printf("server userName: %v", userName)
-	log.Println("server login err: ", err) // nil
+	userId, dbPassword, err := s.db.QueryInfo(req.GetAccount())
+	//log.Printf("server userName: %v", userName)
+	//log.Println("server login err: ", err) // nil
+	queryId := uint32(userId)
+	userInfo, err := s.db.GetUserById(queryId)
 	isResult := dbPassword != req.GetPassword()
 	if err != nil || isResult {
 		log.Println("server login failed: ", err)
 		return &rpb.LoginResp{}, protocol.NewServerError(-1001)
 	}
-	return &rpb.LoginResp{Name: userName}, nil
+	return &rpb.LoginResp{UserInfo:userInfo}, nil
 }

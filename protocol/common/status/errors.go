@@ -9,7 +9,6 @@ const (
 
 	// -1000 ~ -1999 Account
 	ErrAccountExists = -1000 // 账号已存在
-
 	ErrAccountNotExists = -1001 //账号或密码错误
 
 	// -2000 ~ -2999 Pay

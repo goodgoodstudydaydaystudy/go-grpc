@@ -41,7 +41,7 @@ func (c *accountMysql) InsertInfo(req *rpb.RegisterReq) error {
 }
 
 // 查询
-func (c *accountMysql) QueryInfo(account string) (int32, string, string, error) {
+func (c *accountMysql) QueryInfo(account string) (int32, string, error) {
 	rows := c.conn.QueryRow("SELECT * FROM t_member WHERE account=?", account)
 	var (
 		id       int
@@ -51,10 +51,10 @@ func (c *accountMysql) QueryInfo(account string) (int32, string, string, error) 
 	err := rows.Scan(&id, &name, &password, &account)
 	if err != nil {
 		log.Println(err)
-		return 0, "", "", nil
+		return 0, "", nil
 	}
 	outputId := int32(id)
-	return outputId, password, name, nil
+	return outputId, password,  nil
 }
 
 // 通常来说, 查用户都是用uid查询, 用account查询也可以, 就必须在数据库中给account这个字段添加索引, 不然查找很慢

@@ -3,6 +3,7 @@ package dao
 import (
 	"fmt"
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
+	account "goodgoodstudy.com/go-grpc/pkg/server/account/dao/entity"
 
 	"goodgoodstudy.com/go-grpc/pkg/procotol"
 	"goodgoodstudy.com/go-grpc/pkg/server/account/dao/mysql"
@@ -10,7 +11,8 @@ import (
 
 type AccountDao interface {
 	InsertInfo(req *rpb.RegisterReq) error
-	QueryInfo(account string) (int32, string, string, error)
+	QueryInfo(account string) (int32, string, error)
+	GetUserById(userId uint32) (*account.UserInfo, error)
 }
 
 func NewAccountDao(dbType string) (AccountDao, error) {
