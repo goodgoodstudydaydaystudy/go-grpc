@@ -10,6 +10,7 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
 
 日记：
 1、将用户信息以结构体的形式封装传递，便于对用户信息的增删
+2、数据库返回的error内容也应该经过拦截器
 
 
 - [x] 规范命名
