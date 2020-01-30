@@ -14,6 +14,10 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
 
 2、数据库返回的error内容也应该经过拦截器，处理匹配错误信息。
 
+3、期初认为通过sql的error判断具体错误（如密码错或账号错），实际上单独查询密码或者账号，单独核对，就可以简单完成这个功能了。
+
+4、“映射”不仅仅是map的形式。
+
 
 - [x] 规范命名
 - [x] 简单了解client和server的拦截器
