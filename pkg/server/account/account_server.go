@@ -2,6 +2,7 @@ package account
 
 import (
 	"context"
+	"goodgoodstudy.com/go-grpc/protocol/common/status"
 	"log"
 
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
@@ -32,7 +33,7 @@ func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.Regis
 	err := s.db.Register(req)
 	if err != nil {
 		log.Println("db.insert failed: ", err)
-		return resp, protocol.ToServerError(err) // TODO 错误码不要hard code
+		return resp, protocol.NewServerError(status.ErrAccountExists) // TODO 错误码不要hard code
 	}
 	userInfo, err := s.db.GetUserByAccount(req.GetAccount())
 	if err != nil {
@@ -51,7 +52,7 @@ func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (resp *rpb.LoginR
 	}
 
 	if req.GetPassword() != pwd {
-		err = protocol.NewServerError(-1002) //  自己把密码错误的错误码加进去status
+		err = protocol.NewServerError(status.ErrPasswordError) //  自己把密码错误的错误码加进去status
 		log.Printf("Login: user account %s password wrong\n", req.GetAccount())
 		return
 	}
