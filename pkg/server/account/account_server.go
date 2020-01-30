@@ -28,31 +28,44 @@ func NewAccountServer() (*server, error) {
 // 返回给用户的注册id
 // 把 req 传给 db, 是偷懒的做法, 但是确实是最有效的, 可以这么做
 func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.RegisterResp, error) {
+	resp := &rpb.RegisterResp{}
 	err := s.db.InsertInfo(req)
 	if err != nil {
 		log.Println("db.insert failed: ", err)
-		return &rpb.RegisterResp{}, protocol.NewServerError(-1000)
+		return resp, protocol.NewServerError(-1000) // TODO 错误码不要hard code
 	}
-	userId, _, err := s.db.QueryInfo(req.GetAccount())
-	return &rpb.RegisterResp{UserId: userId}, nil
+	userInfo, err := s.db.QueryInfo(req.GetAccount())
+	if err != nil {
+		log.Println("Register: GetUserByAccount failed:", err)
+		return resp, err
+	}
+	return &rpb.RegisterResp{UserId: userInfo.UserID}, nil // TODO pb改成uint32
 }
 
 // 登录功能
-func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (*rpb.LoginResp, error) {
-	userId, dbPassword, err := s.db.QueryInfo(req.GetAccount())
-	//log.Printf("server userName: %v", userName)
-	//log.Println("server login err: ", err) // nil
-	queryId := uint32(userId)
-	userInfo, err := account.NewUserInfoToResp(queryId, s.db)
+func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (resp *rpb.LoginResp, err error) {
+	resp = &rpb.LoginResp{} // 这个东西不能返回nil, 所以一开始初始化了, 省的麻烦
+	pwd, err := s.db.GetUserPasswordByAccount(req.GetAccount())
 	if err != nil {
-		log.Println("newUserInfo failed: ", err)
+		return
 	}
 
-	isResult := dbPassword != req.GetPassword()
-	if err != nil || isResult {
-		log.Println("server login failed: ", err)
-		return &rpb.LoginResp{}, protocol.NewServerError(-1001)
+	if req.GetPassword() != pwd {
+		err = protocol.NewServerError(-1002) // TODO 自己把密码错误的错误码加进去status
+		log.Printf("Login: user account %s password wrong\n", req.GetAccount())
+		return
 	}
-	return &rpb.LoginResp{UserInfo:userInfo}, nil
+
+	// 嫌麻烦的话可以用GetUserByAccount一次性查出user所有信息, 包括密码, 但是要注意密码不要包含在UserInfo结构体里面, 不能返回给client
+	// 就不用查两次
+
+	userInfo, err := s.db.QueryInfo(req.GetAccount())
+	if err != nil {
+		log.Println("GetUserByAccount failed:", err)
+		return
+	}
+
+	return &rpb.LoginResp{
+		UserInfo: account.UserInfoToPb(userInfo),
+	}, nil
 }
-

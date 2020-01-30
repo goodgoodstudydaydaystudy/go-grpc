@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"database/sql"
 	_ "database/sql/driver"
 	"log"
 
@@ -23,6 +24,7 @@ func NewAccountMysql() (*accountMysql, error) {
 	db, err := sqlx.Connect("mysql", "root:8918112lu@/goodStudy")
 	if err != nil {
 		log.Println("DB open failed: ", err)
+		return nil, err
 	}
 	return &accountMysql{
 		conn: db,
@@ -30,42 +32,61 @@ func NewAccountMysql() (*accountMysql, error) {
 }
 
 // 写入't_member'table
-func (c *accountMysql) InsertInfo(req *rpb.RegisterReq) error {
+// TODO 这里应该改名叫Register, 函数名要有辨识性, InsertInfo, 什么Info?
+func (c *accountMysql) InsertInfo(req *rpb.RegisterReq) protocol.ServerError {
 	accountInfo := "INSERT INTO t_member(account, password, name, gender) VALUE (?, ?, ?, ?)"
 	_, err := c.conn.Exec(accountInfo, req.GetAccount(), req.GetPassword(), req.Name, req.GetGender())
 	if err != nil {
 		log.Println("account insert failed: ", err)
-		return err
+		return protocol.NewServerError(status.ErrDB)
 	}
 	return nil
 }
 
-// 查询
-func (c *accountMysql) QueryInfo(account string) (int32, string, error) {
-	rows := c.conn.QueryRow("SELECT * FROM t_member WHERE account=?", account)
-	var (
-		id       int
-		password string
-		name     string
-	)
-	err := rows.Scan(&id, &name, &password, &account)
-	if err != nil {
-		log.Println(err)
-		return 0, "", nil
+func (c *accountMysql) GetUserPasswordByAccount(acc string) (string, protocol.ServerError) {
+	row := c.conn.QueryRow("SELECT password from t_member where account=?", acc)
+
+	var pwd string
+	err := row.Scan(&pwd)
+	if err == sql.ErrNoRows {
+		return "", protocol.NewServerError(status.ErrAccountNotExists)
 	}
-	outputId := int32(id)
-	return outputId, password,  nil
+
+	if err != nil {
+		return "", protocol.NewServerError(status.ErrDB)
+	}
+
+	return pwd, nil
+}
+
+// 查询
+// TODO 应该改名叫GetUserByAccount
+func (c *accountMysql) QueryInfo(acc string) (*account.UserInfo, protocol.ServerError) {
+	userInfo := &account.UserInfo{}
+	err := c.conn.Get(userInfo, "SELECT * FROM t_member WHERE account=?", acc)
+	if err == sql.ErrNoRows {
+		return nil, protocol.NewServerError(status.ErrAccountNotExists)
+	}
+
+	if err != nil {
+		return nil, protocol.NewServerError(status.ErrDB)
+	}
+	return userInfo, nil
 }
 
 // 通常来说, 查用户都是用uid查询, 用account查询也可以, 就必须在数据库中给account这个字段添加索引, 不然查找很慢
-func (c *accountMysql) GetUserById(userId uint32) (*account.UserInfo, error) {
+func (c *accountMysql) GetUserById(userId uint32) (*account.UserInfo, protocol.ServerError) {
 	userInfo := &account.UserInfo{}
 	err := c.conn.Get(userInfo, "SELECT * from t_member WHERE id=?", userId) // 这里用了反射, 看UserInfo结构体后面的tag; 通常select *都用这个来查询; 除非遇到只查一两个字段的, 就用Scan
+	if err == sql.ErrNoRows {
+		return nil, protocol.NewServerError(status.ErrAccountNotExists)
+	}
+
 	if err != nil {
 		return nil, protocol.NewServerError(status.ErrDB) // TODO 这里要换成真正的错误, 比如判断是不是用户不存在, 还是数据库连接不上
 	}
 
-	return userInfo, err
+	return userInfo, nil
 }
 
 // mysql goodStudy -uroot -p8918112lu;
