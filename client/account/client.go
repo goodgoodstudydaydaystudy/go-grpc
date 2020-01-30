@@ -3,11 +3,11 @@ package client
 import (
 	"context"
 	_ "database/sql"
-	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/client"
 	"log"
 
 	"google.golang.org/grpc"
 
+	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/client"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	"goodgoodstudy.com/go-grpc/pkg/procotol"
 	md "goodgoodstudy.com/go-grpc/pkg/utils"
@@ -55,13 +55,23 @@ func (c *accountClient) Register(ctx context.Context, req *pb.RegisterReq) (*pb.
 }
 
 // 登录信息
-func (c *accountClient) Login(ctx context.Context, account string, password string) (*pb.LoginResp, protocol.ServerError) {
-	md5Password := md.Encryption(password)
-	req := &pb.LoginReq{Account: account, Password: md5Password}
+func (c *accountClient) Login(ctx context.Context, req *pb.LoginReq) (*pb.LoginResp, protocol.ServerError) {
+	md5Password := md.Encryption(req.Password)
+	req = &pb.LoginReq{Account: req.Account, Password: md5Password}
 	resp, err := c.cli.Login(ctx, req)
 	if err != nil {
 		log.Println("cli.LogIn failed:, ", err)
 		return resp, protocol.ToServerError(err)
+	}
+	return resp, nil
+}
+
+// 查询user
+func (c *accountClient) Query(ctx context.Context, req *pb.QueryUserReq) (*pb.QueryUserResp, protocol.ServerError) {
+	resp, err := c.cli.Query(ctx, req)
+	if err != nil {
+		log.Println("client query failed: ", err)
+		return nil, protocol.ToServerError(err)
 	}
 	return resp, nil
 }

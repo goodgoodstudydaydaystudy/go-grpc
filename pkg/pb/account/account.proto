@@ -5,6 +5,7 @@ package account;
 service Account {
     rpc Register(RegisterReq) returns (RegisterResp) {}
     rpc Login(LoginReq) returns (LoginResp) {}
+    rpc Query(QueryUserReq) returns (QueryUserResp) {}
 }
 
 enum Gender {
@@ -39,4 +40,12 @@ message LoginReq {
 
 message LoginResp {
     UserInfo user_info = 1;
+}
+
+message QueryUserReq {
+    string account = 1;
+}
+
+message QueryUserResp {
+    UserInfo query_user = 1;
 }

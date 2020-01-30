@@ -32,8 +32,8 @@ func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.Regis
 	resp := &rpb.RegisterResp{}
 	err := s.db.Register(req)
 	if err != nil {
-		log.Println("db.insert failed: ", err)
-		return resp, protocol.NewServerError(status.ErrAccountExists) // TODO 错误码不要hard code
+		log.Println("db.register failed: ", err)
+		return resp, protocol.NewServerError(status.ErrAccountExists) // 错误码不要hard code
 	}
 	userInfo, err := s.db.GetUserByAccount(req.GetAccount())
 	if err != nil {
@@ -68,5 +68,22 @@ func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (resp *rpb.LoginR
 
 	return &rpb.LoginResp{
 		UserInfo: account.UserInfoToPb(userInfo),
+	}, nil
+}
+
+// 查询
+func (s *server) Query(ctx context.Context, req *rpb.QueryUserReq) (resp *rpb.QueryUserResp, err error) {
+	resp = &rpb.QueryUserResp{}
+	user, err := s.db.GetUserByAccount(req.GetAccount())
+	if err != nil {
+		return
+	}
+
+	if user == nil {
+		return resp, protocol.NewServerError(status.ErrAccountNotExists)
+	}
+
+	return &rpb.QueryUserResp{
+		QueryUser: account.UserInfoToPb(user),
 	}, nil
 }
