@@ -8,10 +8,9 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
  ```
  Q: OrderId明明是ConsumeResp结构体里面的方法，怎么会引出consumeReq结构体和里面的字段唉
 
-2020/1/7
-```
-Client的方法，不知道对不对。
-```
+日记：
+1、将用户信息以结构体的形式封装传递，便于对用户信息的增删
+
 
 - [x] 规范命名
 - [x] 简单了解client和server的拦截器
