@@ -29,17 +29,17 @@ func NewAccountServer() (*server, error) {
 // 把 req 传给 db, 是偷懒的做法, 但是确实是最有效的, 可以这么做
 func (s *server) Register(ctx context.Context, req *rpb.RegisterReq) (*rpb.RegisterResp, error) {
 	resp := &rpb.RegisterResp{}
-	err := s.db.InsertInfo(req)
+	err := s.db.Register(req)
 	if err != nil {
 		log.Println("db.insert failed: ", err)
-		return resp, protocol.NewServerError(-1000) // TODO 错误码不要hard code
+		return resp, protocol.ToServerError(err) // TODO 错误码不要hard code
 	}
-	userInfo, err := s.db.QueryInfo(req.GetAccount())
+	userInfo, err := s.db.GetUserByAccount(req.GetAccount())
 	if err != nil {
 		log.Println("Register: GetUserByAccount failed:", err)
 		return resp, err
 	}
-	return &rpb.RegisterResp{UserId: userInfo.UserID}, nil // TODO pb改成uint32
+	return &rpb.RegisterResp{UserId: userInfo.UserID}, nil // pb改成uint32
 }
 
 // 登录功能
@@ -51,7 +51,7 @@ func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (resp *rpb.LoginR
 	}
 
 	if req.GetPassword() != pwd {
-		err = protocol.NewServerError(-1002) // TODO 自己把密码错误的错误码加进去status
+		err = protocol.NewServerError(-1002) //  自己把密码错误的错误码加进去status
 		log.Printf("Login: user account %s password wrong\n", req.GetAccount())
 		return
 	}
@@ -59,7 +59,7 @@ func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (resp *rpb.LoginR
 	// 嫌麻烦的话可以用GetUserByAccount一次性查出user所有信息, 包括密码, 但是要注意密码不要包含在UserInfo结构体里面, 不能返回给client
 	// 就不用查两次
 
-	userInfo, err := s.db.QueryInfo(req.GetAccount())
+	userInfo, err := s.db.GetUserByAccount(req.GetAccount())
 	if err != nil {
 		log.Println("GetUserByAccount failed:", err)
 		return

@@ -32,8 +32,8 @@ func NewAccountMysql() (*accountMysql, error) {
 }
 
 // 写入't_member'table
-// TODO 这里应该改名叫Register, 函数名要有辨识性, InsertInfo, 什么Info?
-func (c *accountMysql) InsertInfo(req *rpb.RegisterReq) protocol.ServerError {
+// 改名叫Register, 函数名要有辨识性, InsertInfo, 什么Info?
+func (c *accountMysql) Register(req *rpb.RegisterReq) protocol.ServerError {
 	accountInfo := "INSERT INTO t_member(account, password, name, gender) VALUE (?, ?, ?, ?)"
 	_, err := c.conn.Exec(accountInfo, req.GetAccount(), req.GetPassword(), req.Name, req.GetGender())
 	if err != nil {
@@ -47,7 +47,7 @@ func (c *accountMysql) GetUserPasswordByAccount(acc string) (string, protocol.Se
 	row := c.conn.QueryRow("SELECT password from t_member where account=?", acc)
 
 	var pwd string
-	err := row.Scan(&pwd)
+	err := row.Scan(&pwd)	// 通过scan获得row里面的数据
 	if err == sql.ErrNoRows {
 		return "", protocol.NewServerError(status.ErrAccountNotExists)
 	}
@@ -60,8 +60,8 @@ func (c *accountMysql) GetUserPasswordByAccount(acc string) (string, protocol.Se
 }
 
 // 查询
-// TODO 应该改名叫GetUserByAccount
-func (c *accountMysql) QueryInfo(acc string) (*account.UserInfo, protocol.ServerError) {
+// 改名叫GetUserByAccount
+func (c *accountMysql) GetUserByAccount(acc string) (*account.UserInfo, protocol.ServerError) {
 	userInfo := &account.UserInfo{}
 	err := c.conn.Get(userInfo, "SELECT * FROM t_member WHERE account=?", acc)
 	if err == sql.ErrNoRows {
@@ -78,12 +78,12 @@ func (c *accountMysql) QueryInfo(acc string) (*account.UserInfo, protocol.Server
 func (c *accountMysql) GetUserById(userId uint32) (*account.UserInfo, protocol.ServerError) {
 	userInfo := &account.UserInfo{}
 	err := c.conn.Get(userInfo, "SELECT * from t_member WHERE id=?", userId) // 这里用了反射, 看UserInfo结构体后面的tag; 通常select *都用这个来查询; 除非遇到只查一两个字段的, 就用Scan
-	if err == sql.ErrNoRows {
+	if err == sql.ErrNoRows {	// 通过sql的查询err判定。
 		return nil, protocol.NewServerError(status.ErrAccountNotExists)
 	}
 
 	if err != nil {
-		return nil, protocol.NewServerError(status.ErrDB) // TODO 这里要换成真正的错误, 比如判断是不是用户不存在, 还是数据库连接不上
+		return nil, protocol.NewServerError(status.ErrDB) // 这里要换成真正的错误, 比如判断是不是用户不存在, 还是数据库连接不上
 	}
 
 	return userInfo, nil
