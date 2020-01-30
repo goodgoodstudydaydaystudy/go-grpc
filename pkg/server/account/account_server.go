@@ -2,10 +2,12 @@ package account
 
 import (
 	"context"
+	"log"
+
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	"goodgoodstudy.com/go-grpc/pkg/server/account/dao"
-	"log"
+	account "goodgoodstudy.com/go-grpc/pkg/server/account/dao/entity"
 )
 
 type server struct {
@@ -41,7 +43,11 @@ func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (*rpb.LoginResp, 
 	//log.Printf("server userName: %v", userName)
 	//log.Println("server login err: ", err) // nil
 	queryId := uint32(userId)
-	userInfo, err := s.db.GetUserById(queryId)
+	userInfo, err := account.NewUserInfoToResp(queryId, s.db)
+	if err != nil {
+		log.Println("newUserInfo failed: ", err)
+	}
+
 	isResult := dbPassword != req.GetPassword()
 	if err != nil || isResult {
 		log.Println("server login failed: ", err)
@@ -49,3 +55,4 @@ func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (*rpb.LoginResp, 
 	}
 	return &rpb.LoginResp{UserInfo:userInfo}, nil
 }
+
