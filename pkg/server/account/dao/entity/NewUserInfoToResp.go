@@ -8,8 +8,9 @@ import (
 func NewUserInfoToResp(queryId uint32, db dao.AccountDao) (*rpb.UserInfo, error) {
 	userInfo, err := db.GetUserById(queryId)
 	return &rpb.UserInfo{
-		UserId:               userInfo.UserID,
-		Account:              userInfo.Account,
-		Nickname:             userInfo.Nickname,
+		UserId:         userInfo.UserID,
+		Account:        userInfo.Account,
+		Nickname:       userInfo.Nickname,
+		Gender:			userInfo.Gender,
 	}, err
 }
