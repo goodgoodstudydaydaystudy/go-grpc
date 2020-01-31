@@ -61,10 +61,7 @@ func testAllFeature(n int) (interface{}, protocol.ServerError) {
 		resp, se := cli.Login(ctx, &pb.LoginReq{Account:"test01", Password:"123456"}) // 这里se命名为err的话将不能调用err.Code(); 因为上面err已经被推断为普通error类型了
 		return resp, se
 	case 2:
-		resp, se := cli.Query(ctx, &pb.QueryUserReq{Account:"test01"})
-		return resp, se
-	case 3:
-		resp, se := cli.Query(ctx, &pb.QueryUserReq{UserId:9})
+		resp, se := cli.GetUserByAccount(ctx, &pb.QueryByAccount{Account:"test01"})
 		return resp, se
 	default:
 		return nil, nil

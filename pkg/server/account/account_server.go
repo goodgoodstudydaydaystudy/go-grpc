@@ -72,34 +72,33 @@ func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (resp *rpb.LoginR
 }
 
 // 查询
-func (s *server) Query(ctx context.Context, req *rpb.QueryUserReq) (resp *rpb.QueryUserResp, err error) {
-	resp = &rpb.QueryUserResp{}
-	var user *account.UserInfo
+// 通过 account 查询
+func (s *server) GetUserByAccount(ctx context.Context, req *rpb.QueryByAccount) (resp *rpb.UserInfo, err error) {
+	resp = &rpb.UserInfo{}
+	user, err := s.db.GetUserByAccount(req.GetAccount())
+	if err != nil {
+		log.Println("server GetUserByAccount failed: ", err)
+	}
+	if user == nil {
+		err = protocol.NewServerError(status.ErrAccountNotExists)
+		return
+	}
 
-	switch queryLen := len(req.GetAccount()); queryLen {
-	case 0:
-		user, err = s.db.GetUserById(req.GetUserId())
-		if err != nil {
-			return
-		}
-		if user == nil {
-			err = protocol.NewServerError(status.ErrAccountNotExists)
-			return
-		}
-		return &rpb.QueryUserResp{
-			GetUser:account.UserInfoToPb(user),
-		}, nil
-	default:
-		user, err = s.db.GetUserByAccount(req.GetAccount())
-		if err != nil {
-			return
-		}
-		if user == nil {
-			err = protocol.NewServerError(status.ErrAccountNotExists)
-			return
-		}
-		return &rpb.QueryUserResp{
-			GetUser:account.UserInfoToPb(user),
-		}, nil
-		}
+	return account.UserInfoToPb(user), nil
 }
+
+
+func (s *server) GetUserByUserId(ctx context.Context, req *rpb.QueryById) (resp *rpb.UserInfo, err error) {
+	resp = &rpb.UserInfo{}
+	user, err := s.db.GetUserById(req.GetUserId())
+	if err != nil {
+		log.Println("server GetUserById failed: ", err)
+	}
+	if user == nil {
+		err = protocol.NewServerError(status.ErrAccountNotExists)
+		return
+	}
+
+	return account.UserInfoToPb(user), nil
+}
+

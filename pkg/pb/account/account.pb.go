@@ -304,90 +304,82 @@ func (m *LoginResp) GetUserInfo() *UserInfo {
 	return nil
 }
 
-type QueryUserReq struct {
-	UserId               uint32   `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Account              string   `protobuf:"bytes,2,opt,name=account,proto3" json:"account,omitempty"`
+type QueryByAccount struct {
+	Account              string   `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *QueryUserReq) Reset()         { *m = QueryUserReq{} }
-func (m *QueryUserReq) String() string { return proto.CompactTextString(m) }
-func (*QueryUserReq) ProtoMessage()    {}
-func (*QueryUserReq) Descriptor() ([]byte, []int) {
+func (m *QueryByAccount) Reset()         { *m = QueryByAccount{} }
+func (m *QueryByAccount) String() string { return proto.CompactTextString(m) }
+func (*QueryByAccount) ProtoMessage()    {}
+func (*QueryByAccount) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8e28828dcb8d24f0, []int{5}
 }
 
-func (m *QueryUserReq) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_QueryUserReq.Unmarshal(m, b)
+func (m *QueryByAccount) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_QueryByAccount.Unmarshal(m, b)
 }
-func (m *QueryUserReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_QueryUserReq.Marshal(b, m, deterministic)
+func (m *QueryByAccount) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_QueryByAccount.Marshal(b, m, deterministic)
 }
-func (m *QueryUserReq) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryUserReq.Merge(m, src)
+func (m *QueryByAccount) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryByAccount.Merge(m, src)
 }
-func (m *QueryUserReq) XXX_Size() int {
-	return xxx_messageInfo_QueryUserReq.Size(m)
+func (m *QueryByAccount) XXX_Size() int {
+	return xxx_messageInfo_QueryByAccount.Size(m)
 }
-func (m *QueryUserReq) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryUserReq.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_QueryUserReq proto.InternalMessageInfo
-
-func (m *QueryUserReq) GetUserId() uint32 {
-	if m != nil {
-		return m.UserId
-	}
-	return 0
+func (m *QueryByAccount) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryByAccount.DiscardUnknown(m)
 }
 
-func (m *QueryUserReq) GetAccount() string {
+var xxx_messageInfo_QueryByAccount proto.InternalMessageInfo
+
+func (m *QueryByAccount) GetAccount() string {
 	if m != nil {
 		return m.Account
 	}
 	return ""
 }
 
-type QueryUserResp struct {
-	GetUser              *UserInfo `protobuf:"bytes,1,opt,name=get_user,json=getUser,proto3" json:"get_user,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
-	XXX_unrecognized     []byte    `json:"-"`
-	XXX_sizecache        int32     `json:"-"`
+type QueryById struct {
+	UserId               uint32   `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *QueryUserResp) Reset()         { *m = QueryUserResp{} }
-func (m *QueryUserResp) String() string { return proto.CompactTextString(m) }
-func (*QueryUserResp) ProtoMessage()    {}
-func (*QueryUserResp) Descriptor() ([]byte, []int) {
+func (m *QueryById) Reset()         { *m = QueryById{} }
+func (m *QueryById) String() string { return proto.CompactTextString(m) }
+func (*QueryById) ProtoMessage()    {}
+func (*QueryById) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8e28828dcb8d24f0, []int{6}
 }
 
-func (m *QueryUserResp) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_QueryUserResp.Unmarshal(m, b)
+func (m *QueryById) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_QueryById.Unmarshal(m, b)
 }
-func (m *QueryUserResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_QueryUserResp.Marshal(b, m, deterministic)
+func (m *QueryById) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_QueryById.Marshal(b, m, deterministic)
 }
-func (m *QueryUserResp) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryUserResp.Merge(m, src)
+func (m *QueryById) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryById.Merge(m, src)
 }
-func (m *QueryUserResp) XXX_Size() int {
-	return xxx_messageInfo_QueryUserResp.Size(m)
+func (m *QueryById) XXX_Size() int {
+	return xxx_messageInfo_QueryById.Size(m)
 }
-func (m *QueryUserResp) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryUserResp.DiscardUnknown(m)
+func (m *QueryById) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryById.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_QueryUserResp proto.InternalMessageInfo
+var xxx_messageInfo_QueryById proto.InternalMessageInfo
 
-func (m *QueryUserResp) GetGetUser() *UserInfo {
+func (m *QueryById) GetUserId() uint32 {
 	if m != nil {
-		return m.GetUser
+		return m.UserId
 	}
-	return nil
+	return 0
 }
 
 func init() {
@@ -397,38 +389,38 @@ func init() {
 	proto.RegisterType((*UserInfo)(nil), "account.UserInfo")
 	proto.RegisterType((*LoginReq)(nil), "account.LoginReq")
 	proto.RegisterType((*LoginResp)(nil), "account.LoginResp")
-	proto.RegisterType((*QueryUserReq)(nil), "account.QueryUserReq")
-	proto.RegisterType((*QueryUserResp)(nil), "account.QueryUserResp")
+	proto.RegisterType((*QueryByAccount)(nil), "account.QueryByAccount")
+	proto.RegisterType((*QueryById)(nil), "account.QueryById")
 }
 
 func init() { proto.RegisterFile("account.proto", fileDescriptor_8e28828dcb8d24f0) }
 
 var fileDescriptor_8e28828dcb8d24f0 = []byte{
-	// 370 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x53, 0xc1, 0x4a, 0xeb, 0x40,
-	0x14, 0x6d, 0xfa, 0xda, 0x64, 0x7a, 0xdb, 0xbe, 0xd7, 0x77, 0x79, 0x4f, 0x43, 0x56, 0x65, 0x36,
-	0x2d, 0x2a, 0x45, 0xea, 0x46, 0x11, 0xc1, 0x2e, 0xaa, 0x88, 0xb5, 0x62, 0xa0, 0xb8, 0x2c, 0xb5,
-	0x99, 0x86, 0x20, 0xce, 0xc4, 0x4c, 0x82, 0xb8, 0x13, 0xbf, 0xc8, 0x4f, 0x94, 0x99, 0x26, 0x69,
-	0xd0, 0x16, 0xd4, 0xdd, 0x3d, 0xe7, 0xe6, 0xde, 0x39, 0xe7, 0x4c, 0x06, 0x9a, 0xb3, 0xf9, 0x5c,
-	0x24, 0x3c, 0xee, 0x85, 0x91, 0x88, 0x05, 0x5a, 0x29, 0xa4, 0x2f, 0x06, 0xd4, 0x5d, 0xe6, 0x07,
-	0x32, 0x66, 0x91, 0xcb, 0x1e, 0xd1, 0x86, 0xac, 0x65, 0x1b, 0x6d, 0xa3, 0x5b, 0x73, 0x33, 0x88,
-	0x0e, 0x90, 0x70, 0x26, 0xe5, 0x93, 0x88, 0x3c, 0xbb, 0xac, 0x5b, 0x39, 0x46, 0x84, 0x0a, 0x9f,
-	0x3d, 0x30, 0xfb, 0x97, 0xe6, 0x75, 0x8d, 0x1d, 0x30, 0x7d, 0xc6, 0x3d, 0x16, 0xd9, 0x95, 0xb6,
-	0xd1, 0xfd, 0xdd, 0xff, 0xd3, 0xcb, 0x24, 0x9c, 0x6b, 0xda, 0x4d, 0xdb, 0xb4, 0x03, 0x8d, 0x95,
-	0x02, 0x19, 0xe2, 0x36, 0x58, 0x89, 0x64, 0xd1, 0x34, 0xf0, 0xb4, 0x84, 0xa6, 0x6b, 0x2a, 0x78,
-	0xe1, 0xd1, 0x57, 0x03, 0xc8, 0x44, 0x95, 0x7c, 0x21, 0x36, 0x7e, 0x55, 0x74, 0x50, 0xfe, 0xe4,
-	0x80, 0x07, 0xf3, 0xfb, 0x82, 0xd2, 0x1c, 0x7f, 0x5d, 0xed, 0x29, 0x90, 0x91, 0xf0, 0x03, 0xfe,
-	0xe3, 0xb0, 0xe8, 0x31, 0xd4, 0xd2, 0x0d, 0x32, 0xc4, 0x1e, 0xd4, 0x96, 0x36, 0xf8, 0x42, 0xe8,
-	0x25, 0xf5, 0xfe, 0xdf, 0xfc, 0xe8, 0xcc, 0xac, 0x4b, 0x92, 0xb4, 0xa2, 0x03, 0x68, 0xdc, 0x24,
-	0x2c, 0x7a, 0x56, 0x2d, 0x25, 0xe1, 0xfb, 0x31, 0xd0, 0x13, 0x68, 0x16, 0x56, 0xc8, 0x10, 0xf7,
-	0x80, 0xf8, 0x2c, 0x9e, 0xaa, 0xc1, 0xcd, 0x12, 0x2c, 0x9f, 0xc5, 0x0a, 0xec, 0xec, 0x82, 0xb9,
-	0x8c, 0x04, 0xeb, 0x60, 0x4d, 0xc6, 0x97, 0xe3, 0xeb, 0xdb, 0x71, 0xab, 0x84, 0x00, 0xe6, 0xd9,
-	0xf0, 0x6a, 0x30, 0x1a, 0xb6, 0x0c, 0x24, 0x50, 0xd1, 0x55, 0xb9, 0xff, 0x66, 0x80, 0x35, 0x48,
-	0x33, 0x39, 0x02, 0x92, 0xdd, 0x33, 0xfe, 0xcb, 0x0f, 0x28, 0xfc, 0x7c, 0xce, 0xff, 0x35, 0xac,
-	0x0c, 0x69, 0x09, 0xf7, 0xa1, 0xaa, 0x23, 0xc3, 0x95, 0xb0, 0xec, 0x12, 0x1c, 0xfc, 0x48, 0xe9,
-	0x89, 0x43, 0xa8, 0x6a, 0x93, 0xb8, 0xda, 0x59, 0xcc, 0xcd, 0xd9, 0x5a, 0x47, 0xab, 0xc9, 0x3b,
-	0x53, 0xbf, 0x90, 0x83, 0xf7, 0x00, 0x00, 0x00, 0xff, 0xff, 0x09, 0x37, 0x99, 0x72, 0x32, 0x03,
-	0x00, 0x00,
+	// 375 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x53, 0xdd, 0x4b, 0x3a, 0x51,
+	0x10, 0x75, 0xfd, 0xf9, 0xdb, 0x8f, 0x31, 0x3f, 0x1a, 0x0a, 0x97, 0x7d, 0x92, 0x4b, 0xa0, 0x18,
+	0x48, 0xd8, 0x53, 0xf5, 0xa2, 0x81, 0x89, 0x64, 0x46, 0x0b, 0xd2, 0x63, 0x98, 0x7b, 0x95, 0x25,
+	0xba, 0x77, 0xdb, 0xbb, 0x4b, 0xf8, 0x16, 0xfd, 0xcd, 0xfd, 0x01, 0xe1, 0x75, 0xef, 0x6a, 0x7e,
+	0x40, 0xf4, 0x36, 0x67, 0x66, 0xee, 0xcc, 0x39, 0x67, 0x67, 0xa1, 0x30, 0x9e, 0x4c, 0x78, 0xcc,
+	0xa2, 0x66, 0x10, 0xf2, 0x88, 0xa3, 0x91, 0x40, 0xf2, 0xa1, 0x41, 0xde, 0xa5, 0x33, 0x5f, 0x44,
+	0x34, 0x74, 0xe9, 0x1b, 0xda, 0xa0, 0x4a, 0xb6, 0x56, 0xd5, 0xea, 0x96, 0xab, 0x20, 0x3a, 0x60,
+	0x06, 0x63, 0x21, 0xde, 0x79, 0xe8, 0xd9, 0x59, 0x59, 0x4a, 0x31, 0x22, 0xe4, 0xd8, 0xf8, 0x95,
+	0xda, 0xff, 0x64, 0x5e, 0xc6, 0x58, 0x03, 0x7d, 0x46, 0x99, 0x47, 0x43, 0x3b, 0x57, 0xd5, 0xea,
+	0xc5, 0x56, 0xa9, 0xa9, 0x28, 0xf4, 0x64, 0xda, 0x4d, 0xca, 0xa4, 0x06, 0x07, 0x2b, 0x06, 0x22,
+	0xc0, 0x0a, 0x18, 0xb1, 0xa0, 0xe1, 0x93, 0xef, 0x49, 0x0a, 0x05, 0x57, 0x5f, 0xc0, 0xbe, 0x47,
+	0x3e, 0x35, 0x30, 0x47, 0x8b, 0x90, 0x4d, 0xf9, 0xde, 0xae, 0x75, 0x05, 0xd9, 0x2d, 0x05, 0xcc,
+	0x9f, 0xbc, 0xac, 0x31, 0x4d, 0xf1, 0xef, 0xd9, 0xb6, 0xc1, 0x1c, 0xf0, 0x99, 0xcf, 0xfe, 0x6c,
+	0x16, 0xb9, 0x02, 0x2b, 0x99, 0x20, 0x02, 0x6c, 0x82, 0xb5, 0x94, 0xc1, 0xa6, 0x5c, 0x0e, 0xc9,
+	0xb7, 0x0e, 0xd3, 0xd5, 0x4a, 0xac, 0x6b, 0xc6, 0x49, 0x44, 0x1a, 0x50, 0x7c, 0x88, 0x69, 0x38,
+	0xbf, 0x9e, 0x77, 0x92, 0x55, 0x7b, 0x49, 0x90, 0x13, 0xb0, 0x92, 0xde, 0xbe, 0xb7, 0xd7, 0xaf,
+	0xc6, 0x29, 0xe8, 0x4b, 0x89, 0x98, 0x07, 0x63, 0x34, 0xbc, 0x1d, 0xde, 0x3f, 0x0e, 0xcb, 0x19,
+	0x04, 0xd0, 0x6f, 0xba, 0x77, 0x9d, 0x41, 0xb7, 0xac, 0xa1, 0x09, 0x39, 0x19, 0x65, 0x5b, 0x5f,
+	0x1a, 0x18, 0x6a, 0xf1, 0x05, 0x98, 0xea, 0xbb, 0xe1, 0x51, 0xca, 0x79, 0xed, 0x98, 0x9c, 0xe3,
+	0x1d, 0x59, 0x11, 0x90, 0x0c, 0x9e, 0xc1, 0x7f, 0x69, 0x01, 0xae, 0xb4, 0x2a, 0x53, 0x1d, 0xdc,
+	0x4c, 0xc9, 0x17, 0x6d, 0x28, 0xf7, 0x68, 0xb4, 0x30, 0x64, 0xa5, 0xbc, 0x92, 0x76, 0xfe, 0xb4,
+	0xc4, 0xd9, 0x76, 0x90, 0x64, 0xf0, 0x12, 0x4a, 0xe9, 0x84, 0xd1, 0xf2, 0x54, 0x70, 0x73, 0x40,
+	0xdf, 0xdb, 0xf9, 0xf6, 0x59, 0x97, 0x7f, 0xcd, 0xf9, 0x77, 0x00, 0x00, 0x00, 0xff, 0xff, 0x36,
+	0xf4, 0xcc, 0x98, 0x46, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -445,7 +437,8 @@ const _ = grpc.SupportPackageIsVersion4
 type AccountClient interface {
 	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
-	Query(ctx context.Context, in *QueryUserReq, opts ...grpc.CallOption) (*QueryUserResp, error)
+	GetUserByAccount(ctx context.Context, in *QueryByAccount, opts ...grpc.CallOption) (*UserInfo, error)
+	GetUserByUserId(ctx context.Context, in *QueryById, opts ...grpc.CallOption) (*UserInfo, error)
 }
 
 type accountClient struct {
@@ -474,9 +467,18 @@ func (c *accountClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.Ca
 	return out, nil
 }
 
-func (c *accountClient) Query(ctx context.Context, in *QueryUserReq, opts ...grpc.CallOption) (*QueryUserResp, error) {
-	out := new(QueryUserResp)
-	err := c.cc.Invoke(ctx, "/account.Account/Query", in, out, opts...)
+func (c *accountClient) GetUserByAccount(ctx context.Context, in *QueryByAccount, opts ...grpc.CallOption) (*UserInfo, error) {
+	out := new(UserInfo)
+	err := c.cc.Invoke(ctx, "/account.Account/GetUserByAccount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountClient) GetUserByUserId(ctx context.Context, in *QueryById, opts ...grpc.CallOption) (*UserInfo, error) {
+	out := new(UserInfo)
+	err := c.cc.Invoke(ctx, "/account.Account/GetUserByUserId", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -487,7 +489,8 @@ func (c *accountClient) Query(ctx context.Context, in *QueryUserReq, opts ...grp
 type AccountServer interface {
 	Register(context.Context, *RegisterReq) (*RegisterResp, error)
 	Login(context.Context, *LoginReq) (*LoginResp, error)
-	Query(context.Context, *QueryUserReq) (*QueryUserResp, error)
+	GetUserByAccount(context.Context, *QueryByAccount) (*UserInfo, error)
+	GetUserByUserId(context.Context, *QueryById) (*UserInfo, error)
 }
 
 // UnimplementedAccountServer can be embedded to have forward compatible implementations.
@@ -500,8 +503,11 @@ func (*UnimplementedAccountServer) Register(ctx context.Context, req *RegisterRe
 func (*UnimplementedAccountServer) Login(ctx context.Context, req *LoginReq) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (*UnimplementedAccountServer) Query(ctx context.Context, req *QueryUserReq) (*QueryUserResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Query not implemented")
+func (*UnimplementedAccountServer) GetUserByAccount(ctx context.Context, req *QueryByAccount) (*UserInfo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserByAccount not implemented")
+}
+func (*UnimplementedAccountServer) GetUserByUserId(ctx context.Context, req *QueryById) (*UserInfo, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserByUserId not implemented")
 }
 
 func RegisterAccountServer(s *grpc.Server, srv AccountServer) {
@@ -544,20 +550,38 @@ func _Account_Login_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Account_Query_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryUserReq)
+func _Account_GetUserByAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryByAccount)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountServer).Query(ctx, in)
+		return srv.(AccountServer).GetUserByAccount(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/account.Account/Query",
+		FullMethod: "/account.Account/GetUserByAccount",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).Query(ctx, req.(*QueryUserReq))
+		return srv.(AccountServer).GetUserByAccount(ctx, req.(*QueryByAccount))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Account_GetUserByUserId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryById)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServer).GetUserByUserId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/account.Account/GetUserByUserId",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServer).GetUserByUserId(ctx, req.(*QueryById))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -575,8 +599,12 @@ var _Account_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Account_Login_Handler,
 		},
 		{
-			MethodName: "Query",
-			Handler:    _Account_Query_Handler,
+			MethodName: "GetUserByAccount",
+			Handler:    _Account_GetUserByAccount_Handler,
+		},
+		{
+			MethodName: "GetUserByUserId",
+			Handler:    _Account_GetUserByUserId_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

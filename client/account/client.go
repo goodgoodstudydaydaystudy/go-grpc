@@ -66,12 +66,24 @@ func (c *accountClient) Login(ctx context.Context, req *pb.LoginReq) (*pb.LoginR
 	return resp, nil
 }
 
-// 查询user
-func (c *accountClient) Query(ctx context.Context, req *pb.QueryUserReq) (*pb.QueryUserResp, protocol.ServerError) {
-	resp, err := c.cli.Query(ctx, req)
+// 查询user by account
+func (c *accountClient) GetUserByAccount(ctx context.Context, req *pb.QueryByAccount) (*pb.UserInfo, protocol.ServerError) {
+	req = &pb.QueryByAccount{Account:req.Account}
+	resp, err := c.cli.GetUserByAccount(ctx, req)
 	if err != nil {
-		log.Println("client query failed: ", err)
-		return nil, protocol.ToServerError(err)
+		log.Println("client GetUserByAccount: ", err)
+		return resp, protocol.ToServerError(err)
+	}
+	return resp, nil
+}
+
+// 查询user by userId
+func (c *accountClient) GetUserByUserId(ctx context.Context, req *pb.QueryById) (*pb.UserInfo, protocol.ServerError) {
+	req = &pb.QueryById{UserId: req.UserId}
+	resp, err := c.cli.GetUserByUserId(ctx, req)
+	if err != nil {
+		log.Println("client GetUserByUserId failed: ", err)
+		return resp, protocol.ToServerError(err)
 	}
 	return resp, nil
 }
