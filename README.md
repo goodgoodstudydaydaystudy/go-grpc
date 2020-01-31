@@ -28,6 +28,7 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
 
 9、**具体外部如何调用db内的函数：db的操作函数都属于同一个结构体类型，结构体还拥有slqx.db的指针；同时不允许外部随意访问（包括db操作函数）。dao内构建了一个xxxDao的接口，以及一个NewDao()返回xxxDao接口。当外部想调用db函数，首先需要调用NewDao()，获得接口实例，通过实例访问接口内的db函数。**
 
+---
 
 - [x] 规范命名
 - [x] 简单了解client和server的拦截器
