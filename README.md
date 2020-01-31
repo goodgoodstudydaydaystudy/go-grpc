@@ -7,8 +7,10 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
 	return &pb.ConsumeResp{OrderId: consumeReq.GetItemId()}, nil
  ```
  Q: OrderId明明是ConsumeResp结构体里面的方法，怎么会引出consumeReq结构体和里面的字段唉
+ 
+ ---
 
-日记：
+### 日记：
 
 1、将用户信息以结构体的形式封装传递，便于对用户信息的增删
 
