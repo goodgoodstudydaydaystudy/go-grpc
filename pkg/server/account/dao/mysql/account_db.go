@@ -64,7 +64,7 @@ func (c *accountMysql) GetUserPasswordByAccount(acc string) (string, protocol.Se
 func (c *accountMysql) GetUserByAccount(acc string) (*account.UserInfo, protocol.ServerError) {
 	log.Println("GetUserByAccount acc: ", acc)
 	userInfo := &account.UserInfo{}
-	err := c.conn.Get(&userInfo, "SELECT * FROM t_member WHERE account=?", acc)
+	err := c.conn.Get(userInfo, "SELECT * FROM t_member WHERE account=?", acc)
 	if err == sql.ErrNoRows {
 		return nil, protocol.NewServerError(status.ErrAccountNotExists)
 	}
@@ -79,7 +79,7 @@ func (c *accountMysql) GetUserByAccount(acc string) (*account.UserInfo, protocol
 // 通常来说, 查用户都是用uid查询, 用account查询也可以, 就必须在数据库中给account这个字段添加索引, 不然查找很慢
 func (c *accountMysql) GetUserById(userId uint32) (*account.UserInfo, protocol.ServerError) {
 	userInfo := &account.UserInfo{}
-	err := c.conn.Get(&userInfo, "SELECT * from t_member WHERE id=?", userId) // 这里用了反射, 看UserInfo结构体后面的tag; 通常select *都用这个来查询; 除非遇到只查一两个字段的, 就用Scan
+	err := c.conn.Get(userInfo, "SELECT * from t_member WHERE id=?", userId) // 这里用了反射, 看UserInfo结构体后面的tag; 通常select *都用这个来查询; 除非遇到只查一两个字段的, 就用Scan
 	if err == sql.ErrNoRows {	// 通过sql的查询err判定。
 		return nil, protocol.NewServerError(status.ErrAccountNotExists)
 	}
