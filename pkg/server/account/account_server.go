@@ -74,16 +74,32 @@ func (s *server) Login(ctx context.Context, req *rpb.LoginReq) (resp *rpb.LoginR
 // 查询
 func (s *server) Query(ctx context.Context, req *rpb.QueryUserReq) (resp *rpb.QueryUserResp, err error) {
 	resp = &rpb.QueryUserResp{}
-	user, err := s.db.GetUserByAccount(req.GetAccount())
-	if err != nil {
-		return
-	}
+	var user *account.UserInfo
 
-	if user == nil {
-		return resp, protocol.NewServerError(status.ErrAccountNotExists)
-	}
-
-	return &rpb.QueryUserResp{
-		QueryUser: account.UserInfoToPb(user),
-	}, nil
+	switch queryLen := len(req.GetAccount()); queryLen {
+	case 0:
+		user, err = s.db.GetUserById(req.GetUserId())
+		if err != nil {
+			return
+		}
+		if user == nil {
+			err = protocol.NewServerError(status.ErrAccountNotExists)
+			return
+		}
+		return &rpb.QueryUserResp{
+			GetUser:account.UserInfoToPb(user),
+		}, nil
+	default:
+		user, err = s.db.GetUserByAccount(req.GetAccount())
+		if err != nil {
+			return
+		}
+		if user == nil {
+			err = protocol.NewServerError(status.ErrAccountNotExists)
+			return
+		}
+		return &rpb.QueryUserResp{
+			GetUser:account.UserInfoToPb(user),
+		}, nil
+		}
 }

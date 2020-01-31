@@ -43,9 +43,10 @@ message LoginResp {
 }
 
 message QueryUserReq {
-    string account = 1;
+    uint32 user_id = 1;
+    string account = 2;
 }
 
 message QueryUserResp {
-    UserInfo query_user = 1;
+    UserInfo get_user = 1;
 }

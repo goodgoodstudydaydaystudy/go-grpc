@@ -63,6 +63,9 @@ func testAllFeature(n int) (interface{}, protocol.ServerError) {
 	case 2:
 		resp, se := cli.Query(ctx, &pb.QueryUserReq{Account:"test01"})
 		return resp, se
+	case 3:
+		resp, se := cli.Query(ctx, &pb.QueryUserReq{UserId:9})
+		return resp, se
 	default:
 		return nil, nil
 	}
