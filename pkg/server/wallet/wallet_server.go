@@ -15,7 +15,7 @@ type server struct {
 }
 
 func NewWalletServer() (*server, error) {
-	db, err := dao.NewWalletDao("mysql")
+	db, err := dao.NewWalletDao("Mysql")
 	return &server{
 		db: db,
 	}, err
@@ -29,13 +29,13 @@ func (s *server) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.Recharg
 		return nil, protocol.NewServerError(status.ErrRechargeFailed)
 	}
 
-	userBalance, err := s.db.GetUserBalance(req.GetUserId())
-	if err != nil {
-		log.Println("server Recharge GetUserBalance failed: ", err)
-		return nil, nil
-	}
+	//userBalance, err := s.db.GetUserBalance(req.GetUserId())
+	//if err != nil {
+	//	log.Println("server Recharge GetUserBalance failed: ", err)
+	//	return nil, nil
+	//}
 	return &pb.RechargeResp{
-		Balance: userBalance,
+		Balance: 0,
 	}, nil
 }
 

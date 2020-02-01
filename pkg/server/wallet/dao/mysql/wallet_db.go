@@ -1,18 +1,20 @@
 package mysql
 
 import (
-	"goodgoodstudy.com/go-grpc/protocol/common/status"
+	_ "database/sql"
 	"log"
 	"time"
 
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/wallet"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
+	"goodgoodstudy.com/go-grpc/protocol/common/status"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 )
 
 type WalletMysql struct {
-	db *sqlx.DB
+	conn *sqlx.DB
 }
 
 func NewWalletMysql() (*WalletMysql, error) {
@@ -22,7 +24,7 @@ func NewWalletMysql() (*WalletMysql, error) {
 		return nil, err
 	}
 	return &WalletMysql{
-		db: db,
+		conn: db,
 	}, nil
 }
 
@@ -34,38 +36,40 @@ func freedConn(tx *sqlx.Tx) {
 	}
 }
 
-// 写入
+// 写入	不知道有没有上锁…
 func (c *WalletMysql)Recharge(req *pb.RechargeReq) protocol.ServerError {
-	now := time.Now()
-	nowTime := now.Format("2006-01-02 15:04:05")
-	walletInfo := "INSERT INTO t_wallet(userId, money, date) VALUE(?, ?, ?)"
 
-	tx, err := c.db.Beginx()
+	tx, err := c.conn.Beginx()
 	if err != nil {
 		log.Println("Recharge Begin error: ", err)
 		return protocol.NewServerError(status.ErrDB)
 	}
 	defer freedConn(tx)
 
-	_, err = tx.Exec(walletInfo, req.GetUserId(), req.GetCount(), nowTime)
+	now := time.Now()
+	nowTime := now.Format("2006-01-02 15:04:05")
+	walletInfo := "INSERT INTO t_wallet(userId, money, date) VALUE(?, ?, ?)"
+
+	//_, err = tx.Exec(walletInfo, req.GetUserId(), req.GetCount(), nowTime)
+	_, err = c.conn.Exec(walletInfo, req.GetUserId(), req.GetCount(), nowTime)
+	log.Printf("req.GetUserId(): %v", req.GetUserId())
 	if err != nil {
 		log.Println("Recharge insert failed: ", err)
 		return protocol.NewServerError(status.ErrDB)
 	}
-
 	return nil
 }
 
 // 查询
 func (c *WalletMysql)GetUserBalance(userId uint32) (uint64, protocol.ServerError) {
-	tx, err := c.db.Beginx()
+	tx, err := c.conn.Beginx()
 	if err != nil {
 		log.Println("GetUserBalance Begin error: ", err)
 		return 0, protocol.NewServerError(status.ErrDB)
 	}
 	freedConn(tx)
 
-	row := c.db.QueryRow("SELECT money FROM t_wallet WHERE userId=?", userId)
+	row := c.conn.QueryRow("SELECT money FROM t_wallet WHERE userId=?", userId)
 
 	var accBalance uint64
 	err = row.Scan(&accBalance)
