@@ -1,9 +1,9 @@
 package dao
 
 import (
-	"fmt"
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
 	account "goodgoodstudy.com/go-grpc/pkg/server/account/dao/entity"
+	"goodgoodstudy.com/go-grpc/protocol/common/status"
 
 	"goodgoodstudy.com/go-grpc/pkg/procotol"
 	"goodgoodstudy.com/go-grpc/pkg/server/account/dao/mysql"
@@ -25,9 +25,9 @@ func NewAccountDao(dbType string) (AccountDao, error) {
 	case "mysql":
 		return mysql.NewAccountMysql()
 	case "sqlite":
-		return nil, protocol.NewServerError(-2, "sqlite is not supported yet.")
+		return nil, protocol.NewServerError(status.ErrDBTypeNotSupport)
 	case "mongodb":
-		return nil, protocol.NewServerError(-2, "mongodb is not supported yet.")
+		return nil, protocol.NewServerError(status.ErrDBTypeNotSupport)
 	}
-	return nil, protocol.NewServerError(-2, fmt.Sprintf("wrong dbType %s", dbType))
+	return nil, protocol.NewServerError(status.ErrDBTypeNotSupport)
 }

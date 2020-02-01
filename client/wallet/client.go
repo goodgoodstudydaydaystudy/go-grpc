@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/client"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/wallet"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	"google.golang.org/grpc"
@@ -19,7 +20,7 @@ type walletClient struct {
 func NewWalletClient() (*walletClient, error) {
 	conn, err := grpc.Dial(portWallet,
 		grpc.WithInsecure(),
-	)	// TODO 拦截器
+	grpc.WithUnaryInterceptor(client.StatusCodeUnaryInterceptor))
 	if err != nil {
 		log.Println("walletClient conn failed: ", err)
 	}
@@ -35,7 +36,6 @@ func NewWalletClient() (*walletClient, error) {
 func (c *walletClient) Close() error{
 	return c.conn.Close()
 }
-
 
 
 func (c *walletClient) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.RechargeResp, protocol.ServerError){

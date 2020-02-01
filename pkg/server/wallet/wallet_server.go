@@ -15,7 +15,7 @@ type server struct {
 }
 
 func NewWalletServer() (*server, error) {
-	db, err := dao.NewWalletDao("Mysql")
+	db, err := dao.NewWalletDao("mysql")
 	return &server{
 		db: db,
 	}, err

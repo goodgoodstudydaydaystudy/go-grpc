@@ -6,6 +6,7 @@ const (
 	// -1 ~ -99 Internal System error
 	ErrSys = -2 // 服务器错误, 默认错误
 	ErrDB  = -3 // 数据库错误
+	ErrDBTypeNotSupport = -4 // 数据库类型不支持
 
 	// -1000 ~ -1999 Account
 	ErrAccountExists = -1000 // 账号已存在
@@ -28,6 +29,7 @@ var CodeMessageMap = map[int]string{
 	ErrRechargeFailed:			"充值失败",
 	ErrGetUserBalanceFailed:   	"查询余额失败",
 	ErrDB:               		"数据库错误",
+	ErrDBTypeNotSupport:		"数据库类型不支持",
 }
 
 // MessageFromCode get message associated with the code

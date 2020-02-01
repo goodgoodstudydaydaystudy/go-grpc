@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"fmt"
+	"goodgoodstudy.com/go-grpc/protocol/common/status"
 
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/wallet"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
@@ -18,10 +18,10 @@ type WalletDao interface {
 
 func NewWalletDao(dbType string) (WalletDao, error) {
 	switch dbType {
-	case "Mysql":
+	case "mysql":
 		return mysql.NewWalletMysql()
 	case "mongodb":
-		return nil, protocol.NewServerError(-2, "mongodb is not supported yet")
+		return nil, protocol.NewServerError(status.ErrDBTypeNotSupport)
 	}
-	return nil, protocol.NewServerError(-2, fmt.Sprintf("wrong type %s", dbType))
+	return nil, protocol.NewServerError(status.ErrDBTypeNotSupport)
 }

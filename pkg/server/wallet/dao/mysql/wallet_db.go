@@ -31,7 +31,7 @@ func NewWalletMysql() (*WalletMysql, error) {
 
 // Rollback
 func freedConn(tx *sqlx.Tx) {
-	err := tx.Rollback()
+	err := tx.Commit()
 	if err != nil {
 		log.Println("wallet DB error: ", err)
 	}
@@ -66,23 +66,11 @@ func (c *WalletMysql)GetUserBalance(userId uint32) (uint64, protocol.ServerError
 		log.Println("GetUserBalance Begin error: ", err)
 		return 0, protocol.NewServerError(status.ErrDB)
 	}
-	freedConn(tx)
+	freedConn(tx) // 这个好像有问题
 
 	row := c.conn.QueryRow("SELECT money FROM t_wallet WHERE userId=?", userId)
-
 	var accBalance uint64
 	err = row.Scan(&accBalance)
-	// 如果没有记录，则写入
-	if err == sql.ErrNoRows {
-		now := time.Now()
-		nowTime := now.Format("2006-01-02 15:04:05")
-		walletInfo := "INSERT INTO t_wallet(userId, money, date) VALUE(?, ?, ?)"
-		_, err = c.conn.Exec(walletInfo, userId, 0, nowTime)
-		if err != nil {
-			log.Println("GetUserBalance insert failed: ", err)
-			return 0, protocol.NewServerError(status.ErrDB)
-		}
-	}
 	if err != nil {
 		log.Println("db GetUserBalance failed: ", err)
 		return 0, protocol.NewServerError(status.ErrDB)

@@ -93,6 +93,7 @@ func (s *server) GetUserByUserId(ctx context.Context, req *rpb.QueryById) (resp 
 	user, err := s.db.GetUserById(req.GetUserId())
 	if err != nil {
 		log.Println("server GetUserById failed: ", err)
+		return
 	}
 	if user == nil {
 		err = protocol.NewServerError(status.ErrAccountNotExists)
