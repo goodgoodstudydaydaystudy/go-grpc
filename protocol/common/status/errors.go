@@ -14,6 +14,9 @@ const (
 
 	// -2000 ~ -2999 Pay
 	ErrBalanceNotEnough = -2000 // 余额不足
+	ErrRechargeFailed = -2001	// 充值失败
+	ErrGetUserBalanceFailed = -2002 //查询余额失败
+
 )
 
 var CodeMessageMap = map[int]string{
@@ -22,6 +25,8 @@ var CodeMessageMap = map[int]string{
 	ErrAccountNotExists:		"账号不存在",
 	ErrPasswordError:  			"密码错误",
 	ErrBalanceNotEnough:     	"余额不足",
+	ErrRechargeFailed:			"充值失败",
+	ErrGetUserBalanceFailed:   	"查询余额失败",
 	ErrDB:               		"数据库错误",
 }
 

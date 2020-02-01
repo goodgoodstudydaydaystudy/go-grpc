@@ -44,7 +44,7 @@ func (c *accountMysql) Register(req *rpb.RegisterReq) protocol.ServerError {
 }
 
 func (c *accountMysql) GetUserPasswordByAccount(acc string) (string, protocol.ServerError) {
-	row := c.conn.QueryRow("SELECT password from t_member where account=?", acc)
+	row := c.conn.QueryRow("SELECT password FROM t_member WHERE account=?", acc)
 
 	var pwd string
 	err := row.Scan(&pwd)	// 通过scan获得row里面的数据
@@ -62,7 +62,6 @@ func (c *accountMysql) GetUserPasswordByAccount(acc string) (string, protocol.Se
 // 查询
 // 改名叫GetUserByAccount
 func (c *accountMysql) GetUserByAccount(acc string) (*account.UserInfo, protocol.ServerError) {
-	log.Println("GetUserByAccount acc: ", acc)
 	userInfo := &account.UserInfo{}
 	err := c.conn.Get(userInfo, "SELECT * FROM t_member WHERE account=?", acc)
 	if err == sql.ErrNoRows {
