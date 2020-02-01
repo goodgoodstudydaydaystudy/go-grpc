@@ -26,7 +26,7 @@ func NewWalletMysql() (*WalletMysql, error) {
 	}, nil
 }
 
-//
+// Rollback
 func freedConn(tx *sqlx.Tx) {
 	err := tx.Rollback()
 	if err != nil {
