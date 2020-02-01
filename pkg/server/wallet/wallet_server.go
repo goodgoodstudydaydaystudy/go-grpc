@@ -28,12 +28,6 @@ func (s *server) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.Recharg
 		log.Println("server Recharge failed: ", err)
 		return nil, protocol.NewServerError(status.ErrRechargeFailed)
 	}
-
-	//userBalance, err := s.db.GetUserBalance(req.GetUserId())
-	//if err != nil {
-	//	log.Println("server Recharge GetUserBalance failed: ", err)
-	//	return nil, nil
-	//}
 	return &pb.RechargeResp{
 		Balance: 0,
 	}, nil

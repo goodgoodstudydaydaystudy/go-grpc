@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"database/sql"
 	_ "database/sql"
 	"log"
 	"time"
@@ -38,7 +39,6 @@ func freedConn(tx *sqlx.Tx) {
 
 // 写入	不知道有没有上锁…
 func (c *WalletMysql)Recharge(req *pb.RechargeReq) protocol.ServerError {
-
 	tx, err := c.conn.Beginx()
 	if err != nil {
 		log.Println("Recharge Begin error: ", err)
@@ -52,7 +52,6 @@ func (c *WalletMysql)Recharge(req *pb.RechargeReq) protocol.ServerError {
 
 	//_, err = tx.Exec(walletInfo, req.GetUserId(), req.GetCount(), nowTime)
 	_, err = c.conn.Exec(walletInfo, req.GetUserId(), req.GetCount(), nowTime)
-	log.Printf("req.GetUserId(): %v", req.GetUserId())
 	if err != nil {
 		log.Println("Recharge insert failed: ", err)
 		return protocol.NewServerError(status.ErrDB)
@@ -73,6 +72,17 @@ func (c *WalletMysql)GetUserBalance(userId uint32) (uint64, protocol.ServerError
 
 	var accBalance uint64
 	err = row.Scan(&accBalance)
+	// 如果没有记录，则写入
+	if err == sql.ErrNoRows {
+		now := time.Now()
+		nowTime := now.Format("2006-01-02 15:04:05")
+		walletInfo := "INSERT INTO t_wallet(userId, money, date) VALUE(?, ?, ?)"
+		_, err = c.conn.Exec(walletInfo, userId, 0, nowTime)
+		if err != nil {
+			log.Println("GetUserBalance insert failed: ", err)
+			return 0, protocol.NewServerError(status.ErrDB)
+		}
+	}
 	if err != nil {
 		log.Println("db GetUserBalance failed: ", err)
 		return 0, protocol.NewServerError(status.ErrDB)

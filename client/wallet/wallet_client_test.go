@@ -16,7 +16,7 @@ func TestWalletClient(t *testing.T) {
 	//if se != nil {
 	//	t.Log(se.Code())
 	//}
-	resp, se := cli.GetUserByAccount(ctx, &pb.GetUserBalanceReq{UserId:9})
+	resp, se := cli.GetUserByAccount(ctx, &pb.GetUserBalanceReq{UserId:10})
 	if se != nil {
 		t.Log(se.Code())
 	}
