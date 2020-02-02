@@ -12,7 +12,7 @@ func TestWalletClient(t *testing.T) {
 		t.Fatal(err)
 	}
 	ctx := context.Background()
-	resp, se := cli.Recharge(ctx, &pb.RechargeReq{UserId: 9, Count:8000})
+	resp, se := cli.Recharge(ctx, &pb.RechargeReq{UserId: 9, Count:800})
 	if se != nil {
 		t.Log(se.Code())
 	}

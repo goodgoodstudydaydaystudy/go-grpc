@@ -45,6 +45,13 @@ func (c *WalletMysql)Recharge(req *pb.RechargeReq) protocol.ServerError {
 	}
 	defer freedConn(tx)
 
+	forUpdate := "SELECT * FROM t_wallet WHERE userId=?"
+	_, err = c.conn.Exec(forUpdate, req.GetUserId())
+	if err != nil {
+		log.Println("db Recharge forUpdate failed: ", err)
+		return protocol.NewServerError(status.ErrDB)
+	}
+
 	now := time.Now()
 	nowTime := now.Format("2006-01-02 15:04:05")
 	walletInfo := "INSERT INTO t_wallet VALUE(?, ?, ?) ON DUPLICATE KEY UPDATE money=VALUES(money), date=VALUES(date) "
@@ -68,7 +75,7 @@ func (c *WalletMysql)GetUserBalance(userId uint32) (uint64, protocol.ServerError
 	}
 	freedConn(tx) // 这个好像有问题
 
-	row := c.conn.QueryRow("SELECT money FROM t_wallet WHERE userId=? FOR UPDATE ", userId)
+	row := c.conn.QueryRow("SELECT money FROM t_wallet WHERE userId=?", userId)
 	var accBalance uint64
 	err = row.Scan(&accBalance)
 	if err != nil {
