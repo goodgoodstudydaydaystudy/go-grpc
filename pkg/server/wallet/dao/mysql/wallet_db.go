@@ -68,7 +68,7 @@ func (c *WalletMysql)GetUserBalance(userId uint32) (uint64, protocol.ServerError
 	}
 	freedConn(tx) // 这个好像有问题
 
-	row := c.conn.QueryRow("SELECT money FROM t_wallet WHERE userId=?", userId)
+	row := c.conn.QueryRow("SELECT money FROM t_wallet WHERE userId=? FOR UPDATE ", userId)
 	var accBalance uint64
 	err = row.Scan(&accBalance)
 	if err != nil {
