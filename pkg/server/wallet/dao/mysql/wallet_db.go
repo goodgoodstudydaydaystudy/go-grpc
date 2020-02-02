@@ -28,7 +28,6 @@ func NewWalletMysql() (*WalletMysql, error) {
 	}, nil
 }
 
-// Rollback
 func freedConn(tx *sqlx.Tx) {
 	err := tx.Commit()
 	if err != nil {
@@ -36,7 +35,12 @@ func freedConn(tx *sqlx.Tx) {
 	}
 }
 
-// 写入	不知道有没有上锁…
+// 写入
+// 开事务，接defer commit
+// getBalance
+// FRO UPDATE 上锁
+// insert or update
+// insert 执行失败后 rollback
 func (c *WalletMysql)Recharge(req *pb.RechargeReq) protocol.ServerError {
 	tx, err := c.conn.Beginx()
 	if err != nil {
@@ -45,21 +49,32 @@ func (c *WalletMysql)Recharge(req *pb.RechargeReq) protocol.ServerError {
 	}
 	defer freedConn(tx)
 
-	forUpdate := "SELECT * FROM t_wallet WHERE userId=?"
-	_, err = c.conn.Exec(forUpdate, req.GetUserId())
+	getBalance, err :=  c.GetUserBalance(req.GetUserId())
+	if err != nil {
+		log.Println("Recharge getBalance failed: ", err)
+		return protocol.NewServerError(status.ErrDB)
+	}
+
+	forUpdate := "SELECT * FROM t_wallet WHERE userId=? FOR UPDATE "
+	_, err = c.conn.Exec(forUpdate, req.GetUserId())	// TODO Exec的result有啥用哦？
 	if err != nil {
 		log.Println("db Recharge forUpdate failed: ", err)
 		return protocol.NewServerError(status.ErrDB)
 	}
 
+	rechargeMoney := getBalance + req.GetCount()
+
 	now := time.Now()
 	nowTime := now.Format("2006-01-02 15:04:05")
 	walletInfo := "INSERT INTO t_wallet VALUE(?, ?, ?) ON DUPLICATE KEY UPDATE money=VALUES(money), date=VALUES(date) "
 
-	//_, err = tx.Exec(walletInfo, req.GetUserId(), req.GetCount(), nowTime)
-	result, err := c.conn.Exec(walletInfo, req.GetUserId(), req.GetCount(), nowTime)
+	result, err := c.conn.Exec(walletInfo, req.GetUserId(), rechargeMoney, nowTime)
 	if err != nil {
 		log.Println("Recharge insert failed: ", err)
+		err := tx.Rollback()
+		if err != nil {
+			log.Println("Recharge rollback failed: ", err)
+		}
 		return protocol.NewServerError(status.ErrDB)
 	}
 	log.Println("Exec result: ", result)
@@ -68,16 +83,9 @@ func (c *WalletMysql)Recharge(req *pb.RechargeReq) protocol.ServerError {
 
 // 查询
 func (c *WalletMysql)GetUserBalance(userId uint32) (uint64, protocol.ServerError) {
-	tx, err := c.conn.Beginx()
-	if err != nil {
-		log.Println("GetUserBalance Begin error: ", err)
-		return 0, protocol.NewServerError(status.ErrDB)
-	}
-	freedConn(tx) // 这个好像有问题
-
 	row := c.conn.QueryRow("SELECT money FROM t_wallet WHERE userId=?", userId)
 	var accBalance uint64
-	err = row.Scan(&accBalance)
+	err := row.Scan(&accBalance)
 	if err != nil {
 		log.Println("db GetUserBalance failed: ", err)
 		return 0, protocol.NewServerError(status.ErrDB)
