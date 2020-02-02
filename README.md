@@ -59,3 +59,5 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
   
 - Wallet Client
   - [x] 增加客户端
+
+- [ ] account.proto 的Get接口不能直接返回info。
