@@ -1,4 +1,4 @@
-package dao
+package walletdao
 
 import (
 	"context"
@@ -12,10 +12,10 @@ import (
 
 type WalletDao interface {
 	// 增
-	Recharge(ctx context.Context, req *pb.RechargeReq) protocol.ServerError
+	Recharge(ctx context.Context, userId uint32, deltaAdd int64) protocol.ServerError
 
 	// 查
-	GetUserBalance(ctx context.Context, userId uint32) (uint64, protocol.ServerError)
+	GetUserBalance(ctx context.Context, userId uint32, forUpdate bool) (int64, protocol.ServerError)
 }
 
 func NewWalletDao(dbType string) (WalletDao, error) {
