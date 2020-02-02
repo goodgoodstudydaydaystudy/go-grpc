@@ -1,9 +1,9 @@
 package mysql
 
 import (
+	"context"
 	_ "database/sql"
 	"log"
-	"time"
 
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/wallet"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
@@ -35,57 +35,38 @@ func freedConn(tx *sqlx.Tx) {
 	}
 }
 
-// 写入
-// 开事务，接defer commit
-// getBalance
-// FRO UPDATE 上锁
-// 累加余额，以"分"为单位。
-// insert or update
-// insert 执行失败后 rollback
-func (c *WalletMysql)Recharge(req *pb.RechargeReq) protocol.ServerError {
-	tx, err := c.conn.Beginx()
+func (c *WalletMysql) Recharge(ctx context.Context, req *pb.RechargeReq) protocol.ServerError {
+	// 1. 开启事务
+	tx, err := c.conn.BeginTx(ctx, nil)
 	if err != nil {
-		log.Println("Recharge Begin error: ", err)
-		return protocol.NewServerError(status.ErrDB)
+		// TODO
 	}
-	defer freedConn(tx)
-
-	getBalance, err :=  c.GetUserBalance(req.GetUserId())
-	if err != nil {
-		log.Println("Recharge getBalance failed: ", err)
-		return protocol.NewServerError(status.ErrDB)
-	}
-
-	forUpdate := "SELECT * FROM t_wallet WHERE userId=? FOR UPDATE "
-	_, err = c.conn.Exec(forUpdate, req.GetUserId())	// TODO Exec的result有啥用哦？
-	if err != nil {
-		log.Println("db Recharge forUpdate failed: ", err)
-		return protocol.NewServerError(status.ErrDB)
-	}
-
-	// 以分为单位
-	rechargeMoney := (getBalance + req.GetCount()) * 100
-
-	now := time.Now()
-	nowTime := now.Format("2006-01-02 15:04:05")
-	walletInfo := "INSERT INTO t_wallet VALUE(?, ?, ?) ON DUPLICATE KEY UPDATE money=VALUES(money), date=VALUES(date) "
-
-	result, err := c.conn.Exec(walletInfo, req.GetUserId(), rechargeMoney, nowTime)
-	if err != nil {
-		log.Println("Recharge insert failed: ", err)
-		err := tx.Rollback()
+	defer func() {
 		if err != nil {
-			log.Println("Recharge rollback failed: ", err)
+			log.Println("XXX")
+			tx.Rollback()
+		} else {
+			log.Println("XXX")
+			tx.Commit()
 		}
-		return protocol.NewServerError(status.ErrDB)
-	}
-	log.Println("Exec result: ", result)
+	}()
+
+	// 2. 加锁, 查余额
+	// TODO
+
+	// 3. 判断充值后, 余额是否足够/溢出
+	// TODO
+
+	// 4. rollback/commit
+	// TODO
+
+	// 5. return
 	return nil
 }
 
 // 查询
-func (c *WalletMysql)GetUserBalance(userId uint32) (uint64, protocol.ServerError) {
-	row := c.conn.QueryRow("SELECT money FROM t_wallet WHERE userId=?", userId)
+func (c *WalletMysql) GetUserBalance(ctx context.Context, userId uint32) (uint64, protocol.ServerError) {
+	row := c.conn.QueryRowContext(ctx, "SELECT money FROM t_wallet WHERE userId=?", userId)
 	var accBalance uint64
 	err := row.Scan(&accBalance)
 	if err != nil {
@@ -94,9 +75,6 @@ func (c *WalletMysql)GetUserBalance(userId uint32) (uint64, protocol.ServerError
 	}
 	return accBalance, nil
 }
-
-
-
 
 // mysql goodStudy -uroot -p8918112lu;
 // select * from t_wallet;

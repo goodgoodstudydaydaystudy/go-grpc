@@ -1,6 +1,8 @@
 package dao
 
 import (
+	"context"
+
 	"goodgoodstudy.com/go-grpc/protocol/common/status"
 
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/wallet"
@@ -10,10 +12,10 @@ import (
 
 type WalletDao interface {
 	// 增
-	Recharge(req *pb.RechargeReq) protocol.ServerError
+	Recharge(ctx context.Context, req *pb.RechargeReq) protocol.ServerError
 
 	// 查
-   	GetUserBalance(userId uint32) (uint64, protocol.ServerError)
+	GetUserBalance(ctx context.Context, userId uint32) (uint64, protocol.ServerError)
 }
 
 func NewWalletDao(dbType string) (WalletDao, error) {
