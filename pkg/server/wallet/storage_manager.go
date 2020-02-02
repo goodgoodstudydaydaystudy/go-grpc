@@ -8,6 +8,7 @@ import (
 
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	"goodgoodstudy.com/go-grpc/pkg/server/wallet/dao"
+	"goodgoodstudy.com/go-grpc/pkg/server/wallet/dao/mysql"
 	"goodgoodstudy.com/go-grpc/protocol/common/status"
 )
 
@@ -16,9 +17,9 @@ type storeManager struct {
 }
 
 func (st *storeManager) Recharge(ctx context.Context, userId uint32, deltaAdd int64) protocol.ServerError {
-	dao, _ := walletdao.NewWalletDao("mysql")
 	// 1. 开启事务
 	txErr := doTx(ctx, st.mysqlConn, func(tx *sqlx.Tx) error {
+		dao := mysql.NewWalletMysql(tx)
 		// 2. 加锁, 查余额
 		balance, err := dao.GetUserBalance(ctx, userId, true)
 		// 3. 判断充值后, 余额是否足够/溢出

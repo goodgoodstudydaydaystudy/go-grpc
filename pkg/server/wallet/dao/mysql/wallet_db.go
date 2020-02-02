@@ -27,10 +27,10 @@ type WalletMysql struct {
 	qe queryExec
 }
 
-func NewWalletMysql(qe queryExec) (*WalletMysql, error) {
+func NewWalletMysql(qe queryExec) *WalletMysql {
 	return &WalletMysql{
 		qe: qe,
-	}, nil
+	}
 }
 
 func (c *WalletMysql) Recharge(ctx context.Context, userId uint32, deltaAdd int64) protocol.ServerError {
@@ -48,7 +48,7 @@ func (c *WalletMysql) Recharge(ctx context.Context, userId uint32, deltaAdd int6
 }
 
 // 查询
-func (c *WalletMysql) GetUserBalance(ctx context.Context, userId uint32, forUpdate bool) (uint64, protocol.ServerError) {
+func (c *WalletMysql) GetUserBalance(ctx context.Context, userId uint32, forUpdate bool) (int64, protocol.ServerError) {
 	query := "SELECT money FROM t_wallet WHERE userId=?"
 	if forUpdate {
 		query += " FOR UPDATE"
