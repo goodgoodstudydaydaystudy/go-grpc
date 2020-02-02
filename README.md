@@ -51,3 +51,11 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
   - [x] 封装userInfo的信息，在pb增加userInfo的结构体
 
 - [x] client增加rpc查询接口
+
+- [ ] 增加wallet系统
+- Wallet Server
+  - [x] 增加充值功能
+  - [ ] db若表中无用户记录，直接插入数据. 使用insert or update的语法
+  
+- Wallet Client
+  - [x] 增加客户端
