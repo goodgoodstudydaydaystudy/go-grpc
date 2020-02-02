@@ -39,6 +39,7 @@ func freedConn(tx *sqlx.Tx) {
 // 开事务，接defer commit
 // getBalance
 // FRO UPDATE 上锁
+// 累加余额，以"分"为单位。
 // insert or update
 // insert 执行失败后 rollback
 func (c *WalletMysql)Recharge(req *pb.RechargeReq) protocol.ServerError {
@@ -62,7 +63,8 @@ func (c *WalletMysql)Recharge(req *pb.RechargeReq) protocol.ServerError {
 		return protocol.NewServerError(status.ErrDB)
 	}
 
-	rechargeMoney := getBalance + req.GetCount()
+	// 以分为单位
+	rechargeMoney := (getBalance + req.GetCount()) * 100
 
 	now := time.Now()
 	nowTime := now.Format("2006-01-02 15:04:05")
