@@ -23,7 +23,7 @@ func NewWalletServer() (*server, error) {
 
 // 充值 返回 余额
 func (s *server) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.RechargeResp, error) {
-	err :=  s.db.Recharge(req)
+	err :=  s.db.Recharge(ctx, req)
 	if err != nil {
 		log.Println("server Recharge failed: ", err)
 		return nil, protocol.NewServerError(status.ErrRechargeFailed)
@@ -36,7 +36,7 @@ func (s *server) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.Recharg
 
 // 查询 用户余额
 func (s *server) GetUserBalance(ctx context.Context, req *pb.GetUserBalanceReq) (resp *pb.GetUserBalanceResp, err error)  {
-	userBalance, err := s.db.GetUserBalance(req.GetUserId())
+	userBalance, err := s.db.GetUserBalance(ctx, req.GetUserId())
 	if err != nil {
 		log.Println("server GetUserBalance failed: ", err)
 		return nil, protocol.NewServerError(status.ErrGetUserBalanceFailed)
