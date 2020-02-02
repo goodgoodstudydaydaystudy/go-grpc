@@ -47,15 +47,15 @@ func (c *WalletMysql)Recharge(req *pb.RechargeReq) protocol.ServerError {
 
 	now := time.Now()
 	nowTime := now.Format("2006-01-02 15:04:05")
-	walletInfo := "INSERT INTO t_wallet VALUE(?, ?, ?) ON DUPLICATE " +
-		"KEY UPDATE userId=VALUE(userId), money=VALUE(money), date=VALUE(date) "
+	walletInfo := "INSERT INTO t_wallet VALUE(?, ?, ?) ON DUPLICATE KEY UPDATE money=VALUES(money), date=VALUES(date) "
 
 	//_, err = tx.Exec(walletInfo, req.GetUserId(), req.GetCount(), nowTime)
-	_, err = c.conn.Exec(walletInfo, req.GetUserId(), req.GetCount(), nowTime)
+	result, err := c.conn.Exec(walletInfo, req.GetUserId(), req.GetCount(), nowTime)
 	if err != nil {
 		log.Println("Recharge insert failed: ", err)
 		return protocol.NewServerError(status.ErrDB)
 	}
+	log.Println("Exec result: ", result)
 	return nil
 }
 
