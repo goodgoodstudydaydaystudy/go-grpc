@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package account;
+option go_package = "pkg/pb/server/account";
 
 service Account {
     rpc Register(RegisterReq) returns (RegisterResp) {}

@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package consume;
+option go_package = "pkg/pb/server/consume";
 
 service Consume{
     rpc Pay(ConsumeReq) returns (ConsumeResp) {}

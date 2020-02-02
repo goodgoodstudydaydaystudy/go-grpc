@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package wallet;
+option go_package = "pkg/pb/server/wallet";
 
 service Wallet {
     rpc Recharge (RechargeReq) returns (RechargeResp) {}
