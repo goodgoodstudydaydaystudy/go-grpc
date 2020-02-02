@@ -8,15 +8,13 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
+	rpb "goodgoodstudy.com/go-grpc/pkg/pb/server/account"
 	"goodgoodstudy.com/go-grpc/pkg/server/account"
 )
-
 
 const (
 	port = ":50051"
 )
-
 
 func main() {
 	log.Println("listening to:", port)

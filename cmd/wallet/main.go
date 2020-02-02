@@ -7,13 +7,13 @@ import (
 	"net"
 
 	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
-	pb "goodgoodstudy.com/go-grpc/pkg/pb/wallet"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/wallet"
 	"goodgoodstudy.com/go-grpc/pkg/server/wallet"
 )
 
 const portWallet = ":50051"
 
-func main()  {
+func main() {
 	log.Println("listening to: ", portWallet)
 	lis, err := net.Listen("tcp", portWallet)
 	if err != nil {
@@ -24,7 +24,7 @@ func main()  {
 
 	s := grpc.NewServer(
 		grpc.UnaryInterceptor(server.StatusCodeUnaryInterceptor),
-		)
+	)
 
 	walletServer, err := wallet.NewWalletServer()
 	if err != nil {
