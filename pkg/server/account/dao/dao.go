@@ -1,7 +1,7 @@
 package dao
 
 import (
-	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
+	rpb "goodgoodstudy.com/go-grpc/pkg/pb/server/account"
 	account "goodgoodstudy.com/go-grpc/pkg/server/account/dao/entity"
 	"goodgoodstudy.com/go-grpc/protocol/common/status"
 

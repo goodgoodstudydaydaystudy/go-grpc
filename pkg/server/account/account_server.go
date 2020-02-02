@@ -5,7 +5,7 @@ import (
 	"goodgoodstudy.com/go-grpc/protocol/common/status"
 	"log"
 
-	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
+	rpb "goodgoodstudy.com/go-grpc/pkg/pb/server/account"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	"goodgoodstudy.com/go-grpc/pkg/server/account/dao"
 	account "goodgoodstudy.com/go-grpc/pkg/server/account/dao/entity"
@@ -87,7 +87,6 @@ func (s *server) GetUserByAccount(ctx context.Context, req *rpb.QueryByAccount) 
 	return account.UserInfoToPb(user), nil
 }
 
-
 func (s *server) GetUserByUserId(ctx context.Context, req *rpb.QueryById) (resp *rpb.UserInfo, err error) {
 	resp = &rpb.UserInfo{}
 	user, err := s.db.GetUserById(req.GetUserId())
@@ -102,4 +101,3 @@ func (s *server) GetUserByUserId(ctx context.Context, req *rpb.QueryById) (resp 
 
 	return account.UserInfoToPb(user), nil
 }
-

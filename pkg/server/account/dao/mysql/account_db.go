@@ -5,7 +5,7 @@ import (
 	_ "database/sql/driver"
 	"log"
 
-	rpb "goodgoodstudy.com/go-grpc/pkg/pb/account"
+	rpb "goodgoodstudy.com/go-grpc/pkg/pb/server/account"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	account "goodgoodstudy.com/go-grpc/pkg/server/account/dao/entity"
 	"goodgoodstudy.com/go-grpc/protocol/common/status"
@@ -47,7 +47,7 @@ func (c *accountMysql) GetUserPasswordByAccount(acc string) (string, protocol.Se
 	row := c.conn.QueryRow("SELECT password FROM t_member WHERE account=?", acc)
 
 	var pwd string
-	err := row.Scan(&pwd)	// 通过scan获得row里面的数据
+	err := row.Scan(&pwd) // 通过scan获得row里面的数据
 	if err == sql.ErrNoRows {
 		return "", protocol.NewServerError(status.ErrAccountNotExists)
 	}
@@ -79,7 +79,7 @@ func (c *accountMysql) GetUserByAccount(acc string) (*account.UserInfo, protocol
 func (c *accountMysql) GetUserById(userId uint32) (*account.UserInfo, protocol.ServerError) {
 	userInfo := &account.UserInfo{}
 	err := c.conn.Get(userInfo, "SELECT * from t_member WHERE id=?", userId) // 这里用了反射, 看UserInfo结构体后面的tag; 通常select *都用这个来查询; 除非遇到只查一两个字段的, 就用Scan
-	if err == sql.ErrNoRows {	// 通过sql的查询err判定。
+	if err == sql.ErrNoRows {                                                // 通过sql的查询err判定。
 		return nil, protocol.NewServerError(status.ErrAccountNotExists)
 	}
 

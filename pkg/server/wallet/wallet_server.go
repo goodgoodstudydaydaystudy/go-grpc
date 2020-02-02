@@ -8,7 +8,7 @@ import (
 	"goodgoodstudy.com/go-grpc/protocol/common/status"
 	"log"
 
-	pb "goodgoodstudy.com/go-grpc/pkg/pb/wallet"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/wallet"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 )
 

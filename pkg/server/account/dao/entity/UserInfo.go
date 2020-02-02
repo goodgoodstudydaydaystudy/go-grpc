@@ -1,7 +1,7 @@
 package account
 
 import (
-	pb "goodgoodstudy.com/go-grpc/pkg/pb/account"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/account"
 )
 
 type UserInfo struct {
@@ -29,4 +29,3 @@ func PbToUserInfo(pbInfo *pb.UserInfo) *UserInfo {
 		Gender:   uint32(pbInfo.Gender),
 	}
 }
-
