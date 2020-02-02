@@ -12,13 +12,13 @@ func TestWalletClient(t *testing.T) {
 		t.Fatal(err)
 	}
 	ctx := context.Background()
-	//resp, se := cli.Recharge(ctx, &pb.RechargeReq{UserId: 9, Count:8888})
-	//if se != nil {
-	//	t.Log(se.Code())
-	//}
-	resp, se := cli.GetUserByAccount(ctx, &pb.GetUserBalanceReq{UserId:10})
+	resp, se := cli.Recharge(ctx, &pb.RechargeReq{UserId: 9, Count:8888})
 	if se != nil {
 		t.Log(se.Code())
 	}
+	//resp, se := cli.GetUserByAccount(ctx, &pb.GetUserBalanceReq{UserId:10})
+	//if se != nil {
+	//	t.Log(se.Code())
+	//}
 	t.Log(resp)
 }

@@ -1,7 +1,6 @@
 package mysql
 
 import (
-	"database/sql"
 	_ "database/sql"
 	"log"
 	"time"
@@ -48,7 +47,8 @@ func (c *WalletMysql)Recharge(req *pb.RechargeReq) protocol.ServerError {
 
 	now := time.Now()
 	nowTime := now.Format("2006-01-02 15:04:05")
-	walletInfo := "INSERT INTO t_wallet(userId, money, date) VALUE(?, ?, ?)"
+	walletInfo := "INSERT INTO t_wallet VALUE(?, ?, ?) ON DUPLICATE " +
+		"KEY UPDATE userId=VALUE(userId), money=VALUE(money), date=VALUE(date) "
 
 	//_, err = tx.Exec(walletInfo, req.GetUserId(), req.GetCount(), nowTime)
 	_, err = c.conn.Exec(walletInfo, req.GetUserId(), req.GetCount(), nowTime)
