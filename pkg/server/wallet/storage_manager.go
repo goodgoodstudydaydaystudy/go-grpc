@@ -7,7 +7,6 @@ import (
 	"github.com/jmoiron/sqlx"
 
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
-	"goodgoodstudy.com/go-grpc/pkg/server/wallet/dao"
 	"goodgoodstudy.com/go-grpc/pkg/server/wallet/dao/mysql"
 	"goodgoodstudy.com/go-grpc/protocol/common/status"
 )
@@ -37,7 +36,7 @@ func (st *storeManager) Recharge(ctx context.Context, userId uint32, deltaAdd in
 }
 
 func (st *storeManager) GetUserBalance(ctx context.Context, userId uint32) (int64, protocol.ServerError) {
-	dao, _ := walletdao.NewWalletDao("mysql")
+	dao := mysql.NewWalletMysql(st.mysqlConn)
 	return dao.GetUserBalance(ctx, userId, false)
 }
 
