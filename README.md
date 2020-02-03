@@ -66,4 +66,3 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
   - [ ]校验用户名, 密码 
   - [ ]返回UserInfo, 以及这个人的余额
   
-- [ ] 修改account pb 的 字段
