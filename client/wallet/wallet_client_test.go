@@ -1,8 +1,8 @@
-package client
+package wallet
 
 import (
 	"context"
-	pb "goodgoodstudy.com/go-grpc/pkg/pb/wallet"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/wallet"
 	"testing"
 )
 

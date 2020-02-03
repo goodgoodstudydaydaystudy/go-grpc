@@ -4,17 +4,18 @@ package user;
 option go_package = "pkg/pb/logic/user";
 
 service User{
-    rpc Login(LoginReq) returns (LoginResp) {}
+    rpc CheckUserPassword(CheckUserPwdReq) returns (CheckUserPwdResp) {}
+    rpc Register(RegisterReq) returns (RegisterResp) {}
 }
 
-message LoginReq {
+message CheckUserPwdReq {
     string account = 1;
     string password = 2;
 }
 
-message LoginResp {
+message CheckUserPwdResp {
     UserInfo user_info = 1;
-    int64 balance = 2;
+    uint64 balance = 2;
 }
 
 enum Gender {
@@ -28,4 +29,15 @@ message UserInfo {
     string account = 2;
     string nickname = 3;
     Gender gender = 4;
+}
+
+message RegisterReq {
+    string account = 1;
+    string password = 2;
+    string nickname = 3;
+    Gender gender = 4;
+}
+
+message RegisterResp {
+    uint32 user_id = 1;
 }

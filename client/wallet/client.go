@@ -1,9 +1,9 @@
-package client
+package wallet
 
 import (
 	"context"
 	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/client"
-	pb "goodgoodstudy.com/go-grpc/pkg/pb/wallet"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/wallet"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	"google.golang.org/grpc"
 	"log"
@@ -11,13 +11,13 @@ import (
 
 const portWallet = ":50051"
 
-type walletClient struct {
+type Client struct {
 	conn  *grpc.ClientConn
 	cli	  pb.WalletClient
 }
 
 
-func NewWalletClient() (*walletClient, error) {
+func NewWalletClient() (*Client, error) {
 	conn, err := grpc.Dial(portWallet,
 		grpc.WithInsecure(),
 	grpc.WithUnaryInterceptor(client.StatusCodeUnaryInterceptor))
@@ -26,19 +26,19 @@ func NewWalletClient() (*walletClient, error) {
 	}
 	newWalletClient := pb.NewWalletClient(conn)
 
-	return &walletClient{
+	return &Client{
 		conn: conn,
 		cli:  newWalletClient,
 	}, nil
 }
 
 
-func (c *walletClient) Close() error{
+func (c *Client) Close() error{
 	return c.conn.Close()
 }
 
 
-func (c *walletClient) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.RechargeResp, protocol.ServerError){
+func (c *Client) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.RechargeResp, protocol.ServerError){
 	resp, err := c.cli.Recharge(ctx, req)
 	if err != nil {
 		log.Println("client Recharge failed: ", err)
@@ -48,7 +48,8 @@ func (c *walletClient) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.R
 }
 
 
-func (c *walletClient) GetUserByAccount(ctx context.Context, req *pb.GetUserBalanceReq) (*pb.GetUserBalanceResp, protocol.ServerError) {
+func (c *Client) GetUserById(ctx context.Context, uid uint32) (*pb.GetUserBalanceResp, protocol.ServerError) {
+	req := &pb.GetUserBalanceReq{UserId:uid}
 	resp, err := c.cli.GetUserBalance(ctx, req)
 	if err != nil {
 		log.Println("client GetUserByAccount failed: ", err)

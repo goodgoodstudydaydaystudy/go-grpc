@@ -209,11 +209,11 @@ var fileDescriptor_6e585c95aeb2fa82 = []byte{
 
 // Reference imports to suppress errors if they are not otherwise used.
 var _ context.Context
-var _ grpc.ClientConnInterface
+var _ grpc.ClientConn
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
+const _ = grpc.SupportPackageIsVersion4
 
 // WalletClient is the client API for Wallet service.
 //
@@ -224,10 +224,10 @@ type WalletClient interface {
 }
 
 type walletClient struct {
-	cc grpc.ClientConnInterface
+	cc *grpc.ClientConn
 }
 
-func NewWalletClient(cc grpc.ClientConnInterface) WalletClient {
+func NewWalletClient(cc *grpc.ClientConn) WalletClient {
 	return &walletClient{cc}
 }
 

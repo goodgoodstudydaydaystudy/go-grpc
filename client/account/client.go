@@ -44,8 +44,14 @@ func (c *Client) Close() error {
 }
 
 // 发送注册信息
-func (c *Client) Register(ctx context.Context, req *pb.RegisterReq) (*pb.RegisterResp, protocol.ServerError) {
-	req.Password = md.Encryption(req.Password)
+func (c *Client) Register(ctx context.Context, acc string, pwd string, nickname string, gender int) (*pb.RegisterResp, protocol.ServerError) {
+	pwd = md.Encryption(pwd)
+	req := &pb.RegisterReq{
+		Account:              acc,
+		Password:             pwd,
+		Name:                 nickname,
+		Gender:               pb.Gender(gender),
+	}
 	resp, err := c.cli.Register(ctx, req)
 	if err != nil {
 		log.Println("cli.Registered failed: ", err)
