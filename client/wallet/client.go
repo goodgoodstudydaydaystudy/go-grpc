@@ -9,7 +9,7 @@ import (
 	"log"
 )
 
-const portWallet = ":50051"
+const portWallet = ":50052"
 
 type Client struct {
 	conn  *grpc.ClientConn

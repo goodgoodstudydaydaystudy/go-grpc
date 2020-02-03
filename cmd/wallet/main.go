@@ -11,7 +11,7 @@ import (
 	"goodgoodstudy.com/go-grpc/pkg/server/wallet"
 )
 
-const portWallet = ":50051"
+const portWallet = ":50052"
 
 func main() {
 	log.Println("listening to: ", portWallet)

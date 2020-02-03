@@ -10,7 +10,7 @@ import (
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
 )
 
-const portUserLogic = ":50051"
+const portUserLogic = ":50053"
 
 // 1. client 结构体
 type Client struct {

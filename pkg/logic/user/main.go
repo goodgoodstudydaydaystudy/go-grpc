@@ -10,7 +10,7 @@ import (
 	"net"
 )
 
-const portUserLogic = ":50051"
+const portUserLogic = ":50053"
 
 func main() {
 	// 和普通server 的main函数一样

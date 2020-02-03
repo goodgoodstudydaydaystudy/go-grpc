@@ -92,7 +92,7 @@ func (s *server) GetUserByAccount(ctx context.Context, req *rpb.GetUserByAccount
 	return resp, nil
 }
 
-func (s *server) GetUserByUserId(ctx context.Context, req *rpb.GetUserByIdReq) (resp *rpb.GetUserByIdResp, err error) {
+func (s *server) GetUserById(ctx context.Context, req *rpb.GetUserByIdReq) (resp *rpb.GetUserByIdResp, err error) {
 	resp = &rpb.GetUserByIdResp{}
 	user, err := s.db.GetUserById(req.GetUserId())
 	if err != nil {

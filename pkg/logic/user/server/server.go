@@ -38,10 +38,11 @@ func (s *UserLogic) CheckUserPassword(ctx context.Context, req *pb.CheckUserPwdR
 	resp = &pb.CheckUserPwdResp{}
 
 	// 1. check password
+	// 这里不能反悔，否则grpc 框架会报错。
 	r, err := s.accountClient.Login(ctx, req.Account, req.Password)
 	if err != nil {
 		log.Println("logic.Login check password failed: ", err)
-		return nil, err
+		return
 	}
 	resp.UserInfo = &pb.UserInfo{
 		UserId:   r.UserInfo.UserId,
@@ -54,7 +55,7 @@ func (s *UserLogic) CheckUserPassword(ctx context.Context, req *pb.CheckUserPwdR
 	userBalance, err := s.walletClient.GetUserById(ctx, resp.UserInfo.UserId)
 	if err != nil {
 		log.Println("logic.Login get balance failed: ", err)
-		return nil, err
+		return
 	}
 	resp.Balance = userBalance.Balance
 	// 3. return

@@ -12,7 +12,7 @@ import (
 )
 
 func TestUserLogic(t *testing.T) {
-	result, err := testOption(1)
+	result, err := testOption(2)
 	if err != nil {
 		t.Log(err.Code())
 
@@ -35,17 +35,17 @@ func testOption(n int) (interface{}, protocol.ServerError) {
 	case 1:
 		// 1. 注册
 		return  logicCli.Register(ctx, &upb.RegisterReq{
-			Account:              "test02",
-			Password:             "66666",
-			Nickname:             "test2",
+			Account:              "test03",
+			Password:             "666666",
+			Nickname:             "test3",
 			Gender:               1,
 		})
 
 		// 2. 登录
 	case 2:
 		return  logicCli.CheckoutPassword(ctx, &upb.CheckUserPwdReq{
-			Account:              "test01",
-			Password:             "123456",
+			Account:              "test03",
+			Password:             "666666",
 		})
 		// 3. 充值
 	case 3:
