@@ -6,8 +6,8 @@ option go_package = "pkg/pb/server/account";
 service Account {
     rpc Register(RegisterReq) returns (RegisterResp) {}
     rpc Login(LoginReq) returns (LoginResp) {}
-    rpc GetUserByAccount(QueryByAccount) returns (UserInfo) {}
-    rpc GetUserByUserId(QueryById) returns (UserInfo) {}
+    rpc GetUserByAccount(GetUserByAccountReq) returns (GetUserByAccountResp) {}
+    rpc GetUserById(GetUserByIdReq) returns (GetUserByIdResp) {}
 }
 
 enum Gender {
@@ -44,10 +44,18 @@ message LoginResp {
     UserInfo user_info = 1;
 }
 
-message QueryByAccount {
+message GetUserByAccountReq {
     string account = 1;
 }
 
-message QueryById {
+message GetUserByAccountResp {
+    UserInfo user_info = 1;
+}
+
+message GetUserByIdReq {
     uint32 user_id = 1;
+}
+
+message GetUserByIdResp {
+    UserInfo user_info = 1;
 }

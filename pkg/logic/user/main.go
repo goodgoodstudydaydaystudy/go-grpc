@@ -1,7 +1,5 @@
 package user
 
-import "goodgoodstudy.com/go-grpc/pkg/logic/user"
-
 func main() {
-
+	// TODO 和普通server 的main函数一样
 }

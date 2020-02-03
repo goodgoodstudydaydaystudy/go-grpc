@@ -1,4 +1,4 @@
-package client
+package account
 
 import (
 	"context"
@@ -8,21 +8,21 @@ import (
 	"google.golang.org/grpc"
 
 	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/client"
-	pb "goodgoodstudy.com/go-grpc/pkg/pb/account"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/account"
 	"goodgoodstudy.com/go-grpc/pkg/procotol"
 	md "goodgoodstudy.com/go-grpc/pkg/utils"
 )
 
 const portRegistered = ":50051"
 
-type accountClient struct {
+type Client struct {
 	conn    *grpc.ClientConn
 	cli     pb.AccountClient
 	message string
 }
 
 // 注册服务功能
-func NewAccountClient() (*accountClient, error) {
+func NewAccountClient() (*Client, error) {
 	conn, err := grpc.Dial(portRegistered,
 		grpc.WithInsecure(),
 		grpc.WithUnaryInterceptor(client.StatusCodeUnaryInterceptor), // 拦截器
@@ -32,19 +32,19 @@ func NewAccountClient() (*accountClient, error) {
 	}
 	newAccountClient := pb.NewAccountClient(conn)
 
-	return &accountClient{
+	return &Client{
 		conn: conn,
 		cli:  newAccountClient,
 	}, nil
 }
 
 // 关闭连接
-func (c *accountClient) Close() error {
+func (c *Client) Close() error {
 	return c.conn.Close()
 }
 
 // 发送注册信息
-func (c *accountClient) Register(ctx context.Context, req *pb.RegisterReq) (*pb.RegisterResp, protocol.ServerError) {
+func (c *Client) Register(ctx context.Context, req *pb.RegisterReq) (*pb.RegisterResp, protocol.ServerError) {
 	req.Password = md.Encryption(req.Password)
 	resp, err := c.cli.Register(ctx, req)
 	if err != nil {
@@ -55,9 +55,8 @@ func (c *accountClient) Register(ctx context.Context, req *pb.RegisterReq) (*pb.
 }
 
 // 登录信息
-func (c *accountClient) Login(ctx context.Context, req *pb.LoginReq) (*pb.LoginResp, protocol.ServerError) {
-	md5Password := md.Encryption(req.Password)
-	req = &pb.LoginReq{Account: req.Account, Password: md5Password}
+func (c *Client) Login(ctx context.Context, acc, pwd string) (*pb.LoginResp, protocol.ServerError) {
+	req := &pb.LoginReq{Account: acc, Password: pwd}
 	resp, err := c.cli.Login(ctx, req)
 	if err != nil {
 		log.Println("cli.LogIn failed:, ", err)
@@ -67,8 +66,8 @@ func (c *accountClient) Login(ctx context.Context, req *pb.LoginReq) (*pb.LoginR
 }
 
 // 查询user by account
-func (c *accountClient) GetUserByAccount(ctx context.Context, req *pb.QueryByAccount) (*pb.UserInfo, protocol.ServerError) {
-	req = &pb.QueryByAccount{Account:req.Account}
+func (c *Client) GetUserByAccount(ctx context.Context, acc string) (*pb.GetUserByAccountResp, protocol.ServerError) {
+	req := &pb.GetUserByAccountReq{Account: acc}
 	resp, err := c.cli.GetUserByAccount(ctx, req)
 	if err != nil {
 		log.Println("client GetUserByAccount: ", err)
@@ -78,9 +77,9 @@ func (c *accountClient) GetUserByAccount(ctx context.Context, req *pb.QueryByAcc
 }
 
 // 查询user by userId
-func (c *accountClient) GetUserByUserId(ctx context.Context, req *pb.QueryById) (*pb.UserInfo, protocol.ServerError) {
-	req = &pb.QueryById{UserId: req.UserId}
-	resp, err := c.cli.GetUserByUserId(ctx, req)
+func (c *Client) GetUserByUserId(ctx context.Context, uid uint32) (*pb.GetUserByIdResp, protocol.ServerError) {
+	req := &pb.GetUserByIdReq{UserId: uid}
+	resp, err := c.cli.GetUserById(ctx, req)
 	if err != nil {
 		log.Println("client GetUserByUserId failed: ", err)
 		return resp, protocol.ToServerError(err)

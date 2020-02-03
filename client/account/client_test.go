@@ -1,4 +1,4 @@
-package client
+package account
 
 import (
 	"context"
@@ -11,7 +11,6 @@ import (
 type testType struct {
 	*pb.RegisterResp
 	*pb.LoginResp
-
 }
 
 /*
@@ -39,7 +38,6 @@ func TestClient_Register(t *testing.T) {
 }
 */
 
-
 func TestClient_Register(t *testing.T) {
 	resp, err := testAllFeature(2)
 	if err != nil {
@@ -55,13 +53,13 @@ func testAllFeature(n int) (interface{}, protocol.ServerError) {
 	ctx := context.Background()
 	switch n {
 	case 0:
-		resp, err := cli.Register(ctx, &pb.RegisterReq{Account:"test01", Password:"123456", Name:"testName", Gender:1})
+		resp, err := cli.Register(ctx, &pb.RegisterReq{Account: "test01", Password: "123456", Name: "testName", Gender: 1})
 		return resp, err
 	case 1:
-		resp, se := cli.Login(ctx, &pb.LoginReq{Account:"test01", Password:"123456"}) // 这里se命名为err的话将不能调用err.Code(); 因为上面err已经被推断为普通error类型了
+		resp, se := cli.Login(ctx, &pb.LoginReq{Account: "test01", Password: "123456"}) // 这里se命名为err的话将不能调用err.Code(); 因为上面err已经被推断为普通error类型了
 		return resp, se
 	case 2:
-		resp, se := cli.GetUserByAccount(ctx, &pb.QueryByAccount{Account:"test01"})
+		resp, se := cli.GetUserByAccount(ctx, &pb.QueryByAccount{Account: "test01"})
 		return resp, se
 	default:
 		return nil, nil
