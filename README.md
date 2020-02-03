@@ -61,3 +61,7 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
   - [x] 增加客户端
 
 - [ ] account.proto 的Get接口不能直接返回info。
+
+- [ ]在user-logic加入第一个接口: 登录
+  - [ ]校验用户名, 密码 
+  - [ ]返回UserInfo, 以及这个人的余额
