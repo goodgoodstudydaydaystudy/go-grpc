@@ -7,6 +7,7 @@ import (
 	"goodgoodstudy.com/go-grpc/client/account"
 	"goodgoodstudy.com/go-grpc/client/wallet"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
+	apb "goodgoodstudy.com/go-grpc/pkg/pb/server/account"
 )
 
 type UserLogic struct {
@@ -17,11 +18,18 @@ type UserLogic struct {
 func NewUserLogic() (*UserLogic, error) {
 	accountClient, err := account.NewAccountClient()
 	if err != nil {
+		log.Println("logic server NewAccountClient failed: ", err)
+		return nil, err
+	}
+	walletClient, err := wallet.NewWalletClient()
+	if err != nil {
+		log.Println("logic server NewWalletClient failed: ", err)
 		return nil, err
 	}
 
 	return &UserLogic{
 		accountClient: accountClient,
+		walletClient:  walletClient,
 	}, nil
 }
 
@@ -57,7 +65,7 @@ func (s *UserLogic) CheckUserPassword(ctx context.Context, req *pb.CheckUserPwdR
 func (s *UserLogic) Register(ctx context.Context, req *pb.RegisterReq) (resp *pb.RegisterResp, err error) {
 	resp = &pb.RegisterResp{}
 	// 3.1 提交注册信息
-	r, err := s.accountClient.Register(ctx, req.Account, req.Password, req.Nickname, int(req.Gender))
+	r, err := s.accountClient.Register(ctx, req.Account, req.Password, req.Nickname, apb.Gender(req.Gender))
 	if err != nil {
 		log.Println("logic Register register failed: ", err)
 		return

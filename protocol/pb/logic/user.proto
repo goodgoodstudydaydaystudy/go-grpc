@@ -15,7 +15,7 @@ message CheckUserPwdReq {
 
 message CheckUserPwdResp {
     UserInfo user_info = 1;
-    uint64 balance = 2;
+    int64 balance = 2;
 }
 
 enum Gender {

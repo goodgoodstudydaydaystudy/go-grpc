@@ -18,7 +18,6 @@ const portRegistered = ":50051"
 type Client struct {
 	conn    *grpc.ClientConn
 	cli     pb.AccountClient
-	message string
 }
 
 // 注册服务功能
@@ -44,17 +43,17 @@ func (c *Client) Close() error {
 }
 
 // 发送注册信息
-func (c *Client) Register(ctx context.Context, acc string, pwd string, nickname string, gender int) (*pb.RegisterResp, protocol.ServerError) {
+func (c *Client) Register(ctx context.Context, acc string, pwd string, nickname string, gender pb.Gender) (*pb.RegisterResp, protocol.ServerError) {
 	pwd = md.Encryption(pwd)
 	req := &pb.RegisterReq{
 		Account:              acc,
 		Password:             pwd,
 		Name:                 nickname,
-		Gender:               pb.Gender(gender),
+		Gender:               gender,
 	}
 	resp, err := c.cli.Register(ctx, req)
 	if err != nil {
-		log.Println("cli.Registered failed: ", err)
+		log.Println("client Registered failed: ", err)
 		return resp, protocol.ToServerError(err)
 	}
 	return resp, nil
@@ -65,7 +64,7 @@ func (c *Client) Login(ctx context.Context, acc, pwd string) (*pb.LoginResp, pro
 	req := &pb.LoginReq{Account: acc, Password: pwd}
 	resp, err := c.cli.Login(ctx, req)
 	if err != nil {
-		log.Println("cli.LogIn failed:, ", err)
+		log.Println("client LogIn failed:, ", err)
 		return resp, protocol.ToServerError(err)
 	}
 	return resp, nil

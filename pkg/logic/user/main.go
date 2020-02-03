@@ -1,4 +1,4 @@
-package user
+package main
 
 import (
 	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
@@ -14,7 +14,7 @@ const portUserLogic = ":50051"
 
 func main() {
 	// 和普通server 的main函数一样
-	log.Println("listen to: ", portUserLogic)
+	log.Println("listen to", portUserLogic)
 	lis, err := net.Listen("tcp", portUserLogic)
 	if err != nil {
 		log.Fatal(err)
