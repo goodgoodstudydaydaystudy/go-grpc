@@ -52,10 +52,10 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
 
 - [x] client增加rpc查询接口
 
-- [ ] 增加wallet系统
+- [x] 增加wallet系统
 - Wallet Server
   - [x] 增加充值功能
-  - [ ] db若表中无用户记录，直接插入数据. 使用insert or update的语法
+  - [x] db若表中无用户记录，直接插入数据. 使用insert or update的语法
   
 - Wallet Client
   - [x] 增加客户端
@@ -65,3 +65,5 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
 - [ ]在user-logic加入第一个接口: 登录
   - [ ]校验用户名, 密码 
   - [ ]返回UserInfo, 以及这个人的余额
+  
+- [ ] 修改account pb 的 字段
