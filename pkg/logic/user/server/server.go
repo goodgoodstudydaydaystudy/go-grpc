@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"google.golang.org/genproto/googleapis/datastore/v1"
 	"log"
 
 	"goodgoodstudy.com/go-grpc/client/account"
