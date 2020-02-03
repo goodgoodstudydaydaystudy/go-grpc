@@ -38,17 +38,17 @@ func (s *server) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.Recharg
 		return nil, protocol.NewServerError(status.ErrRechargeFailed)
 	}
 	return &pb.RechargeResp{
-		Balance: 0,
 	}, nil
 }
 
 // 查询 用户余额
 func (s *server) GetUserBalance(ctx context.Context, req *pb.GetUserBalanceReq) (resp *pb.GetUserBalanceResp, err error) {
-	userBalance, err := s.db.GetUserBalance(ctx, req.GetUserId())
+	userBalanceInt64, err := s.db.GetUserBalance(ctx, req.GetUserId())
 	if err != nil {
 		log.Println("server GetUserBalance failed: ", err)
 		return nil, protocol.NewServerError(status.ErrGetUserBalanceFailed)
 	}
+	userBalance := uint64(userBalanceInt64)
 	return &pb.GetUserBalanceResp{
 		Balance: userBalance,
 	}, err

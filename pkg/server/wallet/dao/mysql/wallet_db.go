@@ -33,6 +33,7 @@ func NewWalletMysql(qe queryExec) *WalletMysql {
 	}
 }
 
+// 只负责写入表，连"锁"都没有
 func (c *WalletMysql) Recharge(ctx context.Context, userId uint32, deltaAdd int64) protocol.ServerError {
 	now := time.Now()
 	rechargeTime := now.Format("2006-01-02 15:04:05")
@@ -48,14 +49,16 @@ func (c *WalletMysql) Recharge(ctx context.Context, userId uint32, deltaAdd int6
 }
 
 // 查询
+// 只管查询，加入 forUpdate bool 提供"查询锁行"的功能
 func (c *WalletMysql) GetUserBalance(ctx context.Context, userId uint32, forUpdate bool) (int64, protocol.ServerError) {
+	// 这个操作太骚了
 	query := "SELECT money FROM t_wallet WHERE userId=?"
 	if forUpdate {
 		query += " FOR UPDATE"
 	}
 
 	row := c.qe.QueryRowxContext(ctx, query, userId)
-	var accBalance uint64
+	var accBalance int64
 	err := row.Scan(&accBalance)
 	if err != nil {
 		log.Println("wallet GetUserBalance failed: ", err)

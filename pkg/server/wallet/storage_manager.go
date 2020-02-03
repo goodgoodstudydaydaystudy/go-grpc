@@ -15,6 +15,8 @@ type storeManager struct {
 	mysqlConn *sqlx.DB
 }
 
+// TODO
+// 这个写法结构不是很理解
 func (st *storeManager) Recharge(ctx context.Context, userId uint32, deltaAdd int64) protocol.ServerError {
 	// 1. 开启事务
 	txErr := doTx(ctx, st.mysqlConn, func(tx *sqlx.Tx) error {
@@ -42,6 +44,8 @@ func (st *storeManager) GetUserBalance(ctx context.Context, userId uint32) (int6
 
 // private
 // 开启事务, 封装好一个函数, 方便别的地方用
+// TODO
+// 函数签名包含一个匿名函数，而且可以在函数最后return，mark
 func doTx(ctx context.Context, db *sqlx.DB, fn func(tx *sqlx.Tx) error) error {
 	tx, err := db.BeginTxx(ctx, nil)
 	if err != nil {
