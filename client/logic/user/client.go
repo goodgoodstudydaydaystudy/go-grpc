@@ -14,8 +14,8 @@ const portUserLogic = ":50053"
 
 // 1. client 结构体
 type Client struct {
-	conn  *grpc.ClientConn
-	cli   pb.UserClient
+	conn *grpc.ClientConn
+	cli  pb.UserClient
 }
 
 // 2. client的new函数返回client的实例
@@ -37,7 +37,6 @@ func NewUserLogicClient() (*Client, error) {
 	}, nil
 }
 
-
 func (c *Client) Close() error {
 	return c.conn.Close()
 }
@@ -51,7 +50,6 @@ func (c *Client) CheckoutPassword(ctx context.Context, req *pb.CheckUserPwdReq) 
 	}
 	return resp, nil
 }
-
 
 // account的register
 func (c *Client) Register(ctx context.Context, req *pb.RegisterReq) (*pb.RegisterResp, protocol.ServerError) {

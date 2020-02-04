@@ -34,28 +34,28 @@ func testOption(n int) (interface{}, protocol.ServerError) {
 	switch n {
 	case 1:
 		// 1. 注册
-		return  logicCli.Register(ctx, &upb.RegisterReq{
-			Account:              "test03",
-			Password:             "666666",
-			Nickname:             "test3",
-			Gender:               1,
+		return logicCli.Register(ctx, &upb.RegisterReq{
+			Account:  "test03",
+			Password: "666666",
+			Nickname: "test3",
+			Gender:   1,
 		})
 
 		// 2. 登录
 	case 2:
-		return  logicCli.CheckoutPassword(ctx, &upb.CheckUserPwdReq{
-			Account:              "test03",
-			Password:             "666666",
+		return logicCli.CheckoutPassword(ctx, &upb.CheckUserPwdReq{
+			Account:  "test03",
+			Password: "666666",
 		})
 		// 3. 充值
 	case 3:
 		return walletCli.Recharge(ctx, &wpb.RechargeReq{
-			UserId:               10,
-			Count:                88888,
+			UserId: 10,
+			Count:  88888,
 		})
 		// 4. 余额
 	case 4:
 		return walletCli.GetUserById(ctx, 9)
-		}
+	}
 	return nil, nil
 }
