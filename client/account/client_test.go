@@ -49,7 +49,7 @@ func init() {
 }
 
 func TestClient_Register(t *testing.T) {
-	resp, err := cli.Register(context.Background(), "test001", "123456", "testName", pb.Gender_MALE)
+	resp, err := cli.AddUsr(context.Background(), "test001", "123456", "testName", pb.Gender_MALE)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -57,7 +57,7 @@ func TestClient_Register(t *testing.T) {
 }
 
 func TestClient_Login(t *testing.T) {
-	resp, err := cli.Login(context.Background(), "test001", "123456")
+	resp, err := cli.CheckPwd(context.Background(), "test001", "123456")
 	if err != nil {
 		t.Fatal(err)
 	}

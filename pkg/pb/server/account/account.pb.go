@@ -52,7 +52,7 @@ func (Gender) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_56d089a9b5e998c0, []int{0}
 }
 
-type RegisterReq struct {
+type AddUsrReq struct {
 	Account              string   `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
 	Password             string   `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
 	Name                 string   `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
@@ -62,92 +62,92 @@ type RegisterReq struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RegisterReq) Reset()         { *m = RegisterReq{} }
-func (m *RegisterReq) String() string { return proto.CompactTextString(m) }
-func (*RegisterReq) ProtoMessage()    {}
-func (*RegisterReq) Descriptor() ([]byte, []int) {
+func (m *AddUsrReq) Reset()         { *m = AddUsrReq{} }
+func (m *AddUsrReq) String() string { return proto.CompactTextString(m) }
+func (*AddUsrReq) ProtoMessage()    {}
+func (*AddUsrReq) Descriptor() ([]byte, []int) {
 	return fileDescriptor_56d089a9b5e998c0, []int{0}
 }
 
-func (m *RegisterReq) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RegisterReq.Unmarshal(m, b)
+func (m *AddUsrReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_AddUsrReq.Unmarshal(m, b)
 }
-func (m *RegisterReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RegisterReq.Marshal(b, m, deterministic)
+func (m *AddUsrReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_AddUsrReq.Marshal(b, m, deterministic)
 }
-func (m *RegisterReq) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RegisterReq.Merge(m, src)
+func (m *AddUsrReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AddUsrReq.Merge(m, src)
 }
-func (m *RegisterReq) XXX_Size() int {
-	return xxx_messageInfo_RegisterReq.Size(m)
+func (m *AddUsrReq) XXX_Size() int {
+	return xxx_messageInfo_AddUsrReq.Size(m)
 }
-func (m *RegisterReq) XXX_DiscardUnknown() {
-	xxx_messageInfo_RegisterReq.DiscardUnknown(m)
+func (m *AddUsrReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_AddUsrReq.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_RegisterReq proto.InternalMessageInfo
+var xxx_messageInfo_AddUsrReq proto.InternalMessageInfo
 
-func (m *RegisterReq) GetAccount() string {
+func (m *AddUsrReq) GetAccount() string {
 	if m != nil {
 		return m.Account
 	}
 	return ""
 }
 
-func (m *RegisterReq) GetPassword() string {
+func (m *AddUsrReq) GetPassword() string {
 	if m != nil {
 		return m.Password
 	}
 	return ""
 }
 
-func (m *RegisterReq) GetName() string {
+func (m *AddUsrReq) GetName() string {
 	if m != nil {
 		return m.Name
 	}
 	return ""
 }
 
-func (m *RegisterReq) GetGender() Gender {
+func (m *AddUsrReq) GetGender() Gender {
 	if m != nil {
 		return m.Gender
 	}
 	return Gender_UNKNOWN
 }
 
-type RegisterResp struct {
+type AddUsrResp struct {
 	UserId               uint32   `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RegisterResp) Reset()         { *m = RegisterResp{} }
-func (m *RegisterResp) String() string { return proto.CompactTextString(m) }
-func (*RegisterResp) ProtoMessage()    {}
-func (*RegisterResp) Descriptor() ([]byte, []int) {
+func (m *AddUsrResp) Reset()         { *m = AddUsrResp{} }
+func (m *AddUsrResp) String() string { return proto.CompactTextString(m) }
+func (*AddUsrResp) ProtoMessage()    {}
+func (*AddUsrResp) Descriptor() ([]byte, []int) {
 	return fileDescriptor_56d089a9b5e998c0, []int{1}
 }
 
-func (m *RegisterResp) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RegisterResp.Unmarshal(m, b)
+func (m *AddUsrResp) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_AddUsrResp.Unmarshal(m, b)
 }
-func (m *RegisterResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RegisterResp.Marshal(b, m, deterministic)
+func (m *AddUsrResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_AddUsrResp.Marshal(b, m, deterministic)
 }
-func (m *RegisterResp) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RegisterResp.Merge(m, src)
+func (m *AddUsrResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AddUsrResp.Merge(m, src)
 }
-func (m *RegisterResp) XXX_Size() int {
-	return xxx_messageInfo_RegisterResp.Size(m)
+func (m *AddUsrResp) XXX_Size() int {
+	return xxx_messageInfo_AddUsrResp.Size(m)
 }
-func (m *RegisterResp) XXX_DiscardUnknown() {
-	xxx_messageInfo_RegisterResp.DiscardUnknown(m)
+func (m *AddUsrResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_AddUsrResp.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_RegisterResp proto.InternalMessageInfo
+var xxx_messageInfo_AddUsrResp proto.InternalMessageInfo
 
-func (m *RegisterResp) GetUserId() uint32 {
+func (m *AddUsrResp) GetUserId() uint32 {
 	if m != nil {
 		return m.UserId
 	}
@@ -218,7 +218,7 @@ func (m *UserInfo) GetGender() Gender {
 	return Gender_UNKNOWN
 }
 
-type LoginReq struct {
+type CheckPwdReq struct {
 	Account              string   `protobuf:"bytes,1,opt,name=account,proto3" json:"account,omitempty"`
 	Password             string   `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -226,78 +226,78 @@ type LoginReq struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *LoginReq) Reset()         { *m = LoginReq{} }
-func (m *LoginReq) String() string { return proto.CompactTextString(m) }
-func (*LoginReq) ProtoMessage()    {}
-func (*LoginReq) Descriptor() ([]byte, []int) {
+func (m *CheckPwdReq) Reset()         { *m = CheckPwdReq{} }
+func (m *CheckPwdReq) String() string { return proto.CompactTextString(m) }
+func (*CheckPwdReq) ProtoMessage()    {}
+func (*CheckPwdReq) Descriptor() ([]byte, []int) {
 	return fileDescriptor_56d089a9b5e998c0, []int{3}
 }
 
-func (m *LoginReq) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_LoginReq.Unmarshal(m, b)
+func (m *CheckPwdReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CheckPwdReq.Unmarshal(m, b)
 }
-func (m *LoginReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_LoginReq.Marshal(b, m, deterministic)
+func (m *CheckPwdReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CheckPwdReq.Marshal(b, m, deterministic)
 }
-func (m *LoginReq) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_LoginReq.Merge(m, src)
+func (m *CheckPwdReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CheckPwdReq.Merge(m, src)
 }
-func (m *LoginReq) XXX_Size() int {
-	return xxx_messageInfo_LoginReq.Size(m)
+func (m *CheckPwdReq) XXX_Size() int {
+	return xxx_messageInfo_CheckPwdReq.Size(m)
 }
-func (m *LoginReq) XXX_DiscardUnknown() {
-	xxx_messageInfo_LoginReq.DiscardUnknown(m)
+func (m *CheckPwdReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_CheckPwdReq.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_LoginReq proto.InternalMessageInfo
+var xxx_messageInfo_CheckPwdReq proto.InternalMessageInfo
 
-func (m *LoginReq) GetAccount() string {
+func (m *CheckPwdReq) GetAccount() string {
 	if m != nil {
 		return m.Account
 	}
 	return ""
 }
 
-func (m *LoginReq) GetPassword() string {
+func (m *CheckPwdReq) GetPassword() string {
 	if m != nil {
 		return m.Password
 	}
 	return ""
 }
 
-type LoginResp struct {
+type CheckPwdResp struct {
 	UserInfo             *UserInfo `protobuf:"bytes,1,opt,name=user_info,json=userInfo,proto3" json:"user_info,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
 	XXX_unrecognized     []byte    `json:"-"`
 	XXX_sizecache        int32     `json:"-"`
 }
 
-func (m *LoginResp) Reset()         { *m = LoginResp{} }
-func (m *LoginResp) String() string { return proto.CompactTextString(m) }
-func (*LoginResp) ProtoMessage()    {}
-func (*LoginResp) Descriptor() ([]byte, []int) {
+func (m *CheckPwdResp) Reset()         { *m = CheckPwdResp{} }
+func (m *CheckPwdResp) String() string { return proto.CompactTextString(m) }
+func (*CheckPwdResp) ProtoMessage()    {}
+func (*CheckPwdResp) Descriptor() ([]byte, []int) {
 	return fileDescriptor_56d089a9b5e998c0, []int{4}
 }
 
-func (m *LoginResp) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_LoginResp.Unmarshal(m, b)
+func (m *CheckPwdResp) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CheckPwdResp.Unmarshal(m, b)
 }
-func (m *LoginResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_LoginResp.Marshal(b, m, deterministic)
+func (m *CheckPwdResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CheckPwdResp.Marshal(b, m, deterministic)
 }
-func (m *LoginResp) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_LoginResp.Merge(m, src)
+func (m *CheckPwdResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CheckPwdResp.Merge(m, src)
 }
-func (m *LoginResp) XXX_Size() int {
-	return xxx_messageInfo_LoginResp.Size(m)
+func (m *CheckPwdResp) XXX_Size() int {
+	return xxx_messageInfo_CheckPwdResp.Size(m)
 }
-func (m *LoginResp) XXX_DiscardUnknown() {
-	xxx_messageInfo_LoginResp.DiscardUnknown(m)
+func (m *CheckPwdResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_CheckPwdResp.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_LoginResp proto.InternalMessageInfo
+var xxx_messageInfo_CheckPwdResp proto.InternalMessageInfo
 
-func (m *LoginResp) GetUserInfo() *UserInfo {
+func (m *CheckPwdResp) GetUserInfo() *UserInfo {
 	if m != nil {
 		return m.UserInfo
 	}
@@ -462,11 +462,11 @@ func (m *GetUserByIdResp) GetUserInfo() *UserInfo {
 
 func init() {
 	proto.RegisterEnum("account.Gender", Gender_name, Gender_value)
-	proto.RegisterType((*RegisterReq)(nil), "account.RegisterReq")
-	proto.RegisterType((*RegisterResp)(nil), "account.RegisterResp")
+	proto.RegisterType((*AddUsrReq)(nil), "account.AddUsrReq")
+	proto.RegisterType((*AddUsrResp)(nil), "account.AddUsrResp")
 	proto.RegisterType((*UserInfo)(nil), "account.UserInfo")
-	proto.RegisterType((*LoginReq)(nil), "account.LoginReq")
-	proto.RegisterType((*LoginResp)(nil), "account.LoginResp")
+	proto.RegisterType((*CheckPwdReq)(nil), "account.CheckPwdReq")
+	proto.RegisterType((*CheckPwdResp)(nil), "account.CheckPwdResp")
 	proto.RegisterType((*GetUserByAccountReq)(nil), "account.GetUserByAccountReq")
 	proto.RegisterType((*GetUserByAccountResp)(nil), "account.GetUserByAccountResp")
 	proto.RegisterType((*GetUserByIdReq)(nil), "account.GetUserByIdReq")
@@ -476,33 +476,33 @@ func init() {
 func init() { proto.RegisterFile("server/account/account.proto", fileDescriptor_56d089a9b5e998c0) }
 
 var fileDescriptor_56d089a9b5e998c0 = []byte{
-	// 415 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0xd1, 0x6b, 0xda, 0x60,
-	0x10, 0x37, 0x99, 0x4b, 0xe2, 0x65, 0x53, 0x77, 0x53, 0x0c, 0xc1, 0x81, 0xe4, 0x45, 0xb7, 0x81,
-	0x19, 0xee, 0x69, 0xec, 0x65, 0x0a, 0x2a, 0x32, 0xe7, 0x68, 0x40, 0x0a, 0x7d, 0x29, 0x6a, 0x3e,
-	0x43, 0x90, 0x26, 0x69, 0xbe, 0xd8, 0xd2, 0xb7, 0xd2, 0xf7, 0xfe, 0xcf, 0x25, 0x9f, 0x49, 0x8c,
-	0x46, 0xa5, 0xf5, 0xc9, 0xbb, 0xfb, 0xdd, 0x77, 0xf7, 0xbb, 0xdf, 0x9d, 0x81, 0x3a, 0x25, 0xfe,
-	0x1d, 0xf1, 0xf5, 0xd9, 0x62, 0xe1, 0xae, 0x9d, 0x20, 0xfe, 0x6d, 0x7b, 0xbe, 0x1b, 0xb8, 0x28,
-	0x46, 0xae, 0xf6, 0xc8, 0x81, 0x6c, 0x10, 0xcb, 0xa6, 0x01, 0xf1, 0x0d, 0x72, 0x8b, 0x0a, 0xc4,
-	0x90, 0xc2, 0x35, 0xb8, 0x56, 0xc1, 0x88, 0x5d, 0x54, 0x41, 0xf2, 0x66, 0x94, 0xde, 0xbb, 0xbe,
-	0xa9, 0xf0, 0x0c, 0x4a, 0x7c, 0x44, 0xc8, 0x3b, 0xb3, 0x1b, 0xa2, 0xbc, 0x63, 0x71, 0x66, 0x63,
-	0x13, 0x04, 0x8b, 0x38, 0x26, 0xf1, 0x95, 0x7c, 0x83, 0x6b, 0x15, 0x3b, 0xa5, 0x76, 0x4c, 0x61,
-	0xc8, 0xc2, 0x46, 0x04, 0x6b, 0x4d, 0xf8, 0xb0, 0x65, 0x40, 0x3d, 0xac, 0x81, 0xb8, 0xa6, 0xc4,
-	0xbf, 0xb6, 0x4d, 0x46, 0xe1, 0xa3, 0x21, 0x84, 0xee, 0xc8, 0xd4, 0x9e, 0x38, 0x90, 0xa6, 0xa1,
-	0xe9, 0x2c, 0xdd, 0xa3, 0x59, 0xe9, 0x09, 0xf8, 0xcc, 0x04, 0x8e, 0xbd, 0x58, 0xa5, 0x98, 0x26,
-	0xfe, 0xeb, 0xd9, 0xfe, 0x01, 0x69, 0xec, 0x5a, 0xb6, 0x73, 0xb6, 0x58, 0xda, 0x6f, 0x28, 0x44,
-	0x15, 0xa8, 0x87, 0x6d, 0x28, 0x6c, 0xc6, 0x70, 0x96, 0x2e, 0x2b, 0x22, 0x77, 0x3e, 0x25, 0xad,
-	0xe3, 0x61, 0x0d, 0x69, 0x1d, 0x59, 0x9a, 0x0e, 0x9f, 0x87, 0x24, 0x08, 0x81, 0xde, 0x43, 0x77,
-	0x93, 0x76, 0x92, 0x89, 0x36, 0x80, 0x4a, 0xf6, 0xc1, 0x19, 0x8d, 0xbf, 0x42, 0x31, 0xa9, 0x33,
-	0x32, 0xc3, 0x9e, 0x47, 0xf7, 0xd4, 0x85, 0xd2, 0x4e, 0xea, 0xdb, 0xbb, 0x7d, 0xfb, 0x0e, 0xc2,
-	0x46, 0x77, 0x94, 0x41, 0x9c, 0x4e, 0xfe, 0x4e, 0xfe, 0x5f, 0x4e, 0xca, 0x39, 0x04, 0x10, 0x06,
-	0xfd, 0x7f, 0xdd, 0x71, 0xbf, 0xcc, 0xa1, 0x04, 0x79, 0x66, 0xf1, 0x9d, 0x67, 0x1e, 0xc4, 0x68,
-	0x34, 0xfc, 0x05, 0x52, 0x7c, 0x4c, 0x58, 0x49, 0x3a, 0xa4, 0x2e, 0x5c, 0xad, 0x1e, 0x88, 0x52,
-	0x4f, 0xcb, 0xe1, 0x0f, 0x78, 0xcf, 0xf6, 0x82, 0x5b, 0x66, 0xf1, 0xa6, 0x55, 0xdc, 0x0f, 0xb1,
-	0x17, 0x17, 0x50, 0xde, 0xd7, 0x16, 0xeb, 0xa9, 0xc3, 0xc9, 0xec, 0x49, 0xfd, 0x72, 0x02, 0x65,
-	0x25, 0x7b, 0x20, 0xa7, 0xb4, 0xc3, 0x5a, 0x36, 0x9f, 0x89, 0xaf, 0x2a, 0x87, 0x81, 0xb0, 0x46,
-	0xaf, 0x76, 0x55, 0xf5, 0x56, 0x96, 0xee, 0xcd, 0xf5, 0xdd, 0x6f, 0xc0, 0x5c, 0x60, 0x7f, 0xfe,
-	0x9f, 0x2f, 0x01, 0x00, 0x00, 0xff, 0xff, 0xc3, 0xd4, 0x14, 0xfe, 0x1c, 0x04, 0x00, 0x00,
+	// 416 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0xdf, 0x6b, 0xda, 0x50,
+	0x14, 0x36, 0x99, 0x24, 0xf1, 0x64, 0x53, 0x77, 0x54, 0x0c, 0xc1, 0x81, 0x04, 0xc6, 0xdc, 0x06,
+	0x06, 0xf4, 0x69, 0x2f, 0x83, 0x28, 0x2a, 0xb2, 0xcd, 0x6d, 0x01, 0x19, 0xec, 0xa5, 0x68, 0x72,
+	0xb5, 0x22, 0x4d, 0xd2, 0x5c, 0xad, 0xf4, 0xa5, 0x0f, 0xfd, 0x0b, 0xfa, 0x27, 0x97, 0xdc, 0xfc,
+	0x68, 0x6c, 0x54, 0x5a, 0x9f, 0x72, 0x7e, 0xe5, 0x3b, 0xdf, 0xf9, 0xce, 0xe1, 0x42, 0x83, 0x12,
+	0xff, 0x86, 0xf8, 0xfa, 0xcc, 0xb2, 0xdc, 0xad, 0xb3, 0x89, 0xbf, 0x6d, 0xcf, 0x77, 0x37, 0x2e,
+	0x8a, 0x91, 0xab, 0xdd, 0x41, 0xc1, 0xb0, 0xed, 0x29, 0xf5, 0x4d, 0x72, 0x8d, 0x0a, 0xc4, 0x71,
+	0x85, 0x6b, 0x72, 0xad, 0x82, 0x19, 0xbb, 0xa8, 0x82, 0xe4, 0xcd, 0x28, 0xdd, 0xb9, 0xbe, 0xad,
+	0xf0, 0x2c, 0x95, 0xf8, 0x88, 0x90, 0x77, 0x66, 0x57, 0x44, 0x79, 0xc3, 0xe2, 0xcc, 0xc6, 0x4f,
+	0x20, 0x2c, 0x89, 0x63, 0x13, 0x5f, 0xc9, 0x37, 0xb9, 0x56, 0xb1, 0x53, 0x6a, 0xc7, 0xfd, 0x47,
+	0x2c, 0x6c, 0x46, 0x69, 0xed, 0x23, 0x40, 0xdc, 0x9f, 0x7a, 0x58, 0x07, 0x71, 0x4b, 0x89, 0x7f,
+	0xb1, 0xb2, 0x19, 0x81, 0x77, 0xa6, 0x10, 0xb8, 0x63, 0x5b, 0xbb, 0xe7, 0x40, 0x9a, 0x06, 0xa6,
+	0xb3, 0x70, 0x8f, 0x56, 0xa5, 0xf9, 0xf3, 0x19, 0xfe, 0xce, 0xca, 0x5a, 0xa7, 0x78, 0x26, 0xfe,
+	0xcb, 0xb9, 0xf6, 0x41, 0xee, 0x5f, 0x12, 0x6b, 0xfd, 0x67, 0x67, 0x9f, 0xad, 0x96, 0xf6, 0x1d,
+	0xde, 0x3e, 0x81, 0x50, 0x0f, 0xdb, 0x50, 0x08, 0x87, 0x71, 0x16, 0x2e, 0xc3, 0x91, 0x3b, 0xef,
+	0x13, 0x02, 0xf1, 0xc8, 0xa6, 0xb4, 0x8d, 0x2c, 0x4d, 0x87, 0xca, 0x88, 0x6c, 0x82, 0x44, 0xef,
+	0xd6, 0x08, 0xcb, 0x4e, 0x92, 0xd1, 0x86, 0x50, 0xcd, 0xfe, 0x70, 0x46, 0xe3, 0xcf, 0x50, 0x4c,
+	0x70, 0xc6, 0x4c, 0x80, 0xa3, 0xdb, 0x32, 0xa0, 0xb4, 0x57, 0xfa, 0xfa, 0x6e, 0x5f, 0xbe, 0x82,
+	0x10, 0xaa, 0x8f, 0x32, 0x88, 0xd3, 0xc9, 0x8f, 0xc9, 0xef, 0x7f, 0x93, 0x72, 0x0e, 0x01, 0x84,
+	0xe1, 0xe0, 0x97, 0xf1, 0x73, 0x50, 0xe6, 0x50, 0x82, 0x3c, 0xb3, 0xf8, 0xce, 0x03, 0x0f, 0x62,
+	0x34, 0x1a, 0x76, 0x41, 0x08, 0x0f, 0x0a, 0x31, 0xc1, 0x4f, 0x2e, 0x5c, 0xad, 0x64, 0x62, 0xd4,
+	0xd3, 0x72, 0xf8, 0x0d, 0xa4, 0x78, 0x29, 0x58, 0x4d, 0x4a, 0x52, 0xcb, 0x56, 0x6b, 0x07, 0xa2,
+	0xec, 0xd7, 0xbf, 0x50, 0x7e, 0x2e, 0x2f, 0x36, 0x52, 0x17, 0x94, 0x59, 0x95, 0xfa, 0xe1, 0x44,
+	0x96, 0x41, 0xf6, 0x40, 0x4e, 0xc9, 0x87, 0xf5, 0x6c, 0x3d, 0xd3, 0x5f, 0x55, 0x0e, 0x27, 0x02,
+	0x8c, 0x5e, 0xfd, 0x7f, 0xcd, 0x5b, 0x2f, 0x75, 0x6f, 0xae, 0xef, 0xbf, 0x03, 0x73, 0x81, 0x3d,
+	0x00, 0xdd, 0xc7, 0x00, 0x00, 0x00, 0xff, 0xff, 0x23, 0xbc, 0x84, 0x48, 0x20, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -517,8 +517,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type AccountClient interface {
-	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
-	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error)
+	AddUsr(ctx context.Context, in *AddUsrReq, opts ...grpc.CallOption) (*AddUsrResp, error)
+	CheckPwd(ctx context.Context, in *CheckPwdReq, opts ...grpc.CallOption) (*CheckPwdResp, error)
 	GetUserByAccount(ctx context.Context, in *GetUserByAccountReq, opts ...grpc.CallOption) (*GetUserByAccountResp, error)
 	GetUserById(ctx context.Context, in *GetUserByIdReq, opts ...grpc.CallOption) (*GetUserByIdResp, error)
 }
@@ -531,18 +531,18 @@ func NewAccountClient(cc *grpc.ClientConn) AccountClient {
 	return &accountClient{cc}
 }
 
-func (c *accountClient) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error) {
-	out := new(RegisterResp)
-	err := c.cc.Invoke(ctx, "/account.Account/Register", in, out, opts...)
+func (c *accountClient) AddUsr(ctx context.Context, in *AddUsrReq, opts ...grpc.CallOption) (*AddUsrResp, error) {
+	out := new(AddUsrResp)
+	err := c.cc.Invoke(ctx, "/account.Account/AddUsr", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *accountClient) Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResp, error) {
-	out := new(LoginResp)
-	err := c.cc.Invoke(ctx, "/account.Account/Login", in, out, opts...)
+func (c *accountClient) CheckPwd(ctx context.Context, in *CheckPwdReq, opts ...grpc.CallOption) (*CheckPwdResp, error) {
+	out := new(CheckPwdResp)
+	err := c.cc.Invoke(ctx, "/account.Account/CheckPwd", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -569,8 +569,8 @@ func (c *accountClient) GetUserById(ctx context.Context, in *GetUserByIdReq, opt
 
 // AccountServer is the server API for Account service.
 type AccountServer interface {
-	Register(context.Context, *RegisterReq) (*RegisterResp, error)
-	Login(context.Context, *LoginReq) (*LoginResp, error)
+	AddUsr(context.Context, *AddUsrReq) (*AddUsrResp, error)
+	CheckPwd(context.Context, *CheckPwdReq) (*CheckPwdResp, error)
 	GetUserByAccount(context.Context, *GetUserByAccountReq) (*GetUserByAccountResp, error)
 	GetUserById(context.Context, *GetUserByIdReq) (*GetUserByIdResp, error)
 }
@@ -579,11 +579,11 @@ type AccountServer interface {
 type UnimplementedAccountServer struct {
 }
 
-func (*UnimplementedAccountServer) Register(ctx context.Context, req *RegisterReq) (*RegisterResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+func (*UnimplementedAccountServer) AddUsr(ctx context.Context, req *AddUsrReq) (*AddUsrResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddUsr not implemented")
 }
-func (*UnimplementedAccountServer) Login(ctx context.Context, req *LoginReq) (*LoginResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
+func (*UnimplementedAccountServer) CheckPwd(ctx context.Context, req *CheckPwdReq) (*CheckPwdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckPwd not implemented")
 }
 func (*UnimplementedAccountServer) GetUserByAccount(ctx context.Context, req *GetUserByAccountReq) (*GetUserByAccountResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserByAccount not implemented")
@@ -596,38 +596,38 @@ func RegisterAccountServer(s *grpc.Server, srv AccountServer) {
 	s.RegisterService(&_Account_serviceDesc, srv)
 }
 
-func _Account_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterReq)
+func _Account_AddUsr_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddUsrReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountServer).Register(ctx, in)
+		return srv.(AccountServer).AddUsr(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/account.Account/Register",
+		FullMethod: "/account.Account/AddUsr",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).Register(ctx, req.(*RegisterReq))
+		return srv.(AccountServer).AddUsr(ctx, req.(*AddUsrReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Account_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(LoginReq)
+func _Account_CheckPwd_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckPwdReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountServer).Login(ctx, in)
+		return srv.(AccountServer).CheckPwd(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/account.Account/Login",
+		FullMethod: "/account.Account/CheckPwd",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountServer).Login(ctx, req.(*LoginReq))
+		return srv.(AccountServer).CheckPwd(ctx, req.(*CheckPwdReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -673,12 +673,12 @@ var _Account_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*AccountServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Register",
-			Handler:    _Account_Register_Handler,
+			MethodName: "AddUsr",
+			Handler:    _Account_AddUsr_Handler,
 		},
 		{
-			MethodName: "Login",
-			Handler:    _Account_Login_Handler,
+			MethodName: "CheckPwd",
+			Handler:    _Account_CheckPwd_Handler,
 		},
 		{
 			MethodName: "GetUserByAccount",

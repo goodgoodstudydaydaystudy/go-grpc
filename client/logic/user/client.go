@@ -45,8 +45,8 @@ func (c *Client) Close() error {
 }
 
 // account的密码校验(登录)
-func (c *Client) CheckoutPassword(ctx context.Context, req *pb.CheckUserPwdReq, opts ...grpc.CallOption) (*pb.CheckUserPwdResp, protocol.ServerError) {
-	resp, err := c.cli.CheckUserPassword(ctx, req, opts...)
+func (c *Client) Login(ctx context.Context, req *pb.LoginReq, opts ...grpc.CallOption) (*pb.LoginResp, protocol.ServerError) {
+	resp, err := c.cli.Login(ctx, req, opts...)
 	if err != nil {
 		log.Println("userClient CheckoutPassword failed: ", err)
 		return nil, protocol.ToServerError(err)

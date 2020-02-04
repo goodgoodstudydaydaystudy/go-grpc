@@ -15,6 +15,8 @@ type UserLogic struct {
 	walletClient  *wallet.Client
 }
 
+
+
 func NewUserLogic() (*UserLogic, error) {
 	accountClient, err := account.NewAccountClient()
 	if err != nil {
@@ -34,12 +36,12 @@ func NewUserLogic() (*UserLogic, error) {
 }
 
 // 2. account的登录服务
-func (s *UserLogic) CheckUserPassword(ctx context.Context, req *pb.CheckUserPwdReq) (resp *pb.CheckUserPwdResp, err error) {
-	resp = &pb.CheckUserPwdResp{}
+func (s *UserLogic) Login(ctx context.Context, req *pb.LoginReq) (resp *pb.LoginResp, err error) {
+	resp = &pb.LoginResp{}
 
 	// 1. check password
 	// 这里不能反悔，否则grpc 框架会报错。
-	r, err := s.accountClient.Login(ctx, req.Account, req.Password)
+	r, err := s.accountClient.CheckPwd(ctx, req.Account, req.Password)
 	if err != nil {
 		log.Println("logic.Login check password failed: ", err)
 		return
@@ -66,7 +68,7 @@ func (s *UserLogic) CheckUserPassword(ctx context.Context, req *pb.CheckUserPwdR
 func (s *UserLogic) Register(ctx context.Context, req *pb.RegisterReq) (resp *pb.RegisterResp, err error) {
 	resp = &pb.RegisterResp{}
 	// 3.1 提交注册信息
-	r, err := s.accountClient.Register(ctx, req.Account, req.Password, req.Nickname, apb.Gender(req.Gender))
+	r, err := s.accountClient.AddUsr(ctx, req.Account, req.Password, req.Nickname, apb.Gender(req.Gender))
 	if err != nil {
 		log.Println("logic Register register failed: ", err)
 		return
@@ -76,3 +78,14 @@ func (s *UserLogic) Register(ctx context.Context, req *pb.RegisterReq) (resp *pb
 	return resp, nil
 }
 
+//4. 充值服务
+func (s *UserLogic) Recharge(ctx context.Context, req *pb.RechargeReq) (resp *pb.RechargeResp, err error) {
+	resp = &pb.RechargeResp{}
+	// 4.1 发送请求
+	_, err = s.walletClient.Recharge(ctx, req.UserId, req.Delta)
+	if err != nil {
+		log.Println("logic serve Recharge failed: ", err)
+		return
+	}
+	return resp, nil
+}

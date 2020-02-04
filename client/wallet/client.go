@@ -38,7 +38,8 @@ func (c *Client) Close() error{
 }
 
 
-func (c *Client) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.RechargeResp, protocol.ServerError){
+func (c *Client) Recharge(ctx context.Context, uid uint32, delta int64) (*pb.RechargeResp, protocol.ServerError){
+	req := &pb.RechargeReq{UserId: uid, Count: delta}
 	resp, err := c.cli.Recharge(ctx, req)
 	if err != nil {
 		log.Println("client Recharge failed: ", err)

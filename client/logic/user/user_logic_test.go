@@ -5,14 +5,17 @@ import (
 	"log"
 	"testing"
 
-	"goodgoodstudy.com/go-grpc/client/wallet"
 	upb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
-	wpb "goodgoodstudy.com/go-grpc/pkg/pb/server/wallet"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 )
 
+type Result struct {
+	newUsrId uint32
+	balance  int64
+}
+
 func TestUserLogic(t *testing.T) {
-	result, err := testOption(2)
+	result, err := testOption()
 	if err != nil {
 		t.Log(err.Code())
 
@@ -20,44 +23,50 @@ func TestUserLogic(t *testing.T) {
 	t.Log(result)
 }
 
-func testOption(n int) (interface{}, protocol.ServerError) {
+func testOption() (*Result, protocol.ServerError) {
+	resp := &Result{}
+
 	logicCli, err := NewUserLogicClient()
 	if err != nil {
-		log.Println("test UserLogicClient error: ", err)
-	}
-	walletCli, err := wallet.NewWalletClient()
-	if err != nil {
-		log.Println("test WalletClient error: ", err)
+		log.Println("testOption newCli failed: ", err)
 	}
 
 	ctx := context.Background()
-	switch n {
-	case 1:
-		// 1. 注册
-		return logicCli.Register(ctx, &upb.RegisterReq{
-			Account:  "test03",
-			Password: "666666",
-			Nickname: "test3",
-			Gender:   1,
-		})
 
-		// 2. 登录
-	case 2:
-		return logicCli.CheckoutPassword(ctx, &upb.CheckUserPwdReq{
-			Account:  "test03",
-			Password: "666666",
+	// 注册
+	resultFromRegister, err := logicCli.Register(ctx, &upb.RegisterReq{
+		Account:  "test04",
+		Password: "777777",
+		Nickname: "test4",
+		Gender:   2,
 		})
-		// 3. 充值
-	case 3:
-		return walletCli.Recharge(ctx, &wpb.RechargeReq{
-			UserId: 10,
-			Count:  88888,
-		})
-		// 4. 余额
-	case 4:
-		return walletCli.GetUserById(ctx, 9)
+	if err != nil {
+		log.Println("resultFromRegister failed: ", err)
+		return resp, protocol.ToServerError(err)
 	}
-	return nil, nil
+
+	// 2. 登录
+	resultFromLogin, err :=  logicCli.Login(ctx, &upb.LoginReq{
+		Account:  "test03",
+		Password: "666666",
+		})
+	if err != nil {
+		log.Println("resultFromLogin failed: ", err)
+		return resp, protocol.ToServerError(err)
+	}
+	// 充值
+	_, err = logicCli.Recharge(ctx, &upb.RechargeReq{
+		UserId: 9,
+		Delta:  11,
+		})
+	if err != nil {
+		log.Println("resultFromRecharge failed: ", err)
+		return resp, protocol.ToServerError(err)
+	}
+	return &Result{
+		newUsrId: resultFromRegister.UserId,
+		balance:  resultFromLogin.Balance,
+	}, nil
 }
 
 func TestClient_Recharge(t *testing.T) {
@@ -66,13 +75,13 @@ func TestClient_Recharge(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	resp, err := cli.Recharge(context.Background(), &upb.RechargeReq{
-		UserId: 2,
-		Delta:  100,
+	resp, err := cli.Login(context.Background(), &upb.LoginReq{
+		Account:              "test04",
+		Password:             "777777",
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	t.Log(resp)
 }
+

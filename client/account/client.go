@@ -42,14 +42,14 @@ func (c *Client) Close() error {
 }
 
 // 发送注册信息
-func (c *Client) Register(ctx context.Context, acc string, pwd string, nickname string, gender pb.Gender) (*pb.RegisterResp, protocol.ServerError) {
-	req := &pb.RegisterReq{
+func (c *Client) AddUsr(ctx context.Context, acc string, pwd string, nickname string, gender pb.Gender) (*pb.AddUsrResp, protocol.ServerError) {
+	req := &pb.AddUsrReq{
 		Account:  acc,
 		Password: pwd,
 		Name:     nickname,
 		Gender:   gender,
 	}
-	resp, err := c.cli.Register(ctx, req)
+	resp, err := c.cli.AddUsr(ctx, req)
 	if err != nil {
 		log.Println("client Registered failed: ", err)
 		return resp, protocol.ToServerError(err)
@@ -58,9 +58,9 @@ func (c *Client) Register(ctx context.Context, acc string, pwd string, nickname 
 }
 
 // 登录信息
-func (c *Client) Login(ctx context.Context, acc, pwd string) (*pb.LoginResp, protocol.ServerError) {
-	req := &pb.LoginReq{Account: acc, Password: pwd}
-	resp, err := c.cli.Login(ctx, req)
+func (c *Client) CheckPwd(ctx context.Context, acc, pwd string) (*pb.CheckPwdResp, protocol.ServerError) {
+	req := &pb.CheckPwdReq{Account: acc, Password: pwd}
+	resp, err := c.cli.CheckPwd(ctx, req)
 	if err != nil {
 		log.Println("client LogIn failed:, ", err)
 		return resp, protocol.ToServerError(err)
