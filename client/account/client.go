@@ -10,14 +10,13 @@ import (
 	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/client"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/account"
 	"goodgoodstudy.com/go-grpc/pkg/procotol"
-	md "goodgoodstudy.com/go-grpc/pkg/utils"
 )
 
 const portRegistered = ":50051"
 
 type Client struct {
-	conn    *grpc.ClientConn
-	cli     pb.AccountClient
+	conn *grpc.ClientConn
+	cli  pb.AccountClient
 }
 
 // 注册服务功能
@@ -44,12 +43,11 @@ func (c *Client) Close() error {
 
 // 发送注册信息
 func (c *Client) Register(ctx context.Context, acc string, pwd string, nickname string, gender pb.Gender) (*pb.RegisterResp, protocol.ServerError) {
-	pwd = md.Encryption(pwd)
 	req := &pb.RegisterReq{
-		Account:              acc,
-		Password:             pwd,
-		Name:                 nickname,
-		Gender:               gender,
+		Account:  acc,
+		Password: pwd,
+		Name:     nickname,
+		Gender:   gender,
 	}
 	resp, err := c.cli.Register(ctx, req)
 	if err != nil {

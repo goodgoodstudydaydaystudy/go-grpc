@@ -97,11 +97,13 @@ func (c *accountMysql) GetUserById(userId uint32) (*account.UserInfo, protocol.S
 
 // 创建库 CREATE DATABASE goodStudy;
 // 创建表↓
-//CREATE TABLE IF NOT EXISTS t_member(
-//	id INT UNSIGNED AUTO_INCREMENT,
-//	account VARCHAR(255) NOT NULL UNIQUE,
-//	password VARCHAR(255) NOT NULL,
-//  name CHAR(255) NOT NULL,
-//  gender CHAR(10) NOT NULL,
-//	PRIMARY KEY (id)
-//	)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/**
+CREATE TABLE IF NOT EXISTS t_member(
+	id INT UNSIGNED AUTO_INCREMENT,
+	account VARCHAR(255) NOT NULL UNIQUE,
+	password VARCHAR(255) NOT NULL,
+    name CHAR(255) NOT NULL,
+    gender CHAR(10) NOT NULL,
+	PRIMARY KEY (id)
+	)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+*/

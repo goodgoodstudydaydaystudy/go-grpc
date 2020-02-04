@@ -2,9 +2,11 @@ package user
 
 import (
 	"context"
-	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
-	"google.golang.org/grpc"
 	"log"
+
+	"google.golang.org/grpc"
+
+	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 
 	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/client"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
@@ -23,7 +25,8 @@ func NewUserLogicClient() (*Client, error) {
 	// 2.1 注册服务
 	conn, err := grpc.Dial(portUserLogic,
 		grpc.WithInsecure(),
-		grpc.WithUnaryInterceptor(client.StatusCodeUnaryInterceptor))
+		grpc.WithUnaryInterceptor(client.StatusCodeUnaryInterceptor),
+	)
 	if err != nil {
 		log.Println("logic conn failed: ", err)
 	}
@@ -42,8 +45,8 @@ func (c *Client) Close() error {
 }
 
 // account的密码校验(登录)
-func (c *Client) CheckoutPassword(ctx context.Context, req *pb.CheckUserPwdReq) (*pb.CheckUserPwdResp, protocol.ServerError) {
-	resp, err := c.cli.CheckUserPassword(ctx, req)
+func (c *Client) CheckoutPassword(ctx context.Context, req *pb.CheckUserPwdReq, opts ...grpc.CallOption) (*pb.CheckUserPwdResp, protocol.ServerError) {
+	resp, err := c.cli.CheckUserPassword(ctx, req, opts...)
 	if err != nil {
 		log.Println("userClient CheckoutPassword failed: ", err)
 		return nil, protocol.ToServerError(err)
@@ -52,10 +55,19 @@ func (c *Client) CheckoutPassword(ctx context.Context, req *pb.CheckUserPwdReq) 
 }
 
 // account的register
-func (c *Client) Register(ctx context.Context, req *pb.RegisterReq) (*pb.RegisterResp, protocol.ServerError) {
-	resp, err := c.cli.Register(ctx, req)
+func (c *Client) Register(ctx context.Context, req *pb.RegisterReq, opts ...grpc.CallOption) (*pb.RegisterResp, protocol.ServerError) {
+	resp, err := c.cli.Register(ctx, req, opts...)
 	if err != nil {
 		log.Println("userClient Register failed: ", err)
+		return nil, protocol.ToServerError(err)
+	}
+	return resp, nil
+}
+
+func (c *Client) Recharge(ctx context.Context, req *pb.RechargeReq, opts ...grpc.CallOption) (*pb.RechargeResp, protocol.ServerError) {
+	resp, err := c.cli.Recharge(ctx, req, opts...)
+	if err != nil {
+		log.Println("userClient Recharge failed: ", err)
 		return nil, protocol.ToServerError(err)
 	}
 	return resp, nil

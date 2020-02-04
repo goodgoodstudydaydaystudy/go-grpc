@@ -6,6 +6,7 @@ option go_package = "pkg/pb/logic/user";
 service User{
     rpc CheckUserPassword(CheckUserPwdReq) returns (CheckUserPwdResp) {}
     rpc Register(RegisterReq) returns (RegisterResp) {}
+    rpc Recharge(RechargeReq) returns (RechargeResp) {}
 }
 
 message CheckUserPwdReq {
@@ -40,4 +41,12 @@ message RegisterReq {
 
 message RegisterResp {
     uint32 user_id = 1;
+}
+
+message RechargeReq {
+    uint32 user_id = 1;
+    int64 delta = 2; // 充值金额
+}
+
+message RechargeResp {
 }

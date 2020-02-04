@@ -73,9 +73,11 @@ func (c *WalletMysql) GetUserBalance(ctx context.Context, userId uint32, forUpda
 //DROP TABLE t_wallet;
 
 //创建表↓
-//CREATE TABLE IF NOT EXISTS t_wallet(
-//	userId INT NOT NULL,
-//	money INT NOT NULL,
-//	date DATETIME NOT NULL,
-//	PRIMARY KEY(userId)
-//	)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*
+CREATE TABLE IF NOT EXISTS t_wallet(
+	userId INT NOT NULL,
+	money INT NOT NULL,
+	date DATETIME NOT NULL,
+	PRIMARY KEY(userId)
+	)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+*/

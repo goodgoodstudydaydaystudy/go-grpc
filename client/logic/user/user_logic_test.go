@@ -59,3 +59,20 @@ func testOption(n int) (interface{}, protocol.ServerError) {
 	}
 	return nil, nil
 }
+
+func TestClient_Recharge(t *testing.T) {
+	cli, err := NewUserLogicClient()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	resp, err := cli.Recharge(context.Background(), &upb.RechargeReq{
+		UserId: 2,
+		Delta:  100,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(resp)
+}
