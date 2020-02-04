@@ -78,6 +78,7 @@ func (s *UserLogic) Register(ctx context.Context, req *pb.RegisterReq) (resp *pb
 	return resp, nil
 }
 
+<<<<<<< HEAD
 //4. 充值服务
 func (s *UserLogic) Recharge(ctx context.Context, req *pb.RechargeReq) (resp *pb.RechargeResp, err error) {
 	resp = &pb.RechargeResp{}
@@ -89,3 +90,9 @@ func (s *UserLogic) Recharge(ctx context.Context, req *pb.RechargeReq) (resp *pb
 	}
 	return resp, nil
 }
+=======
+func (s *UserLogic) Recharge(ctx context.Context, req *pb.RechargeReq) (resp *pb.RechargeResp, err error) {
+	// TODO
+	return nil, nil
+}
+>>>>>>> 937cfcfc787f8f93d385cce145740d9f76f358b8
