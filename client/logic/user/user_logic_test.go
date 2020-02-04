@@ -33,22 +33,22 @@ func testOption() (*Result, protocol.ServerError) {
 
 	ctx := context.Background()
 
-	// 注册
-	resultFromRegister, err := logicCli.Register(ctx, &upb.RegisterReq{
-		Account:  "test04",
-		Password: "777777",
-		Nickname: "test4",
-		Gender:   2,
-		})
-	if err != nil {
-		log.Println("resultFromRegister failed: ", err)
-		return resp, protocol.ToServerError(err)
-	}
+	//// 注册
+	//resultFromRegister, err := logicCli.Register(ctx, &upb.RegisterReq{
+	//	Account:  "test04",
+	//	Password: "777777",
+	//	Nickname: "test4",
+	//	Gender:   2,
+	//	})
+	//if err != nil {
+	//	log.Println("resultFromRegister failed: ", err)
+	//	return resp, protocol.ToServerError(err)
+	//}
 
 	// 2. 登录
 	resultFromLogin, err :=  logicCli.Login(ctx, &upb.LoginReq{
-		Account:  "test03",
-		Password: "666666",
+		Account:  "test04",
+		Password: "777777",
 		})
 	if err != nil {
 		log.Println("resultFromLogin failed: ", err)
@@ -56,7 +56,7 @@ func testOption() (*Result, protocol.ServerError) {
 	}
 	// 充值
 	_, err = logicCli.Recharge(ctx, &upb.RechargeReq{
-		UserId: 9,
+		UserId: 13,
 		Delta:  11,
 		})
 	if err != nil {
@@ -64,7 +64,7 @@ func testOption() (*Result, protocol.ServerError) {
 		return resp, protocol.ToServerError(err)
 	}
 	return &Result{
-		newUsrId: resultFromRegister.UserId,
+		//newUsrId: resultFromRegister.UserId,
 		balance:  resultFromLogin.Balance,
 	}, nil
 }

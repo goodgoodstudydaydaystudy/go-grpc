@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"context"
+	"database/sql"
 	_ "database/sql"
 	"log"
 	"time"
@@ -60,6 +61,9 @@ func (c *WalletMysql) GetUserBalance(ctx context.Context, userId uint32, forUpda
 	row := c.qe.QueryRowxContext(ctx, query, userId)
 	var accBalance int64
 	err := row.Scan(&accBalance)
+	if err == sql.ErrNoRows {
+		return 0, nil
+	}
 	if err != nil {
 		log.Println("wallet GetUserBalance failed: ", err)
 		return 0, protocol.NewServerError(status.ErrDB)
