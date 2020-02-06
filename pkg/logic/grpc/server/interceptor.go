@@ -37,7 +37,7 @@ func LogicReqUnaryInterceptor(ctx context.Context, req interface{}, info *grpc.U
 	getUserReq := &pb.GetUserByIdReq{
 		UserId: claims.userInfo.UserId,
 	}
-	getUserResp, err := server.UserLogic{}.GetUserById(ctx, getUserReq)
+	getUserResp, err := server.UserLogic{}.GetUserInfo(ctx, getUserReq)
 	if err != nil {
 		log.Println("userId not exist or other error")
 		return nil, err
