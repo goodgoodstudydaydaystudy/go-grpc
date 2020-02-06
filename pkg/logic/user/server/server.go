@@ -107,7 +107,8 @@ func (s *UserLogic) Recharge(ctx context.Context, req *pb.RechargeReq) (resp *pb
 	return resp, nil
 }
 
-func (s *UserLogic) GetUserById(ctx context.Context, req *pb.GetUserByIdReq) (resp *pb.GetUserByIdResp, err error) {
+
+func (s *UserLogic) GetUserInfo(ctx context.Context, req *pb.GetUserByIdReq) (resp *pb.GetUserByIdResp, err error) {
 	resp = &pb.GetUserByIdResp{}
 	r, err := s.accountClient.GetUserByUserId(ctx, req.UserId)
 	if err != nil {

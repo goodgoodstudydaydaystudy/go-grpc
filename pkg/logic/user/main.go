@@ -1,13 +1,17 @@
 package main
 
 import (
+	"log"
+	"net"
+
 	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
 	logicSvr "goodgoodstudy.com/go-grpc/pkg/logic/user/server"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
+	logic "goodgoodstudy.com/go-grpc/pkg/logic/grpc/server"
+
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"log"
-	"net"
+
 )
 
 
@@ -21,7 +25,9 @@ func main() {
 	log.Println("listen")
 
 	s := grpc.NewServer(
-		grpc.UnaryInterceptor(server.StatusCodeUnaryInterceptor))
+		grpc.UnaryInterceptor(server.StatusCodeUnaryInterceptor),
+		grpc.UnaryInterceptor(logic.LogicReqUnaryInterceptor),
+		)
 
 	user, err := logicSvr.NewUserLogic()
 	if err != nil {
