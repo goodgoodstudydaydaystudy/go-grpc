@@ -5,13 +5,12 @@ import (
 	"net"
 
 	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
+	logic "goodgoodstudy.com/go-grpc/pkg/logic/grpc/server"
 	logicSvr "goodgoodstudy.com/go-grpc/pkg/logic/user/server"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
-	logic "goodgoodstudy.com/go-grpc/pkg/logic/grpc/server"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-
 )
 
 

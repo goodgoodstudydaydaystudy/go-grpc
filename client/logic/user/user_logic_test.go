@@ -75,9 +75,10 @@ func TestClient_Recharge(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	resp, err := cli.Login(context.Background(), &upb.LoginReq{
-		Account:              "test02",
-		Password:             "123456",
+	resp, err := cli.Recharge(context.Background(), &upb.RechargeReq{
+		UserId:               1,
+		Delta:                1,
+		Token:                "eyJhbGciOiJIUzI1iIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDAwLCJpYXQiOjE1ODEwMDcyNTAsInN1YiI6InRlc3QifQ.O4NnHaHKaa1VQY2KAymquqXcq_2t4kEbflU3R4OU4us",
 	})
 	if err != nil {
 		t.Fatal(err)
@@ -96,6 +97,21 @@ func TestClient_Register(t *testing.T) {
 		Password:             "123456",
 		Nickname:             "test2",
 		Gender:               2,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(resp)
+}
+
+func TestClient_Login(t *testing.T) {
+	cli, err := NewUserLogicClient()
+	if err != nil {
+		t.Fatal(err)
+	}
+	resp, err :=cli.Login(context.Background(), &upb.LoginReq{
+		Account:              "test01",
+		Password:             "123456",
 	})
 	if err != nil {
 		t.Fatal(err)
