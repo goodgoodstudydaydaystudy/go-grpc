@@ -11,11 +11,9 @@ import (
 	"goodgoodstudy.com/go-grpc/pkg/server/wallet"
 )
 
-const portWallet = ":50052"
-
 func main() {
-	log.Println("listening to: ", portWallet)
-	lis, err := net.Listen("tcp", portWallet)
+	log.Println("listening to: localhost:50052")
+	lis, err := net.Listen("tcp", "localhost:50052")
 	if err != nil {
 		log.Fatalf("wallet server listen failed")
 	}

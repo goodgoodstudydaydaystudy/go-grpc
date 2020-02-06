@@ -28,8 +28,8 @@ func NewAccountServer() (*server, error) {
 // 返回"已注册"的错误信息
 // 返回给用户的注册id
 // 把 req 传给 db, 是偷懒的做法, 但是确实是最有效的, 可以这么做
-func (s *server) AddUsr(ctx context.Context, req *rpb.AddUsrReq) (*rpb.AddUsrResp, error) {
-	resp := &rpb.AddUsrResp{}
+func (s *server) AddUser(ctx context.Context, req *rpb.AddUserReq) (*rpb.AddUserResp, error) {
+	resp := &rpb.AddUserResp{}
 	err := s.db.AddUsr(req)
 	if err != nil {
 		log.Println("db.register failed: ", err)
@@ -40,7 +40,7 @@ func (s *server) AddUsr(ctx context.Context, req *rpb.AddUsrReq) (*rpb.AddUsrRes
 		log.Println("Register: GetUserByAccount failed:", err)
 		return resp, err
 	}
-	return &rpb.AddUsrResp{UserId: userInfo.UserID}, nil // pb改成uint32
+	return &rpb.AddUserResp{UserId: userInfo.UserID}, nil // pb改成uint32
 }
 
 // 登录功能

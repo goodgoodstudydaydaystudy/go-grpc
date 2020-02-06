@@ -76,8 +76,26 @@ func TestClient_Recharge(t *testing.T) {
 	}
 
 	resp, err := cli.Login(context.Background(), &upb.LoginReq{
-		Account:              "test04",
-		Password:             "777777",
+		Account:              "test02",
+		Password:             "123456",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Log(resp)
+}
+
+func TestClient_Register(t *testing.T) {
+	cli, err := NewUserLogicClient()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	resp, err := cli.Register(context.Background(), &upb.RegisterReq{
+		Account:              "test02",
+		Password:             "123456",
+		Nickname:             "test2",
+		Gender:               2,
 	})
 	if err != nil {
 		t.Fatal(err)

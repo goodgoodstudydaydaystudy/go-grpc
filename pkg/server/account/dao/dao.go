@@ -16,7 +16,7 @@ type AccountDao interface {
 	GetUserById(userId uint32) (*account.UserInfo, protocol.ServerError)
 
 	// 增
-	AddUsr(req *rpb.AddUsrReq) protocol.ServerError
+	AddUsr(req *rpb.AddUserReq) protocol.ServerError
 }
 
 func NewAccountDao(dbType string) (AccountDao, error) {

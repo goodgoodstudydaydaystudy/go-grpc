@@ -36,6 +36,58 @@
           "User"
         ]
       }
+    },
+    "/v1/user/Recharge": {
+      "post": {
+        "operationId": "Recharge",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userRechargeResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userRechargeReq"
+            }
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/v1/user/Register": {
+      "post": {
+        "operationId": "Register",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userRegisterResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userRegisterReq"
+            }
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      }
     }
   },
   "definitions": {
@@ -71,8 +123,38 @@
         }
       }
     },
+    "userRechargeReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "delta": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
     "userRechargeResp": {
       "type": "object"
+    },
+    "userRegisterReq": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string"
+        },
+        "gender": {
+          "$ref": "#/definitions/userGender"
+        }
+      }
     },
     "userRegisterResp": {
       "type": "object",

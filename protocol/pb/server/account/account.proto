@@ -4,7 +4,7 @@ package account;
 option go_package = "pkg/pb/server/account";
 
 service Account {
-    rpc AddUsr(AddUsrReq) returns (AddUsrResp) {}
+    rpc AddUser(AddUserReq) returns (AddUserResp) {}
     rpc CheckPwd(CheckPwdReq) returns (CheckPwdResp) {}
     rpc GetUserByAccount(GetUserByAccountReq) returns (GetUserByAccountResp) {}
     rpc GetUserById(GetUserByIdReq) returns (GetUserByIdResp) {}
@@ -16,14 +16,14 @@ enum Gender {
     MALE = 2;
 }
 
-message AddUsrReq {
+message AddUserReq {
     string account = 1;
     string password = 2;
     string name = 3;
     Gender gender = 4; // 这类离散类型的值, 或者说枚举类型, 应该用enum类型或者用int类型, 不要用string
 }
 
-message AddUsrResp {
+message AddUserResp {
     uint32 user_id = 1; // uint和int是有区别的, 这里要用uint32
 }
 

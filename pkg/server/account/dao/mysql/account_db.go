@@ -33,7 +33,7 @@ func NewAccountMysql() (*accountMysql, error) {
 
 // 写入't_member'table
 // 改名叫Register, 函数名要有辨识性, InsertInfo, 什么Info?
-func (c *accountMysql) AddUsr(req *rpb.AddUsrReq) protocol.ServerError {
+func (c *accountMysql) AddUsr(req *rpb.AddUserReq) protocol.ServerError {
 	accountInfo := "INSERT INTO t_member(account, password, name, gender) VALUE (?, ?, ?, ?)"
 	_, err := c.conn.Exec(accountInfo, req.GetAccount(), req.GetPassword(), req.Name, req.GetGender())
 	if err != nil {
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS t_member(
 	account VARCHAR(255) NOT NULL UNIQUE,
 	password VARCHAR(255) NOT NULL,
     name CHAR(255) NOT NULL,
-    gender CHAR(10) NOT NULL,
+    gender INT NOT NULL,
 	PRIMARY KEY (id)
 	)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 */

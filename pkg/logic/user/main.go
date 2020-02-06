@@ -10,12 +10,11 @@ import (
 	"net"
 )
 
-const portUserLogic = ":50053"
 
 func main() {
 	// 和普通server 的main函数一样
-	log.Println("listen to", portUserLogic)
-	lis, err := net.Listen("tcp", portUserLogic)
+	log.Println("listen to localhost:50053")
+	lis, err := net.Listen("tcp", "localhost:50053")
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -3,6 +3,37 @@ config_version: 3
 
 http:
   rules:
+    - selector: user.User.Register
+      post: /v1/user/Register
+      body: "*"
+
     - selector: user.User.Login
       post: /v1/user/Login
       body: "*"
+
+    - selector: user.User.Recharge
+      post: /v1/user/Recharge
+      body: "*"
+
+
+
+
+
+
+#protoc -I/usr/local/include -I. \
+#-I$GOPATH/src \
+#-I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+#--grpc-gateway_out=logtostderr=true,grpc_api_configuration=protocol/pb/logic/user.yaml:. \
+#protocol/pb/logic/user.proto
+#
+#protoc -I/usr/local/include -I. \
+#-I$GOPATH/src \
+#-I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+#--go_out=plugins=grpc:. \
+#protocol/pb/logic/user.proto
+#
+#protoc -I/usr/local/include -I. \
+#-I$GOPATH/src \
+#-I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+#--swagger_out=logtostderr=true,grpc_api_configuration=protocol/pb/logic/user.yaml:. \
+#protocol/pb/logic/user.proto

@@ -42,14 +42,14 @@ func (c *Client) Close() error {
 }
 
 // 发送注册信息
-func (c *Client) AddUsr(ctx context.Context, acc string, pwd string, nickname string, gender pb.Gender) (*pb.AddUsrResp, protocol.ServerError) {
-	req := &pb.AddUsrReq{
+func (c *Client) AddUser(ctx context.Context, acc string, pwd string, nickname string, gender pb.Gender) (*pb.AddUserResp, protocol.ServerError) {
+	req := &pb.AddUserReq{
 		Account:  acc,
 		Password: pwd,
 		Name:     nickname,
 		Gender:   gender,
 	}
-	resp, err := c.cli.AddUsr(ctx, req)
+	resp, err := c.cli.AddUser(ctx, req)
 	if err != nil {
 		log.Println("client Registered failed: ", err)
 		return resp, protocol.ToServerError(err)

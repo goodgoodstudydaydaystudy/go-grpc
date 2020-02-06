@@ -2,7 +2,7 @@ package main
 
 import (
 	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
-	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/pay"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/"
 	"goodgoodstudy.com/go-grpc/pkg/server/pay"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"

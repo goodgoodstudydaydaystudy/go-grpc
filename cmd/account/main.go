@@ -12,13 +12,11 @@ import (
 	"goodgoodstudy.com/go-grpc/pkg/server/account"
 )
 
-const (
-	port = ":50051"
-)
+
 
 func main() {
-	log.Println("listening to:", port)
-	lis, err := net.Listen("tcp", port)
+	log.Println("listening to : localhost:50051")
+	lis, err := net.Listen("tcp", "localhost:50051")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
