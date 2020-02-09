@@ -1,35 +1,48 @@
 package main
 
 import (
-	"log"
 	"net"
 
-	"github.com/grpc-ecosystem/go-grpc-middleware"
-	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
-	server1 "goodgoodstudy.com/go-grpc/pkg/logic/grpc/server"
-	logicSvr "goodgoodstudy.com/go-grpc/pkg/logic/user/server"
-	pb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
-
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
+	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+
+	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
+	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server/grpcAuth"
+	logicSvr "goodgoodstudy.com/go-grpc/pkg/logic/user/server"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
 )
 
+const portUserLogic = ":50053"
+
+func init() {
+	log.SetLevel(log.DebugLevel)
+	log.SetReportCaller(true)
+}
 
 func main() {
 	// 和普通server 的main函数一样
-	log.Println("listen to localhost:50053")
-	lis, err := net.Listen("tcp", "localhost:50053")
+	log.Println("listen to", portUserLogic)
+	lis, err := net.Listen("tcp", portUserLogic)
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.Println("listen")
 
 	s := grpc.NewServer(
-		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
-					server.StatusCodeUnaryInterceptor,
-					server1.LogicReqUnaryInterceptor,
+		grpc_middleware.WithUnaryServerChain(
+			grpcAuth.UnaryServerInterceptor(
+				grpcAuth.NewAuthFuncBuilder().WithFullMethodException("/user.User/Login").BuildJWT()),
+			server.StatusCodeUnaryInterceptor,
 		),
-		))
+	)
+	//s := grpc.NewServer(
+	//	grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
+	//		server.StatusCodeUnaryInterceptor,
+	//		server1.LogicReqUnaryInterceptor,
+	//	),
+	//	))
 
 	user, err := logicSvr.NewUserLogic()
 	if err != nil {
