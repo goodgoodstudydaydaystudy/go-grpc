@@ -4,10 +4,10 @@ import (
 	"context"
 	"log"
 
+	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	"google.golang.org/grpc"
 
-	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
-
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/client"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
 )
@@ -25,8 +25,12 @@ func NewUserLogicClient() (*Client, error) {
 	// 2.1 注册服务
 	conn, err := grpc.Dial(portUserLogic,
 		grpc.WithInsecure(),
-		grpc.WithUnaryInterceptor(client.StatusCodeUnaryInterceptor),
-	)
+		grpc.WithUnaryInterceptor(
+			grpc_middleware.ChainUnaryClient(
+				client.StatusCodeUnaryInterceptor,
+				),
+	))
+
 	if err != nil {
 		log.Println("logic conn failed: ", err)
 	}

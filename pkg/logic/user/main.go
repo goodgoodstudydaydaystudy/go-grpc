@@ -4,8 +4,9 @@ import (
 	"log"
 	"net"
 
+	"github.com/grpc-ecosystem/go-grpc-middleware"
 	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
-	logic "goodgoodstudy.com/go-grpc/pkg/logic/grpc/server"
+	server1 "goodgoodstudy.com/go-grpc/pkg/logic/grpc/server"
 	logicSvr "goodgoodstudy.com/go-grpc/pkg/logic/user/server"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
 
@@ -24,9 +25,11 @@ func main() {
 	log.Println("listen")
 
 	s := grpc.NewServer(
-		grpc.UnaryInterceptor(server.StatusCodeUnaryInterceptor),
-		grpc.UnaryInterceptor(logic.LogicReqUnaryInterceptor),
-		)
+		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
+					server.StatusCodeUnaryInterceptor,
+					server1.LogicReqUnaryInterceptor,
+		),
+		))
 
 	user, err := logicSvr.NewUserLogic()
 	if err != nil {

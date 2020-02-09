@@ -7,7 +7,6 @@ service User{
     rpc Login(LoginReq) returns (LoginResp) {}
     rpc Register(RegisterReq) returns (RegisterResp) {}
     rpc Recharge(RechargeReq) returns (RechargeResp) {}
-    rpc GetUserInfo(GetUserByIdReq) returns (GetUserByIdResp) {}
 }
 
 message LoginReq {
@@ -52,12 +51,4 @@ message RechargeReq {
 }
 
 message RechargeResp {
-}
-
-message GetUserByIdReq {
-    uint32 userId = 1;
-}
-
-message GetUserByIdResp {
-    UserInfo userInfo = 1;
 }

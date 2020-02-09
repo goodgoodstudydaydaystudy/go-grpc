@@ -27,9 +27,8 @@ func TestPwt(t *testing.T)  {
 		account: "test01",
 		gender:  1,
 	}
-	token2, _ := newWithClaimsCustomClaims(*user)
-	r, _ := parseWithClaims(token2)
-	t.Log(r)
+	token2, _ := newWithClaimsCustomClaims(user)
+	parseErrorCheck(token2)
 	//parse_errorCheck(token2)
 }
 
@@ -52,13 +51,13 @@ func newWithClaims_standardClaims() (string, error) {
 }
 
 // 6 creat a token using a custom claims type
-func newWithClaimsCustomClaims(user userInfo) (string, error) {
+func newWithClaimsCustomClaims(user *userInfo) (string, error) {
 	mySigningKey := []byte("77777")
 	// 和上栗的差别, 这个可以加更多额外的字段耶
 
 
-	claims := &CustomClaims{
-		&user,
+	claims := &CustomClaimsTest{
+		user,
 		jwt.StandardClaims{
 			ExpiresAt: 15000,
 			Issuer:    "test",
@@ -74,7 +73,6 @@ func newWithClaimsCustomClaims(user userInfo) (string, error) {
 // 7 parse custom claims type
 func parseWithClaims(tokenString string) (*CustomClaims, error) {
 
-
 	// sample token is expired.  override time so it parses as valid   这句话怎么有点奇怪
 	At(time.Unix(0, 0), func() {
 		token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (i interface{}, err error) {
@@ -82,7 +80,7 @@ func parseWithClaims(tokenString string) (*CustomClaims, error) {
 		})
 
 		if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
-			log.Printf("%v %v", claims.userInfo, claims.Issuer)
+			log.Printf("%v %v", claims.UserInfo, claims.Issuer)
 			return
 		}else {
 			log.Println(err)
@@ -101,7 +99,7 @@ func At(t time.Time, f func())  {
 	jwt.TimeFunc = time.Now
 }
 
-func parse_errorCheck(tokenString string)  {
+func parseErrorCheck(tokenString string)  {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (i interface{}, err error) {
 		return []byte("water"), nil
 	})

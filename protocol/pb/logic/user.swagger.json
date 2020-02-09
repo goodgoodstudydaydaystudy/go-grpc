@@ -120,6 +120,9 @@
         "balance": {
           "type": "string",
           "format": "int64"
+        },
+        "token": {
+          "type": "string"
         }
       }
     },
@@ -133,6 +136,9 @@
         "delta": {
           "type": "string",
           "format": "int64"
+        },
+        "token": {
+          "type": "string"
         }
       }
     },

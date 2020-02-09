@@ -32,7 +32,6 @@ func NewAccountMysql() (*accountMysql, error) {
 }
 
 // 写入't_member'table
-// 改名叫Register, 函数名要有辨识性, InsertInfo, 什么Info?
 func (c *accountMysql) AddUsr(req *rpb.AddUserReq) protocol.ServerError {
 	accountInfo := "INSERT INTO t_member(account, password, name, gender) VALUE (?, ?, ?, ?)"
 	_, err := c.conn.Exec(accountInfo, req.GetAccount(), req.GetPassword(), req.Name, req.GetGender())

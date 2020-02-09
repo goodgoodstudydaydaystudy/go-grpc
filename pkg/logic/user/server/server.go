@@ -10,11 +10,10 @@ import (
 	"goodgoodstudy.com/go-grpc/client/wallet"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
 	apb "goodgoodstudy.com/go-grpc/pkg/pb/server/account"
-
 )
 
 type CustomClaims struct {
-	userInfo  *apb.UserInfo
+	UserId uint32 `json:"user_id"`
 	jwt.StandardClaims
 }
 
@@ -61,8 +60,8 @@ func (s *UserLogic) Login(ctx context.Context, req *pb.LoginReq) (resp *pb.Login
 		Gender:   pb.Gender(r.UserInfo.Gender),
 	}
 
-	// new token
-	token, err := s.NewWithCustomClaims(&apb.UserInfo{})
+	// generate token
+	token, err := s.generateToken(resp.UserInfo.UserId)
 	if err != nil {
 		log.Println("new claims failed: ", err)
 		return
@@ -76,6 +75,7 @@ func (s *UserLogic) Login(ctx context.Context, req *pb.LoginReq) (resp *pb.Login
 		return
 	}
 	resp.Balance = userBalance.Balance
+
 	// 3. return
 	return resp, nil
 }
@@ -107,47 +107,28 @@ func (s *UserLogic) Recharge(ctx context.Context, req *pb.RechargeReq) (resp *pb
 	return resp, nil
 }
 
-
-func (s *UserLogic) GetUserInfo(ctx context.Context, req *pb.GetUserByIdReq) (resp *pb.GetUserByIdResp, err error) {
-	resp = &pb.GetUserByIdResp{}
-	r, err := s.accountClient.GetUserByUserId(ctx, req.UserId)
-	if err != nil {
-		log.Println("logic server getUser failed: ", err)
-		return
-	}
-	resp.UserInfo = &pb.UserInfo{
-		UserId:               r.UserInfo.UserId,
-		Account:              r.UserInfo.Account,
-		Nickname:             r.UserInfo.Nickname,
-		Gender:               pb.Gender(r.UserInfo.Gender),
-	}
-	return resp, nil
-
-}
-
-
-// 5 new claims
-func (s *UserLogic)NewWithCustomClaims(userInfo *apb.UserInfo) (ss string, err error) {
+// 5 generate claims
+func (s *UserLogic) generateToken(userId uint32) (ss string, err error) {
 	mySigningKey := []byte("66666")
 
-	// create claims
+	log.Println("generateToken arg:", userId)
 
+	// create claims
 	claims := &CustomClaims{
-		userInfo: userInfo,
+		UserId:userId,
 		StandardClaims: jwt.StandardClaims{
-			Issuer:    userInfo.Account,
 			ExpiresAt: 15000,
 			Subject:   "test",
 			IssuedAt:  time.Now().Unix(),
 		},
 	}
-
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	ss, err = token.SignedString(mySigningKey)
 	if err != nil {
 		log.Println("server token failed:", err)
 		return ss, err
 	}
+	log.Println("generate token:", ss)
 	return ss, nil
 }
 
