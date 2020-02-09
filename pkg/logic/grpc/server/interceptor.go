@@ -3,6 +3,8 @@ package server
 import (
 	"context"
 	"fmt"
+	"goodgoodstudy.com/go-grpc/protocol/common/status"
+
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	protogrpc "goodgoodstudy.com/go-grpc/pkg/procotol/grpc"
 
@@ -37,10 +39,9 @@ func LogicReqUnaryInterceptor(ctx context.Context, req interface{}, info *grpc.U
 		if e, ok := err.(protocol.ServerError); ok && e.Code() < 0 {
 			se = e
 		} else {
-			se = protocol.ErrSystem
+			se = protocol.NewServerError(status.ErrNotLogin)
 		}
 	}
-
 
 	if se != nil {
 		protogrpc.SetStatus(ctx, se.Code(), se.Message())

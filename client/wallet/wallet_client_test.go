@@ -2,7 +2,6 @@ package wallet
 
 import (
 	"context"
-	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/wallet"
 	"testing"
 )
 
@@ -12,7 +11,7 @@ func TestWalletClient(t *testing.T) {
 		t.Fatal(err)
 	}
 	ctx := context.Background()
-	resp, se := cli.Recharge(ctx, &pb.RechargeReq{UserId: 9, Count:10})
+	resp, se := cli.Recharge(ctx, 9, 10)
 	if se != nil {
 		t.Log(se.Code())
 	}

@@ -13,7 +13,7 @@ import (
 )
 
 type CustomClaims struct {
-	UserId uint32 `json:"user_id"`
+	UserInfo *pb.UserInfo `json:"user_info"`
 	jwt.StandardClaims
 }
 
@@ -61,7 +61,7 @@ func (s *UserLogic) Login(ctx context.Context, req *pb.LoginReq) (resp *pb.Login
 	}
 
 	// generate token
-	token, err := s.generateToken(resp.UserInfo.UserId)
+	token, err := s.generateToken(*resp.UserInfo)
 	if err != nil {
 		log.Println("new claims failed: ", err)
 		return
@@ -108,16 +108,17 @@ func (s *UserLogic) Recharge(ctx context.Context, req *pb.RechargeReq) (resp *pb
 }
 
 // 5 generate claims
-func (s *UserLogic) generateToken(userId uint32) (ss string, err error) {
+func (s *UserLogic) generateToken(userInfo pb.UserInfo) (ss string, err error) {
 	mySigningKey := []byte("66666")
 
-	log.Println("generateToken arg:", userId)
+	durTime, _ := time.ParseDuration("10m")
+	expireTime := time.Now().Add(durTime).Unix()
 
 	// create claims
 	claims := &CustomClaims{
-		UserId:userId,
+		UserInfo: &userInfo,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: 15000,
+			ExpiresAt: expireTime,
 			Subject:   "test",
 			IssuedAt:  time.Now().Unix(),
 		},

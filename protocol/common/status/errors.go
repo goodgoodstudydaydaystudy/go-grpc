@@ -18,6 +18,9 @@ const (
 	ErrRechargeFailed = -2001	// 充值失败
 	ErrGetUserBalanceFailed = -2002 //查询余额失败
 
+	// -3000 ~ -3999 token
+	ErrNotLogin = -3001 // 未登陆
+
 )
 
 var CodeMessageMap = map[int]string{
@@ -30,6 +33,7 @@ var CodeMessageMap = map[int]string{
 	ErrGetUserBalanceFailed:   	"查询余额失败",
 	ErrDB:               		"数据库错误",
 	ErrDBTypeNotSupport:		"数据库类型不支持",
+	ErrNotLogin:				"未登陆",
 }
 
 // MessageFromCode get message associated with the code
