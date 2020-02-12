@@ -45,7 +45,6 @@ func (c *WalletMysql) Recharge(ctx context.Context, userId uint32, deltaAdd int6
 		log.Println("wallet Recharge failed: ", err)
 		return protocol.NewServerError(status.ErrDB)
 	}
-
 	return nil
 }
 

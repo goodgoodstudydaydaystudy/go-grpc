@@ -15,6 +15,10 @@ http:
       post: /v1/user/Recharge
       body: "*"
 
+    - selector: user.User.GetTopUser
+      post: /v1/user/GetTopUser
+      body: "*"
+
 
 
 

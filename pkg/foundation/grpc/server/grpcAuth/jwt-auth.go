@@ -21,6 +21,8 @@ type selfJWTClaims struct {
 	jwt.StandardClaims
 }
 
+// new什么，就返回什么 —— newClaims就返回claims
+// JWTClaims单独生成，我的理解也是sever对JWT服务的api
 func NewJWTClaims(expireSeconds int64) *selfJWTClaims {
 	claims := &selfJWTClaims{}
 	now := time.Now().Unix()
@@ -31,15 +33,19 @@ func NewJWTClaims(expireSeconds int64) *selfJWTClaims {
 	return claims
 }
 
+// md, method, token, parse, isValid, isType, writeIntoHeader
+
 func (builder *authFuncBuilder) BuildJWT() grpc_auth.AuthFunc {
 	return func(ctx context.Context) (context.Context, error) {
 		log.Println("AuthenticationInterceptor")
 
+		// 获取 md
 		md, ok := metadata.FromIncomingContext(ctx)
 		if !ok {
 			return ctx, errUnauthenticated
 		}
 
+		// 获取grpc中的方法 —— 过滤无需token的方法
 		if fullMethod, ok := grpc.Method(ctx); ok {
 			log.Println(fullMethod, builder.fullMethodNameException, builder.fullMethodNameException[fullMethod])
 			if builder.fullMethodNameException[fullMethod] {
@@ -53,6 +59,7 @@ func (builder *authFuncBuilder) BuildJWT() grpc_auth.AuthFunc {
 			return ctx, errUnauthenticated
 		}
 
+		// 解析 claims
 		token, err := jwt.ParseWithClaims(_tokenStr[0], &selfJWTClaims{}, func(token *jwt.Token) (i interface{}, err error) {
 			return []byte(internal.SecretKey), nil
 		})
@@ -80,6 +87,7 @@ func (builder *authFuncBuilder) BuildJWT() grpc_auth.AuthFunc {
 			}
 		}
 
+		// 这里为什么要做类型查询呢？
 		var claims *selfJWTClaims
 		if claims, ok = token.Claims.(*selfJWTClaims); !ok {
 			log.Println("not selfClaims")

@@ -26,7 +26,8 @@ const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type RechargeReq struct {
 	UserId               uint32   `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
-	Count                int64    `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	Amount               int64    `protobuf:"varint,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	Account              string   `protobuf:"bytes,3,opt,name=account,proto3" json:"account,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -64,11 +65,18 @@ func (m *RechargeReq) GetUserId() uint32 {
 	return 0
 }
 
-func (m *RechargeReq) GetCount() int64 {
+func (m *RechargeReq) GetAmount() int64 {
 	if m != nil {
-		return m.Count
+		return m.Amount
 	}
 	return 0
+}
+
+func (m *RechargeReq) GetAccount() string {
+	if m != nil {
+		return m.Account
+	}
+	return ""
 }
 
 type RechargeResp struct {
@@ -180,31 +188,116 @@ func (m *GetUserBalanceResp) GetBalance() int64 {
 	return 0
 }
 
+type GetTopUserReq struct {
+	Top                  uint32   `protobuf:"varint,1,opt,name=top,proto3" json:"top,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetTopUserReq) Reset()         { *m = GetTopUserReq{} }
+func (m *GetTopUserReq) String() string { return proto.CompactTextString(m) }
+func (*GetTopUserReq) ProtoMessage()    {}
+func (*GetTopUserReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6e585c95aeb2fa82, []int{4}
+}
+
+func (m *GetTopUserReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetTopUserReq.Unmarshal(m, b)
+}
+func (m *GetTopUserReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetTopUserReq.Marshal(b, m, deterministic)
+}
+func (m *GetTopUserReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetTopUserReq.Merge(m, src)
+}
+func (m *GetTopUserReq) XXX_Size() int {
+	return xxx_messageInfo_GetTopUserReq.Size(m)
+}
+func (m *GetTopUserReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetTopUserReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetTopUserReq proto.InternalMessageInfo
+
+func (m *GetTopUserReq) GetTop() uint32 {
+	if m != nil {
+		return m.Top
+	}
+	return 0
+}
+
+type GetTopUserResp struct {
+	UserList             string   `protobuf:"bytes,1,opt,name=userList,proto3" json:"userList,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *GetTopUserResp) Reset()         { *m = GetTopUserResp{} }
+func (m *GetTopUserResp) String() string { return proto.CompactTextString(m) }
+func (*GetTopUserResp) ProtoMessage()    {}
+func (*GetTopUserResp) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6e585c95aeb2fa82, []int{5}
+}
+
+func (m *GetTopUserResp) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetTopUserResp.Unmarshal(m, b)
+}
+func (m *GetTopUserResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetTopUserResp.Marshal(b, m, deterministic)
+}
+func (m *GetTopUserResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetTopUserResp.Merge(m, src)
+}
+func (m *GetTopUserResp) XXX_Size() int {
+	return xxx_messageInfo_GetTopUserResp.Size(m)
+}
+func (m *GetTopUserResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetTopUserResp.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetTopUserResp proto.InternalMessageInfo
+
+func (m *GetTopUserResp) GetUserList() string {
+	if m != nil {
+		return m.UserList
+	}
+	return ""
+}
+
 func init() {
 	proto.RegisterType((*RechargeReq)(nil), "wallet.RechargeReq")
 	proto.RegisterType((*RechargeResp)(nil), "wallet.RechargeResp")
 	proto.RegisterType((*GetUserBalanceReq)(nil), "wallet.GetUserBalanceReq")
 	proto.RegisterType((*GetUserBalanceResp)(nil), "wallet.GetUserBalanceResp")
+	proto.RegisterType((*GetTopUserReq)(nil), "wallet.GetTopUserReq")
+	proto.RegisterType((*GetTopUserResp)(nil), "wallet.GetTopUserResp")
 }
 
 func init() { proto.RegisterFile("server/wallet/wallet.proto", fileDescriptor_6e585c95aeb2fa82) }
 
 var fileDescriptor_6e585c95aeb2fa82 = []byte{
-	// 222 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x92, 0x2a, 0x4e, 0x2d, 0x2a,
-	0x4b, 0x2d, 0xd2, 0x2f, 0x4f, 0xcc, 0xc9, 0x49, 0x2d, 0x81, 0x52, 0x7a, 0x05, 0x45, 0xf9, 0x25,
-	0xf9, 0x42, 0x6c, 0x10, 0x9e, 0x92, 0x0d, 0x17, 0x77, 0x50, 0x6a, 0x72, 0x46, 0x62, 0x51, 0x7a,
-	0x6a, 0x50, 0x6a, 0xa1, 0x90, 0x38, 0x17, 0x7b, 0x69, 0x71, 0x6a, 0x51, 0x7c, 0x66, 0x8a, 0x04,
-	0xa3, 0x02, 0xa3, 0x06, 0x6f, 0x10, 0x1b, 0x88, 0xeb, 0x99, 0x22, 0x24, 0xc2, 0xc5, 0x9a, 0x9c,
-	0x5f, 0x9a, 0x57, 0x22, 0xc1, 0xa4, 0xc0, 0xa8, 0xc1, 0x1c, 0x04, 0xe1, 0x28, 0xf1, 0x71, 0xf1,
-	0x20, 0x74, 0x17, 0x17, 0x28, 0xe9, 0x70, 0x09, 0xba, 0xa7, 0x96, 0x84, 0x16, 0xa7, 0x16, 0x39,
-	0x25, 0xe6, 0x24, 0xe6, 0x25, 0xe3, 0x35, 0x53, 0x49, 0x8f, 0x4b, 0x08, 0x5d, 0x75, 0x71, 0x81,
-	0x90, 0x04, 0x17, 0x7b, 0x12, 0x84, 0x0b, 0x56, 0xce, 0x1c, 0x04, 0xe3, 0x1a, 0xf5, 0x30, 0x72,
-	0xb1, 0x85, 0x83, 0x9d, 0x2d, 0x64, 0xce, 0xc5, 0x01, 0xb3, 0x58, 0x48, 0x58, 0x0f, 0xea, 0x33,
-	0x24, 0x8f, 0x48, 0x89, 0x60, 0x0a, 0x16, 0x17, 0x28, 0x31, 0x08, 0x79, 0x72, 0xf1, 0xa1, 0xda,
-	0x29, 0x24, 0x09, 0x53, 0x89, 0xe1, 0x72, 0x29, 0x29, 0x5c, 0x52, 0x20, 0xa3, 0x9c, 0xc4, 0xa2,
-	0x44, 0x0a, 0xb2, 0xd3, 0xf5, 0x0b, 0x92, 0xf4, 0x51, 0xc2, 0x39, 0x89, 0x0d, 0x1c, 0xc2, 0xc6,
-	0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0xed, 0x83, 0x41, 0xd5, 0x7f, 0x01, 0x00, 0x00,
+	// 297 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x52, 0xb1, 0x4e, 0xc3, 0x30,
+	0x10, 0x25, 0x44, 0x4a, 0xdb, 0x83, 0x56, 0x70, 0x94, 0x12, 0x3c, 0x05, 0x4f, 0x19, 0xaa, 0x44,
+	0x82, 0x81, 0x89, 0xa5, 0x4b, 0x55, 0x89, 0xc9, 0x02, 0x81, 0x58, 0x90, 0x93, 0x5a, 0xa5, 0x22,
+	0x34, 0xc6, 0x76, 0xe1, 0x23, 0xf9, 0x29, 0x64, 0x37, 0x21, 0x81, 0x02, 0x53, 0xf2, 0xee, 0xde,
+	0xbd, 0xe7, 0x7b, 0x3a, 0x20, 0x5a, 0xa8, 0x37, 0xa1, 0xd2, 0x77, 0x5e, 0x14, 0xc2, 0x54, 0x9f,
+	0x44, 0xaa, 0xd2, 0x94, 0x18, 0x6c, 0x10, 0xbd, 0x87, 0x3d, 0x26, 0xf2, 0x27, 0xae, 0x16, 0x82,
+	0x89, 0x57, 0x3c, 0x81, 0xce, 0x5a, 0x0b, 0xf5, 0xb8, 0x9c, 0x87, 0x5e, 0xe4, 0xc5, 0x7d, 0x16,
+	0x58, 0x38, 0x9b, 0xe3, 0x08, 0x02, 0xfe, 0x52, 0xae, 0x57, 0x26, 0xdc, 0x8d, 0xbc, 0xd8, 0x67,
+	0x15, 0xc2, 0x10, 0x3a, 0x3c, 0xcf, 0x5d, 0xc3, 0x8f, 0xbc, 0xb8, 0xc7, 0x6a, 0x48, 0x07, 0xb0,
+	0xdf, 0x28, 0x6b, 0x49, 0xc7, 0x70, 0x38, 0x15, 0xe6, 0x56, 0x0b, 0x35, 0xe1, 0x05, 0x5f, 0xe5,
+	0xff, 0xfa, 0xd1, 0x04, 0xf0, 0x27, 0x5b, 0x4b, 0xeb, 0x96, 0x6d, 0xa0, 0xa3, 0xfb, 0xac, 0x86,
+	0xf4, 0x0c, 0xfa, 0x53, 0x61, 0x6e, 0x4a, 0x69, 0x47, 0xac, 0xf2, 0x01, 0xf8, 0xa6, 0x94, 0x95,
+	0xaa, 0xfd, 0xa5, 0x63, 0x18, 0xb4, 0x29, 0x5a, 0x22, 0x81, 0xae, 0xb5, 0xbb, 0x5e, 0x6a, 0xe3,
+	0x88, 0x3d, 0xf6, 0x85, 0xcf, 0x3f, 0x3c, 0x08, 0xee, 0x5c, 0x46, 0x78, 0x09, 0xdd, 0x7a, 0x13,
+	0x3c, 0x4a, 0xaa, 0x18, 0x5b, 0xa9, 0x91, 0xe1, 0x76, 0x51, 0x4b, 0xba, 0x83, 0x33, 0xe7, 0xd8,
+	0x5a, 0x02, 0x4f, 0x6b, 0xe6, 0x56, 0x14, 0x84, 0xfc, 0xd5, 0x72, 0x52, 0x57, 0x00, 0xcd, 0xe3,
+	0xf1, 0xb8, 0xc5, 0x6d, 0x76, 0x26, 0xa3, 0xdf, 0xca, 0x76, 0x7c, 0x32, 0x7a, 0x18, 0xca, 0xe7,
+	0x45, 0x2a, 0xb3, 0xf4, 0xdb, 0x4d, 0x64, 0x81, 0xbb, 0x86, 0x8b, 0xcf, 0x00, 0x00, 0x00, 0xff,
+	0xff, 0xb9, 0x04, 0x19, 0xb9, 0x2b, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -221,6 +314,7 @@ const _ = grpc.SupportPackageIsVersion4
 type WalletClient interface {
 	Recharge(ctx context.Context, in *RechargeReq, opts ...grpc.CallOption) (*RechargeResp, error)
 	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
+	GetTopUser(ctx context.Context, in *GetTopUserReq, opts ...grpc.CallOption) (*GetTopUserResp, error)
 }
 
 type walletClient struct {
@@ -249,10 +343,20 @@ func (c *walletClient) GetUserBalance(ctx context.Context, in *GetUserBalanceReq
 	return out, nil
 }
 
+func (c *walletClient) GetTopUser(ctx context.Context, in *GetTopUserReq, opts ...grpc.CallOption) (*GetTopUserResp, error) {
+	out := new(GetTopUserResp)
+	err := c.cc.Invoke(ctx, "/wallet.Wallet/GetTopUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WalletServer is the server API for Wallet service.
 type WalletServer interface {
 	Recharge(context.Context, *RechargeReq) (*RechargeResp, error)
 	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error)
+	GetTopUser(context.Context, *GetTopUserReq) (*GetTopUserResp, error)
 }
 
 // UnimplementedWalletServer can be embedded to have forward compatible implementations.
@@ -264,6 +368,9 @@ func (*UnimplementedWalletServer) Recharge(ctx context.Context, req *RechargeReq
 }
 func (*UnimplementedWalletServer) GetUserBalance(ctx context.Context, req *GetUserBalanceReq) (*GetUserBalanceResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalance not implemented")
+}
+func (*UnimplementedWalletServer) GetTopUser(ctx context.Context, req *GetTopUserReq) (*GetTopUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopUser not implemented")
 }
 
 func RegisterWalletServer(s *grpc.Server, srv WalletServer) {
@@ -306,6 +413,24 @@ func _Wallet_GetUserBalance_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Wallet_GetTopUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopUserReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WalletServer).GetTopUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/wallet.Wallet/GetTopUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WalletServer).GetTopUser(ctx, req.(*GetTopUserReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Wallet_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "wallet.Wallet",
 	HandlerType: (*WalletServer)(nil),
@@ -317,6 +442,10 @@ var _Wallet_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserBalance",
 			Handler:    _Wallet_GetUserBalance_Handler,
+		},
+		{
+			MethodName: "GetTopUser",
+			Handler:    _Wallet_GetTopUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -11,6 +11,32 @@
     "application/json"
   ],
   "paths": {
+    "/v1/user/GetTopUser": {
+      "post": {
+        "operationId": "GetTopUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/userGetTopUserResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userGetTopUserReq"
+            }
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      }
+    },
     "/v1/user/Login": {
       "post": {
         "operationId": "Login",
@@ -100,6 +126,23 @@
       ],
       "default": "UNKNOWN"
     },
+    "userGetTopUserReq": {
+      "type": "object",
+      "properties": {
+        "top": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "userGetTopUserResp": {
+      "type": "object",
+      "properties": {
+        "userList": {
+          "type": "string"
+        }
+      }
+    },
     "userLoginReq": {
       "type": "object",
       "properties": {
@@ -137,7 +180,7 @@
           "type": "string",
           "format": "int64"
         },
-        "token": {
+        "account": {
           "type": "string"
         }
       }

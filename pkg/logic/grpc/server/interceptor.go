@@ -14,7 +14,7 @@ import (
 
 func LogicReqUnaryInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
 	// 过滤login
-	methodString, _ :=grpc.Method(ctx)
+	methodString, _ := grpc.Method(ctx)
 	if methodString == "/user.User/Login" {
 		resp, err = handler(ctx, req)
 		return

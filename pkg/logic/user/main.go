@@ -1,15 +1,16 @@
 package main
 
 import (
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
+	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
+	server1 "goodgoodstudy.com/go-grpc/pkg/logic/grpc/server"
+	"google.golang.org/grpc"
 	"net"
 
-	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	log "github.com/sirupsen/logrus"
-	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
-	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server/grpcAuth"
+	//"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server/grpcAuth"
 	logicSvr "goodgoodstudy.com/go-grpc/pkg/logic/user/server"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
 )
@@ -30,19 +31,19 @@ func main() {
 	}
 	log.Println("listen")
 
-	s := grpc.NewServer(
-		grpc_middleware.WithUnaryServerChain(
-			grpcAuth.UnaryServerInterceptor(
-				grpcAuth.NewAuthFuncBuilder().WithFullMethodException("/user.User/Login").BuildJWT()),
-			server.StatusCodeUnaryInterceptor,
-		),
-	)
 	//s := grpc.NewServer(
-	//	grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
+	//	grpc_middleware.WithUnaryServerChain(
+	//		grpcAuth.UnaryServerInterceptor(
+	//			grpcAuth.NewAuthFuncBuilder().WithFullMethodException("/user.User/Login").BuildJWT()),
 	//		server.StatusCodeUnaryInterceptor,
-	//		server1.LogicReqUnaryInterceptor,
-	//	),
-	//	))
+	//	)
+	//)
+	s := grpc.NewServer(
+		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
+			server.StatusCodeUnaryInterceptor,
+			server1.LogicReqUnaryInterceptor,
+		),
+		))
 
 	user, err := logicSvr.NewUserLogic()
 	if err != nil {

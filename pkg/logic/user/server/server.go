@@ -99,11 +99,25 @@ func (s *UserLogic) Recharge(ctx context.Context, req *pb.RechargeReq) (resp *pb
 	resp = &pb.RechargeResp{}
 
 	// 4.1 发送请求
-	_, err = s.walletClient.Recharge(ctx, req.UserId, req.Delta)
+
+	_, err = s.walletClient.Recharge(ctx, req.Account, req.UserId, req.Delta)
 	if err != nil {
 		log.Println("logic serve Recharge failed: ", err)
 		return
 	}
+	return resp, nil
+}
+
+func (s *UserLogic) GetTopUser(ctx context.Context, req *pb.GetTopUserReq) (resp *pb.GetTopUserResp, err error){
+	resp = &pb.GetTopUserResp{}
+
+	r, err := s.walletClient.GetTopUser(ctx, req.Top)
+	if err != nil {
+		log.Println("logic server GetTopUser failed:", err)
+		return
+	}
+	resp.UserList = r.UserList
+	log.Println("r.UserList:", r.UserList)
 	return resp, nil
 }
 
@@ -129,7 +143,6 @@ func (s *UserLogic) generateToken(userInfo pb.UserInfo) (ss string, err error) {
 		log.Println("server token failed:", err)
 		return ss, err
 	}
-	log.Println("generate token:", ss)
 	return ss, nil
 }
 

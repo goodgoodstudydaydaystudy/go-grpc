@@ -6,11 +6,13 @@ option go_package = "pkg/pb/server/wallet";
 service Wallet {
     rpc Recharge (RechargeReq) returns (RechargeResp) {}
     rpc GetUserBalance (GetUserBalanceReq) returns (GetUserBalanceResp) {}
+    rpc GetTopUser (GetTopUserReq) returns (GetTopUserResp) {}
 }
 
 message RechargeReq {
     uint32 user_id = 1;
-    int64 count = 2;
+    int64 amount = 2;
+    string account = 3;
 }
 
 message RechargeResp {
@@ -22,4 +24,12 @@ message GetUserBalanceReq {
 
 message GetUserBalanceResp {
     int64 balance = 1;
+}
+
+message GetTopUserReq {
+    uint32 top = 1;
+}
+
+message GetTopUserResp {
+    string userList = 1;
 }

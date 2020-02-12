@@ -76,3 +76,12 @@ func (c *Client) Recharge(ctx context.Context, req *pb.RechargeReq, opts ...grpc
 	}
 	return resp, nil
 }
+
+func (c *Client) GetTopUser(ctx context.Context, req *pb.GetTopUserReq, opts ...grpc.CallOption) (*pb.GetTopUserResp, protocol.ServerError) {
+	resp, err := c.cli.GetTopUser(ctx, req, opts...)
+	if err != nil {
+		log.Println("userClient GetTopUser failed:", err)
+		return nil, protocol.ToServerError(err)
+	}
+	return resp, nil
+}

@@ -11,6 +11,7 @@ import (
 
 const portWallet = ":50052"
 
+
 type Client struct {
 	conn  *grpc.ClientConn
 	cli	  pb.WalletClient
@@ -38,8 +39,8 @@ func (c *Client) Close() error{
 }
 
 
-func (c *Client) Recharge(ctx context.Context, uid uint32, delta int64) (*pb.RechargeResp, protocol.ServerError){
-	req := &pb.RechargeReq{UserId: uid, Count: delta}
+func (c *Client) Recharge(ctx context.Context, account string, uid uint32, delta int64) (*pb.RechargeResp, protocol.ServerError){
+	req := &pb.RechargeReq{UserId: uid, Amount: delta, Account:account}
 	resp, err := c.cli.Recharge(ctx, req)
 	if err != nil {
 		log.Println("client Recharge failed: ", err)
@@ -54,6 +55,16 @@ func (c *Client) GetUserById(ctx context.Context, uid uint32) (*pb.GetUserBalanc
 	resp, err := c.cli.GetUserBalance(ctx, req)
 	if err != nil {
 		log.Println("client GetUserByAccount failed: ", err)
+		return resp, protocol.ToServerError(err)
+	}
+	return resp, nil
+}
+
+func (c *Client) GetTopUser(ctx context.Context, n uint32) (*pb.GetTopUserResp, protocol.ServerError) {
+	req := &pb.GetTopUserReq{Top:n}
+	resp, err := c.cli.GetTopUser(ctx, req)
+	if err != nil {
+		log.Println("client GetTopUser failed:", err)
 		return resp, protocol.ToServerError(err)
 	}
 	return resp, nil

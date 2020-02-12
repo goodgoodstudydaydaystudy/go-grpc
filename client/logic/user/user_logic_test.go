@@ -3,120 +3,12 @@ package user
 import (
 	"context"
 	upb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
-	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	"google.golang.org/grpc/metadata"
-	"log"
+	"math/rand"
 	"testing"
+	"time"
 )
 
-type Result struct {
-	newUsrId uint32
-	balance  int64
-}
-
-
-func TestUserLogic(t *testing.T) {
-	result, err := testOption()
-	if err != nil {
-		t.Log(err.Code())
-	}
-	t.Log(result)
-}
-
-func testOption() (Result, protocol.ServerError) {
-	resp := Result{}
-
-	cli, err := NewUserLogicClient()
-	if err != nil {
-		log.Println("testOption newCli failed: ", err)
-	}
-
-	ctx := context.Background()
-
-	// 2. 登录
-	loginResp, err := cli.Login(ctx, &upb.LoginReq{
-		Account:  "test01",
-		Password: "123456",
-		})
-	if err != nil {
-		log.Println("resultFromLogin failed: ", err)
-		return resp, protocol.ToServerError(err)
-	}
-
-
-	// 3. 获取 token
-	token := loginResp.Token
-	//log.Println("token:", token)
-	//log.Println("time.new:", time.Now().Unix())
-
-	// 4. token和userInfo 写入ctx
-	const grpcToken = "resp_token"
-	//const grpcUserInfo = "resp_userInfo"
-	//
-	//JsonUserInfo, err := json.Marshal(&loginResp.UserInfo)
-	//if err != nil {
-	//	log.Println("JsonUserInfo failed", err)
-	//}
-	//log.Println("userInfo:", loginResp.UserInfo)
-	//log.Println("JsonUserInfo:", string(JsonUserInfo))
-
-	//StrUserInfo := string(JsonUserInfo)
-	ctx = metadata.AppendToOutgoingContext(ctx, grpcToken, token)
-
-	md, ok := metadata.FromOutgoingContext(ctx)
-	if ok {
-		log.Println("md[resp_token]:", md["resp_token"][0])
-	}else {
-		log.Println("FromOutgoingContext failed")
-	}
-
-	//err = grpc.SetHeader(ctx, metadata.Pairs(
-	//	grpcToken, token,
-	//	))
-	//
-	//if err != nil {
-	//	log.Println("setHeader failed:", err)
-	//}
-
-
-	// 5. 充值 （token）
-	_, err = cli.Recharge(ctx, &upb.RechargeReq{
-		UserId: 1,
-		Delta:  1,
-		})
-	if err != nil {
-		log.Println("resultFromRecharge failed: ", err)
-		return resp, protocol.ToServerError(err)
-	}
-	return Result{
-		balance:  loginResp.Balance,
-	}, nil
-}
-
-
-func TestClient_Recharge(t *testing.T) {
-	cli, err := NewUserLogicClient()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	mdToken := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDAwLCJpYXQiOjE1ODExMzY5MzAsImlzcyI6InRlc3QwMSIsInN1YiI6InRlc3QifQ.g17JMP06uyWpXBSUjyJbCrQSpYtLHMCPb0_Ve01ojmU"
-
-	ctx := context.Background()
-
-	const grpcToken = "resp_token"
-
-	ctx =  metadata.AppendToOutgoingContext(ctx, grpcToken, mdToken)
-
-	resp, err := cli.Recharge(ctx, &upb.RechargeReq{
-		UserId:               1,
-		Delta:                1,
-	})
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Log(resp)
-}
 
 func TestClient_Register(t *testing.T) {
 	cli, err := NewUserLogicClient()
@@ -125,9 +17,9 @@ func TestClient_Register(t *testing.T) {
 	}
 
 	resp, err := cli.Register(context.Background(), &upb.RegisterReq{
-		Account:              "test02",
+		Account:              "test11",
 		Password:             "123456",
-		Nickname:             "test2",
+		Nickname:             "test11",
 		Gender:               2,
 	})
 	if err != nil {
@@ -143,7 +35,7 @@ func TestClient_Login(t *testing.T) {
 	}
 
 	resp, err :=cli.Login(context.Background(), &upb.LoginReq{
-		Account:              "test01",
+		Account:              "test03",
 		Password:             "123456",
 	})
 	if err != nil {
@@ -154,3 +46,86 @@ func TestClient_Login(t *testing.T) {
 
 }
 
+func TestClient_Recharge(t *testing.T) {
+	cli, err := NewUserLogicClient()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ctx := context.Background()
+
+	const grpctoken  = "resp_token"
+	token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2luZm8iOnsidXNlcl9pZCI6MiwiYWNjb3VudCI6InRlc3QwMiIsIm5pY2tuYW1lIjoidGVzdDIiLCJnZW5kZXIiOjJ9LCJleHAiOjE1ODE0OTMyNDcsImlhdCI6MTU4MTQ5MjY0Nywic3ViIjoidGVzdCJ9.NFC6vWSqp__c6PC7-8FnP45OAROUbwTeC6dO56kcVck"
+	ctx = metadata.AppendToOutgoingContext(ctx, grpctoken, token)
+
+	resp, err := cli.Recharge(ctx, &upb.RechargeReq{
+		UserId:               2,
+		Delta:                2,
+	})
+
+	t.Log(resp)
+}
+
+func TestClient_LoginAndRecharge(t *testing.T) {
+	cli, err := NewUserLogicClient()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	ctx := context.Background()
+
+	LoginResp, err := cli.Login(ctx, &upb.LoginReq{
+		Account:              "test11",
+		Password:             "123456",
+	})
+	if err != nil {
+		t.Log("Login failed:", err)
+	}
+
+	const grpcToken = "resp_token"
+	token := LoginResp.Token
+	t.Log("test token:", token)
+	ctx = metadata.AppendToOutgoingContext(ctx, grpcToken, token)
+
+	amount := rand.New(rand.NewSource(time.Now().UnixNano())).Int63n(1000)
+	t.Log("ready to recharge")
+	_, err = cli.Recharge(ctx, &upb.RechargeReq{
+		UserId:  11,
+		Delta:   amount,
+		Account: "test11",
+	})
+	if err != nil {
+		t.Log("Recharge failed:", err)
+	}else {
+		t.Log("recharge success:", amount)
+	}
+}
+
+func TestClient_GetTopUser(t *testing.T) {
+	cli, err := NewUserLogicClient()
+	if err != nil {
+		t.Log("test GetTopUser failed:", err)
+	}
+	ctx := context.Background()
+
+	LoginResp, err := cli.Login(ctx, &upb.LoginReq{
+		Account:  "test01",
+		Password: "123456",
+	})
+	if err != nil {
+		t.Log("Login failed:", err)
+	}
+
+	const grpcToken = "resp_token"
+	token := LoginResp.Token
+	ctx = metadata.AppendToOutgoingContext(ctx, grpcToken, token)
+
+	resp, err := cli.GetTopUser(ctx, &upb.GetTopUserReq{
+		Top: 10,
+	})
+	if err != nil {
+		t.Log("test GetTopUser failed:", err)
+	}
+
+	t.Log(resp)
+}

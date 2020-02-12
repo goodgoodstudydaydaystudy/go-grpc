@@ -17,6 +17,8 @@ var (
 	errInternal        = status.Error(codes.Internal, "Internal error")
 )
 
+// auth.AuthFunc —— If error is returned, its `grpc.Code()` will be returned to the user as well as the verbatim message.
+// Please make sure you use `codes.Unauthenticated` (lacking auth) and `codes.PermissionDenied`
 func UnaryServerInterceptor(authFunc grpc_auth.AuthFunc) grpc.UnaryServerInterceptor {
 	return grpc_auth.UnaryServerInterceptor(authFunc)
 }
@@ -35,6 +37,7 @@ func NewAuthFuncBuilder() *authFuncBuilder {
 	return defaultBuilder()
 }
 
+// 灵活的过滤接口
 func (builder *authFuncBuilder) WithFullMethodException(
 	fullMethodNames ...string) *authFuncBuilder {
 	for _, method := range fullMethodNames {

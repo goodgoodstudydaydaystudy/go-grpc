@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/dgrijalva/jwt-go"
+	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/account"
 	"log"
 )
 
@@ -9,7 +10,7 @@ func checkToken(tokenString string) error {
 	// 创建claims
 
 	type customsClaims struct {
-		UserId uint32 `json:"user_id"`
+		UserInfo *pb.UserInfo `json:"user_info"`
 		jwt.StandardClaims
 	}
 	// 获得token
