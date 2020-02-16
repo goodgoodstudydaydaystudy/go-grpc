@@ -3,6 +3,7 @@ package wallet
 import (
 	"context"
 	"log"
+	"time"
 
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/wallet"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
@@ -30,6 +31,8 @@ func NewWalletServer() (*server, error) {
 	mysqlStore := &mysqlStoreManager{mysqlConn: db}
 	redisStore := &redisStoreManager{redisClient:redisClient}
 
+	go NewTimer(mysqlStore)	// timer for scanning t_order
+
 	return &server{
 		db:  mysqlStore,
 		rdb: redisStore,
@@ -46,6 +49,24 @@ func NewRedisClient() *redis.Client {
 	return client
 }
 
+
+func NewTimer(db *mysqlStoreManager)  {
+	ctx := context.Background()
+
+	for {
+		NotPayList, err := db.ScanNotPay(ctx)
+		if err != nil {
+			log.Println("server GetNotPayTimer failed:", err)
+			return
+		}
+		if len(NotPayList) != 0 {
+			log.Println("NotPayList:", NotPayList)
+		}else {
+			log.Println("NotPayList is empty")
+		}
+		time.Sleep(time.Duration(5)*time.Second)
+	}
+}
 
 // 充值 返回 余额
 func (s *server) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.RechargeResp, error) {
@@ -95,4 +116,27 @@ func (s *server) GetTopUser(ctx context.Context, req *pb.GetTopUserReq) (*pb.Get
 	return &pb.GetTopUserResp{
 		UserList:  topUserList,
 	}, nil
+}
+
+// 没有付款的订单
+func (s *server) OrderNotPay(ctx context.Context, req *pb.OrderNotPayReq) (*pb.OrderNotPayResp, error) {
+	orderId, err := s.db.OrderNotPay(ctx, req.UserId)
+	if err != nil {
+		log.Println("server OrderNotPay failed:", err)
+		return nil, err
+	}
+
+	return &pb.OrderNotPayResp{
+		OrderId: orderId,
+	}, nil
+}
+
+// pay
+func (s *server) Pay(ctx context.Context, req *pb.PayReq) (*pb.PayResp, error) {
+	err := s.db.Pay(ctx, req.OrderId)
+	if err != nil {
+		log.Println("server pay failed:", err)
+		return nil, err
+	}
+	return &pb.PayResp{}, nil
 }

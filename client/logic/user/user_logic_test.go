@@ -129,3 +129,60 @@ func TestClient_GetTopUser(t *testing.T) {
 
 	t.Log(resp)
 }
+
+func TestClient_OrderNotPay(t *testing.T) {
+	cli, err := NewUserLogicClient()
+	if err != nil {
+		t.Log("test cli failed:", err)
+	}
+	ctx := context.Background()
+
+	LoginResp, err := cli.Login(ctx, &upb.LoginReq{
+		Account:              "test01",
+		Password:             "123456",
+	})
+	if err != nil {
+		t.Log("Login failed:", err)
+	}
+
+	const grpcToken = "resp_token"
+	token := LoginResp.Token
+	ctx = metadata.AppendToOutgoingContext(ctx, grpcToken, token)
+
+	orderId, err := cli.OrderNotPay(ctx, &upb.OrderNotPayReq{
+		UserId: 1,
+	})
+	if err != nil {
+		t.Log("test OrderNotPay failed:", err)
+	}
+	t.Log(orderId)
+}
+
+func TestClient_Pay(t *testing.T) {
+	cli, err := NewUserLogicClient()
+	if err != nil {
+		t.Log("test cli failed:", err)
+	}
+	ctx := context.Background()
+
+	LoginResp, err := cli.Login(ctx, &upb.LoginReq{
+		Account:              "test01",
+		Password:             "123456",
+	})
+	if err != nil {
+		t.Log("Login failed:", err)
+	}
+
+	const grpcToken = "resp_token"
+	token := LoginResp.Token
+	ctx = metadata.AppendToOutgoingContext(ctx, grpcToken, token)
+
+	_, err = cli.Pay(ctx, &upb.PayReq{
+		OrderId: "fd5832fc62b6da8bd2b381b4e3bee9c0",
+		})
+	if err == nil {
+		t.Log("pay success")
+	}else {
+		t.Log("pay failed:", err)
+	}
+}

@@ -146,5 +146,26 @@ func (s *UserLogic) generateToken(userInfo pb.UserInfo) (ss string, err error) {
 	return ss, nil
 }
 
+func (s *UserLogic) OrderNotPay(ctx context.Context, req *pb.OrderNotPayReq) (resp *pb.OrderNotPayResp, err error) {
+	resp = &pb.OrderNotPayResp{}
+	r, err := s.walletClient.OrderNotPay(ctx, req.UserId)
+	if err != nil {
+		log.Println("logic server OrderNotPay failed:", err)
+		return 
+	}
 
+	resp.OrderId = r.OrderId
+	log.Println("logicServer r.OrderId:", r.OrderId)
+	return resp, nil
+}
 
+func (s *UserLogic) Pay(ctx context.Context, req *pb.PayReq) (resp *pb.PayResp, err error) {
+	resp = &pb.PayResp{}
+
+	_, err = s.walletClient.Pay(ctx, req.OrderId)
+	if err != nil {
+		log.Println("logic server Pay failed:", err)
+		return
+	}
+	return resp, nil
+}

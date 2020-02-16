@@ -29,7 +29,7 @@ func (c *Client) Recharge(account string, amount int64, time string) protocol.Se
 	err := c.cli.ZAdd(time, &z).Err()
 	if err != nil {
 		log.Println("redis recharge failed:", err)
-		return protocol.NewServerError(status.ErrDB)
+		return protocol.NewServerError(status.ErrRedisDB)
 	}
 	return nil
 }
@@ -44,7 +44,26 @@ func (c *Client) GetTopData(n uint, time string) ([]redis.Z, protocol.ServerErro
 		return nil, protocol.NewServerError(status.ErrGetTopUserFailed)
 	}else if err != nil {
 		log.Println("redis GetTopN failed:", err)
-		return nil, protocol.NewServerError(status.ErrDB)
+		return nil, protocol.NewServerError(status.ErrRedisDB)
 	}
 	return z, nil
+}
+
+// 写入order的orderId和deadline
+// 用于过期订单核销
+func (c *Client) RecordOrderDeadline(orderId string, deadline string) protocol.ServerError {
+	err := c.cli.SAdd(deadline, orderId)
+	if err != nil {
+		log.Println("redis RecordOrderDeadline failed:", err)
+		return protocol.NewServerError(status.ErrRedisDB)
+	}
+	return nil
+}
+
+// 查找过期订单
+func (c *Client) GetDeadlineOrder(deadline string) (*redis.StringSliceCmd, protocol.ServerError){
+	s, err := c.cli.SMembers(deadline).Result()
+	if err != nil {
+
+	}
 }

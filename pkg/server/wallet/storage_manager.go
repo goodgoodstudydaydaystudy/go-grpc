@@ -49,6 +49,47 @@ func (st *mysqlStoreManager) GetUserBalance(ctx context.Context, userId uint32) 
 	return dao.GetUserBalance(ctx, userId, false)
 }
 
+func (st *mysqlStoreManager) OrderNotPay(ctx context.Context, userId uint32) (string, protocol.ServerError) {
+	// 开启事务
+	db := st.mysqlConn
+	tx, err := db.BeginTxx(ctx, nil)
+	if err != nil {
+		return "", protocol.ToServerError(err)
+	}
+	// 调用 db方法
+	dao := mysql.NewWalletMysql(tx)
+	orderId, err := dao.OrderNotPay(ctx, userId)
+	// rollback/commit
+	if err != nil {
+		_ = tx.Rollback()
+		return "", protocol.ToServerError(err)
+	}else {
+		_ = tx.Commit()
+	}
+	// return
+	return orderId, nil
+}
+
+func (st *mysqlStoreManager) Pay(ctx context.Context, orderId string) protocol.ServerError {
+	txErr := doTx(ctx, st.mysqlConn, func(tx *sqlx.Tx) error {
+		dao := mysql.NewWalletMysql(tx)
+		err := dao.Pay(ctx, orderId)
+		// rollback/commit &return
+		return err
+	})
+	return protocol.ToServerError(txErr)
+}
+
+func (st *mysqlStoreManager) ScanNotPay(ctx context.Context) ([]string, protocol.ServerError) {
+	tx := st.mysqlConn
+	dao := mysql.NewWalletMysql(tx)
+	NotPays, err := dao.ScanNotPay(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return NotPays, nil
+}
+
 // private
 // 开启事务, 封装好一个函数, 方便别的地方用
 // 函数签名包含一个匿名函数，而且可以在函数最后return，mark
@@ -68,6 +109,7 @@ func doTx(ctx context.Context, db *sqlx.DB, fn func(tx *sqlx.Tx) error) error {
 
 	return fn(tx)
 }
+
 
 
 // 管理time和写入recharge recording
@@ -100,3 +142,4 @@ func (st *redisStoreManager) GetTopUser(n uint) (map[string]uint64, protocol.Ser
 func rechargeTime() string {
 	return time.Now().Format("2006-01-02-15")
 }
+

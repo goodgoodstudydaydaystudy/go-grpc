@@ -266,6 +266,154 @@ func (m *GetTopUserResp) GetUserList() string {
 	return ""
 }
 
+type OrderNotPayReq struct {
+	UserId               uint32   `protobuf:"varint,1,opt,name=userId,proto3" json:"userId,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *OrderNotPayReq) Reset()         { *m = OrderNotPayReq{} }
+func (m *OrderNotPayReq) String() string { return proto.CompactTextString(m) }
+func (*OrderNotPayReq) ProtoMessage()    {}
+func (*OrderNotPayReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6e585c95aeb2fa82, []int{6}
+}
+
+func (m *OrderNotPayReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_OrderNotPayReq.Unmarshal(m, b)
+}
+func (m *OrderNotPayReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_OrderNotPayReq.Marshal(b, m, deterministic)
+}
+func (m *OrderNotPayReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OrderNotPayReq.Merge(m, src)
+}
+func (m *OrderNotPayReq) XXX_Size() int {
+	return xxx_messageInfo_OrderNotPayReq.Size(m)
+}
+func (m *OrderNotPayReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_OrderNotPayReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OrderNotPayReq proto.InternalMessageInfo
+
+func (m *OrderNotPayReq) GetUserId() uint32 {
+	if m != nil {
+		return m.UserId
+	}
+	return 0
+}
+
+type OrderNotPayResp struct {
+	OrderId              string   `protobuf:"bytes,1,opt,name=orderId,proto3" json:"orderId,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *OrderNotPayResp) Reset()         { *m = OrderNotPayResp{} }
+func (m *OrderNotPayResp) String() string { return proto.CompactTextString(m) }
+func (*OrderNotPayResp) ProtoMessage()    {}
+func (*OrderNotPayResp) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6e585c95aeb2fa82, []int{7}
+}
+
+func (m *OrderNotPayResp) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_OrderNotPayResp.Unmarshal(m, b)
+}
+func (m *OrderNotPayResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_OrderNotPayResp.Marshal(b, m, deterministic)
+}
+func (m *OrderNotPayResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_OrderNotPayResp.Merge(m, src)
+}
+func (m *OrderNotPayResp) XXX_Size() int {
+	return xxx_messageInfo_OrderNotPayResp.Size(m)
+}
+func (m *OrderNotPayResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_OrderNotPayResp.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_OrderNotPayResp proto.InternalMessageInfo
+
+func (m *OrderNotPayResp) GetOrderId() string {
+	if m != nil {
+		return m.OrderId
+	}
+	return ""
+}
+
+type PayReq struct {
+	OrderId              string   `protobuf:"bytes,1,opt,name=orderId,proto3" json:"orderId,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *PayReq) Reset()         { *m = PayReq{} }
+func (m *PayReq) String() string { return proto.CompactTextString(m) }
+func (*PayReq) ProtoMessage()    {}
+func (*PayReq) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6e585c95aeb2fa82, []int{8}
+}
+
+func (m *PayReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PayReq.Unmarshal(m, b)
+}
+func (m *PayReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PayReq.Marshal(b, m, deterministic)
+}
+func (m *PayReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PayReq.Merge(m, src)
+}
+func (m *PayReq) XXX_Size() int {
+	return xxx_messageInfo_PayReq.Size(m)
+}
+func (m *PayReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_PayReq.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PayReq proto.InternalMessageInfo
+
+func (m *PayReq) GetOrderId() string {
+	if m != nil {
+		return m.OrderId
+	}
+	return ""
+}
+
+type PayResp struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *PayResp) Reset()         { *m = PayResp{} }
+func (m *PayResp) String() string { return proto.CompactTextString(m) }
+func (*PayResp) ProtoMessage()    {}
+func (*PayResp) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6e585c95aeb2fa82, []int{9}
+}
+
+func (m *PayResp) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_PayResp.Unmarshal(m, b)
+}
+func (m *PayResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_PayResp.Marshal(b, m, deterministic)
+}
+func (m *PayResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PayResp.Merge(m, src)
+}
+func (m *PayResp) XXX_Size() int {
+	return xxx_messageInfo_PayResp.Size(m)
+}
+func (m *PayResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_PayResp.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PayResp proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*RechargeReq)(nil), "wallet.RechargeReq")
 	proto.RegisterType((*RechargeResp)(nil), "wallet.RechargeResp")
@@ -273,31 +421,40 @@ func init() {
 	proto.RegisterType((*GetUserBalanceResp)(nil), "wallet.GetUserBalanceResp")
 	proto.RegisterType((*GetTopUserReq)(nil), "wallet.GetTopUserReq")
 	proto.RegisterType((*GetTopUserResp)(nil), "wallet.GetTopUserResp")
+	proto.RegisterType((*OrderNotPayReq)(nil), "wallet.OrderNotPayReq")
+	proto.RegisterType((*OrderNotPayResp)(nil), "wallet.OrderNotPayResp")
+	proto.RegisterType((*PayReq)(nil), "wallet.PayReq")
+	proto.RegisterType((*PayResp)(nil), "wallet.PayResp")
 }
 
 func init() { proto.RegisterFile("server/wallet/wallet.proto", fileDescriptor_6e585c95aeb2fa82) }
 
 var fileDescriptor_6e585c95aeb2fa82 = []byte{
-	// 297 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x52, 0xb1, 0x4e, 0xc3, 0x30,
-	0x10, 0x25, 0x44, 0x4a, 0xdb, 0x83, 0x56, 0x70, 0x94, 0x12, 0x3c, 0x05, 0x4f, 0x19, 0xaa, 0x44,
-	0x82, 0x81, 0x89, 0xa5, 0x4b, 0x55, 0x89, 0xc9, 0x02, 0x81, 0x58, 0x90, 0x93, 0x5a, 0xa5, 0x22,
-	0x34, 0xc6, 0x76, 0xe1, 0x23, 0xf9, 0x29, 0x64, 0x37, 0x21, 0x81, 0x02, 0x53, 0xf2, 0xee, 0xde,
-	0xbd, 0xe7, 0x7b, 0x3a, 0x20, 0x5a, 0xa8, 0x37, 0xa1, 0xd2, 0x77, 0x5e, 0x14, 0xc2, 0x54, 0x9f,
-	0x44, 0xaa, 0xd2, 0x94, 0x18, 0x6c, 0x10, 0xbd, 0x87, 0x3d, 0x26, 0xf2, 0x27, 0xae, 0x16, 0x82,
-	0x89, 0x57, 0x3c, 0x81, 0xce, 0x5a, 0x0b, 0xf5, 0xb8, 0x9c, 0x87, 0x5e, 0xe4, 0xc5, 0x7d, 0x16,
-	0x58, 0x38, 0x9b, 0xe3, 0x08, 0x02, 0xfe, 0x52, 0xae, 0x57, 0x26, 0xdc, 0x8d, 0xbc, 0xd8, 0x67,
-	0x15, 0xc2, 0x10, 0x3a, 0x3c, 0xcf, 0x5d, 0xc3, 0x8f, 0xbc, 0xb8, 0xc7, 0x6a, 0x48, 0x07, 0xb0,
-	0xdf, 0x28, 0x6b, 0x49, 0xc7, 0x70, 0x38, 0x15, 0xe6, 0x56, 0x0b, 0x35, 0xe1, 0x05, 0x5f, 0xe5,
-	0xff, 0xfa, 0xd1, 0x04, 0xf0, 0x27, 0x5b, 0x4b, 0xeb, 0x96, 0x6d, 0xa0, 0xa3, 0xfb, 0xac, 0x86,
-	0xf4, 0x0c, 0xfa, 0x53, 0x61, 0x6e, 0x4a, 0x69, 0x47, 0xac, 0xf2, 0x01, 0xf8, 0xa6, 0x94, 0x95,
-	0xaa, 0xfd, 0xa5, 0x63, 0x18, 0xb4, 0x29, 0x5a, 0x22, 0x81, 0xae, 0xb5, 0xbb, 0x5e, 0x6a, 0xe3,
-	0x88, 0x3d, 0xf6, 0x85, 0xcf, 0x3f, 0x3c, 0x08, 0xee, 0x5c, 0x46, 0x78, 0x09, 0xdd, 0x7a, 0x13,
-	0x3c, 0x4a, 0xaa, 0x18, 0x5b, 0xa9, 0x91, 0xe1, 0x76, 0x51, 0x4b, 0xba, 0x83, 0x33, 0xe7, 0xd8,
-	0x5a, 0x02, 0x4f, 0x6b, 0xe6, 0x56, 0x14, 0x84, 0xfc, 0xd5, 0x72, 0x52, 0x57, 0x00, 0xcd, 0xe3,
-	0xf1, 0xb8, 0xc5, 0x6d, 0x76, 0x26, 0xa3, 0xdf, 0xca, 0x76, 0x7c, 0x32, 0x7a, 0x18, 0xca, 0xe7,
-	0x45, 0x2a, 0xb3, 0xf4, 0xdb, 0x4d, 0x64, 0x81, 0xbb, 0x86, 0x8b, 0xcf, 0x00, 0x00, 0x00, 0xff,
-	0xff, 0xb9, 0x04, 0x19, 0xb9, 0x2b, 0x02, 0x00, 0x00,
+	// 373 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x93, 0x5f, 0x4f, 0xf2, 0x30,
+	0x14, 0xc6, 0xdf, 0xb1, 0x64, 0xb0, 0xc3, 0xcb, 0x78, 0xdf, 0x8a, 0x03, 0x77, 0x85, 0xbd, 0x5a,
+	0x22, 0x81, 0x44, 0x2f, 0xbc, 0x32, 0x31, 0xdc, 0x10, 0x12, 0xa3, 0xa6, 0xd1, 0x68, 0xbc, 0x31,
+	0x63, 0x34, 0x48, 0x44, 0x5a, 0xdb, 0xa2, 0xf1, 0x93, 0xf9, 0xf5, 0x4c, 0x4b, 0x07, 0x1b, 0x7f,
+	0xbc, 0x82, 0xe7, 0xf4, 0x77, 0x9e, 0x9e, 0x3d, 0x67, 0x83, 0x48, 0x52, 0xf1, 0x41, 0x45, 0xef,
+	0x33, 0x99, 0xcd, 0xa8, 0xb2, 0x3f, 0x5d, 0x2e, 0x98, 0x62, 0xc8, 0x5b, 0x2a, 0xfc, 0x08, 0x55,
+	0x42, 0xd3, 0x97, 0x44, 0x4c, 0x28, 0xa1, 0xef, 0xa8, 0x09, 0xe5, 0x85, 0xa4, 0xe2, 0x79, 0x3a,
+	0x6e, 0x39, 0x6d, 0x27, 0xae, 0x11, 0x4f, 0xcb, 0xe1, 0x18, 0x85, 0xe0, 0x25, 0x6f, 0x6c, 0x31,
+	0x57, 0xad, 0x52, 0xdb, 0x89, 0x5d, 0x62, 0x15, 0x6a, 0x41, 0x39, 0x49, 0x53, 0x73, 0xe0, 0xb6,
+	0x9d, 0xd8, 0x27, 0x99, 0xc4, 0x01, 0xfc, 0x5d, 0x3b, 0x4b, 0x8e, 0x3b, 0xf0, 0x7f, 0x40, 0xd5,
+	0xbd, 0xa4, 0xa2, 0x9f, 0xcc, 0x92, 0x79, 0xfa, 0xeb, 0x7d, 0xb8, 0x0b, 0x68, 0x93, 0x96, 0x5c,
+	0xdf, 0x36, 0x5a, 0x4a, 0x83, 0xbb, 0x24, 0x93, 0xf8, 0x18, 0x6a, 0x03, 0xaa, 0xee, 0x18, 0xd7,
+	0x2d, 0xda, 0xf9, 0x1f, 0xb8, 0x8a, 0x71, 0xeb, 0xaa, 0xff, 0xe2, 0x0e, 0x04, 0x79, 0x44, 0x72,
+	0x14, 0x41, 0x45, 0x5f, 0x77, 0x35, 0x95, 0xca, 0x80, 0x3e, 0x59, 0x69, 0x1c, 0x43, 0x70, 0x23,
+	0xc6, 0x54, 0x5c, 0x33, 0x75, 0x9b, 0x7c, 0x69, 0xc7, 0x10, 0xec, 0x70, 0x1b, 0xa3, 0x9e, 0x40,
+	0xbd, 0x40, 0x2e, 0xe7, 0x64, 0xba, 0x64, 0x59, 0x9f, 0x64, 0x12, 0x63, 0xf0, 0xac, 0xdd, 0x7e,
+	0xc6, 0x87, 0xb2, 0x35, 0x3a, 0xfd, 0x2e, 0x81, 0xf7, 0x60, 0x36, 0x85, 0xce, 0xa1, 0x92, 0xe5,
+	0x89, 0x0e, 0xba, 0x76, 0x99, 0xb9, 0xdd, 0x45, 0x8d, 0xed, 0xa2, 0xe4, 0xf8, 0x0f, 0x1a, 0x9a,
+	0xe7, 0xce, 0x45, 0x89, 0x8e, 0x32, 0x72, 0x6b, 0x21, 0x51, 0xb4, 0xef, 0xc8, 0x58, 0x5d, 0x00,
+	0xac, 0x23, 0x44, 0x87, 0x39, 0x76, 0x9d, 0x7c, 0x14, 0xee, 0x2a, 0x9b, 0xf6, 0x4b, 0xa8, 0xe6,
+	0x92, 0x42, 0x2b, 0xb0, 0x18, 0x74, 0xd4, 0xdc, 0x59, 0x37, 0x0e, 0x31, 0xb8, 0xba, 0x33, 0xc8,
+	0x08, 0xdb, 0x51, 0x2f, 0x68, 0x4d, 0xf6, 0xc3, 0xa7, 0x06, 0x7f, 0x9d, 0xf4, 0xf8, 0xa8, 0x57,
+	0xf8, 0x0a, 0x46, 0x9e, 0x79, 0xff, 0xcf, 0x7e, 0x02, 0x00, 0x00, 0xff, 0xff, 0x78, 0x91, 0x00,
+	0x82, 0x1d, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -315,6 +472,8 @@ type WalletClient interface {
 	Recharge(ctx context.Context, in *RechargeReq, opts ...grpc.CallOption) (*RechargeResp, error)
 	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
 	GetTopUser(ctx context.Context, in *GetTopUserReq, opts ...grpc.CallOption) (*GetTopUserResp, error)
+	OrderNotPay(ctx context.Context, in *OrderNotPayReq, opts ...grpc.CallOption) (*OrderNotPayResp, error)
+	Pay(ctx context.Context, in *PayReq, opts ...grpc.CallOption) (*PayResp, error)
 }
 
 type walletClient struct {
@@ -352,11 +511,31 @@ func (c *walletClient) GetTopUser(ctx context.Context, in *GetTopUserReq, opts .
 	return out, nil
 }
 
+func (c *walletClient) OrderNotPay(ctx context.Context, in *OrderNotPayReq, opts ...grpc.CallOption) (*OrderNotPayResp, error) {
+	out := new(OrderNotPayResp)
+	err := c.cc.Invoke(ctx, "/wallet.Wallet/OrderNotPay", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *walletClient) Pay(ctx context.Context, in *PayReq, opts ...grpc.CallOption) (*PayResp, error) {
+	out := new(PayResp)
+	err := c.cc.Invoke(ctx, "/wallet.Wallet/Pay", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // WalletServer is the server API for Wallet service.
 type WalletServer interface {
 	Recharge(context.Context, *RechargeReq) (*RechargeResp, error)
 	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error)
 	GetTopUser(context.Context, *GetTopUserReq) (*GetTopUserResp, error)
+	OrderNotPay(context.Context, *OrderNotPayReq) (*OrderNotPayResp, error)
+	Pay(context.Context, *PayReq) (*PayResp, error)
 }
 
 // UnimplementedWalletServer can be embedded to have forward compatible implementations.
@@ -371,6 +550,12 @@ func (*UnimplementedWalletServer) GetUserBalance(ctx context.Context, req *GetUs
 }
 func (*UnimplementedWalletServer) GetTopUser(ctx context.Context, req *GetTopUserReq) (*GetTopUserResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTopUser not implemented")
+}
+func (*UnimplementedWalletServer) OrderNotPay(ctx context.Context, req *OrderNotPayReq) (*OrderNotPayResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OrderNotPay not implemented")
+}
+func (*UnimplementedWalletServer) Pay(ctx context.Context, req *PayReq) (*PayResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Pay not implemented")
 }
 
 func RegisterWalletServer(s *grpc.Server, srv WalletServer) {
@@ -431,6 +616,42 @@ func _Wallet_GetTopUser_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Wallet_OrderNotPay_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OrderNotPayReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WalletServer).OrderNotPay(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/wallet.Wallet/OrderNotPay",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WalletServer).OrderNotPay(ctx, req.(*OrderNotPayReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Wallet_Pay_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PayReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WalletServer).Pay(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/wallet.Wallet/Pay",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WalletServer).Pay(ctx, req.(*PayReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Wallet_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "wallet.Wallet",
 	HandlerType: (*WalletServer)(nil),
@@ -446,6 +667,14 @@ var _Wallet_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTopUser",
 			Handler:    _Wallet_GetTopUser_Handler,
+		},
+		{
+			MethodName: "OrderNotPay",
+			Handler:    _Wallet_OrderNotPay_Handler,
+		},
+		{
+			MethodName: "Pay",
+			Handler:    _Wallet_Pay_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
