@@ -86,8 +86,8 @@ func (c *Client) GetTopUser(ctx context.Context, req *pb.GetTopUserReq, opts ...
 	return resp, nil
 }
 
-func (c *Client) OrderNotPay(ctx context.Context, req *pb.OrderNotPayReq, opts ...grpc.CallOption) (*pb.OrderNotPayResp, protocol.ServerError) {
-	resp, err := c.cli.OrderNotPay(ctx, req, opts...)
+func (c *Client) RecordOrderNotPay(ctx context.Context, req *pb.RecordOrderNoPaidReq, opts ...grpc.CallOption) (*pb.RecordOrderNoPaidResp, protocol.ServerError) {
+	resp, err := c.cli.RecordOrderNoPaid(ctx, req, opts...)
 	if err != nil {
 		log.Println("userClient OrderNotPay failed:", err)
 		return nil, protocol.ToServerError(err)

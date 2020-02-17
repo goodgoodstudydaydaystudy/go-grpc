@@ -3,8 +3,10 @@ package user
 import (
 	"context"
 	upb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
+	"goodgoodstudy.com/go-grpc/pkg/procotol/encode"
 	"google.golang.org/grpc/metadata"
 	"math/rand"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -149,8 +151,9 @@ func TestClient_OrderNotPay(t *testing.T) {
 	token := LoginResp.Token
 	ctx = metadata.AppendToOutgoingContext(ctx, grpcToken, token)
 
-	orderId, err := cli.OrderNotPay(ctx, &upb.OrderNotPayReq{
-		UserId: 1,
+	orderId, err := cli.RecordOrderNotPay(ctx, &upb.RecordOrderNoPaidReq{
+		UserId:               1,
+		OrderId:              generateOrderId(1),
 	})
 	if err != nil {
 		t.Log("test OrderNotPay failed:", err)
@@ -185,4 +188,8 @@ func TestClient_Pay(t *testing.T) {
 	}else {
 		t.Log("pay failed:", err)
 	}
+}
+
+func generateOrderId(userId uint32) string {
+	return encode.GenerateMd5(strconv.FormatUint(uint64(userId), 10))
 }

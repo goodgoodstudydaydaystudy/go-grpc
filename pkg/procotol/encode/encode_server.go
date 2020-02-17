@@ -8,9 +8,9 @@ import (
 	"time"
 )
 
-// Md5 加密
+// Md5
 // 方式：nowTime + randomNum + seed(string)
-func NewMd5(seed string) string {
+func GenerateMd5(seed string) string {
 	now := time.Now()
 
 	seedTime := now.Format("20060102150405.000")

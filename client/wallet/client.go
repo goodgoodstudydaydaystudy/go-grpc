@@ -70,11 +70,11 @@ func (c *Client) GetTopUser(ctx context.Context, n uint32) (*pb.GetTopUserResp, 
 	return resp, nil
 }
 
-func (c *Client) OrderNotPay(ctx context.Context, userId uint32) (*pb.OrderNotPayResp, protocol.ServerError) {
-	req := &pb.OrderNotPayReq{UserId: userId}
-	resp, err := c.cli.OrderNotPay(ctx, req)
+func (c *Client) RecordOrderNoPaid(ctx context.Context, userId uint32, orderId string) (*pb.RecordOrderNoPaidResp, protocol.ServerError) {
+	req := &pb.RecordOrderNoPaidReq{UserId: userId, OrderId: orderId}
+	resp, err := c.cli.RecordOrderNoPaid(ctx, req)
 	if err != nil {
-		log.Println("client OrderNotPay failed:", err)
+		log.Println("client RecordOrderNoPaid failed:", err)
 		return resp, protocol.ToServerError(err)
 	}
 	return resp, nil

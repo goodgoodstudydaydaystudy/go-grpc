@@ -8,7 +8,7 @@ service User{
     rpc Register(RegisterReq) returns (RegisterResp) {}
     rpc Recharge(RechargeReq) returns (RechargeResp) {}
     rpc GetTopUser(GetTopUserReq) returns (GetTopUserResp) {}
-    rpc OrderNotPay(OrderNotPayReq) returns (OrderNotPayResp) {}
+    rpc RecordOrderNoPaid(RecordOrderNoPaidReq) returns (RecordOrderNoPaidResp) {}
     rpc Pay(PayReq) returns (PayResp) {}
 }
 
@@ -64,12 +64,12 @@ message GetTopUserResp {
     string userList = 1;
 }
 
-message OrderNotPayReq {
+message RecordOrderNoPaidReq {
     uint32 user_id = 1;
+    string orderId = 2;
 }
 
-message OrderNotPayResp {
-    string orderId = 1;
+message RecordOrderNoPaidResp {
 }
 
 message PayReq {

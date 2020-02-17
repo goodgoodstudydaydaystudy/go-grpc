@@ -5,11 +5,9 @@ import (
 	"database/sql"
 	_ "database/sql"
 	"log"
-	"strconv"
 	"time"
 
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
-	"goodgoodstudy.com/go-grpc/pkg/procotol/encode"
 	"goodgoodstudy.com/go-grpc/protocol/common/status"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -72,23 +70,15 @@ func (c *WalletMysql) GetUserBalance(ctx context.Context, userId uint32, forUpda
 	return accBalance, nil
 }
 
-func (c *WalletMysql) OrderNotPay(ctx context.Context, userId uint32) (orderId string, err protocol.ServerError) {
-	now := time.Now()
-	orderTime := now.Format("2006œ-01-02 15:04:05")
-	afterOneMin, _ := time.ParseDuration("+1m")
-	deadline := now.Add(afterOneMin)
-
-	orderId = encode.NewMd5(strconv.FormatUint(uint64(userId), 10))
-
+func (c *WalletMysql) RecordOrderNoPaid(ctx context.Context, userId uint32, orderId string, orderTime string, deadline string) (err protocol.ServerError) {
 	var de error
 	orderExec := "INSERT INTO t_order(orderId, userId, orderTime, deadline) VALUE(?, ?, ?, ?)"
 	_, de = c.qe.ExecContext(ctx, orderExec, orderId, userId, orderTime, deadline)
 	if de != nil {
 		log.Println("insert order failed:", de)
-		return orderId, protocol.NewServerError(status.ErrDB)
+		return protocol.NewServerError(status.ErrDB)
 	}
-
-	return orderId, nil
+	return nil
 }
 
 func (c *WalletMysql) Pay(ctx context.Context, orderId string) protocol.ServerError {
@@ -112,24 +102,52 @@ func (c *WalletMysql) Pay(ctx context.Context, orderId string) protocol.ServerEr
 }
 
 // scan t_order
-func (c *WalletMysql) ScanNotPay(ctx context.Context) (NotPay []string, serverError protocol.ServerError) {
+func (c *WalletMysql) GetNoPaid(ctx context.Context) (NoPaid []string, serverError protocol.ServerError) {
 	ScanExec := "SELECT orderId FROM t_order WHERE status=?"
 	rows, err := c.qe.QueryContext(ctx, ScanExec, 0)
 	if err != nil {
-		log.Println("ScanNotPay query failed:", err)
+		log.Println("GetNoPaid query failed:", err)
 		return nil, protocol.NewServerError(status.ErrDB)
 	}
 	for rows.Next() {
-		var notPayOrder string
-		err := rows.Scan(&notPayOrder)
+		var noPaidOrder string
+		err := rows.Scan(&noPaidOrder)
 		if err != nil {
-			log.Println("ScanNotPay get NotPayOrder ")
+			log.Println("GetNoPaid failed ")
 			return nil, protocol.NewServerError(status.ErrDB)
 		}
-		NotPay = append(NotPay, notPayOrder)
+		NoPaid = append(NoPaid, noPaidOrder)
 	}
-	return NotPay, nil
+	return NoPaid, nil
 }
+
+// 接收过期订单，修改t_order的status=3(expired)
+func (c *WalletMysql) MarkExpiredOrder(ctx context.Context, expiredOder []string) (err protocol.ServerError) {
+	// range expiredOder []string to get order
+	for _, orderId := range expiredOder{
+		go func() {
+			checkOrderExec := "SELECT status FROM t_order WHERE orderId=?"
+			row := c.qe.QueryRowxContext(ctx, checkOrderExec, orderId)
+			var statusNum int
+			err := row.Scan(&statusNum)
+			if err != nil {
+				log.Println("MarkExpiredOrder get order failed:", err)
+			}
+			// check status
+			// mark status=3
+			if statusNum == 0 {
+				orderExec := "UPDATE t_oder SET status=? WHERE orderId=?"
+				_, err := c.qe.ExecContext(ctx, orderExec, 3, orderId)
+				if err != nil {
+					log.Println("MarkExpiredOrder exec failed:", err)
+					return
+				}
+			}
+		}()
+		}
+	return nil
+}
+
 
 // mysql goodStudy -uroot -p8918112lu;
 // select * from t_wallet;

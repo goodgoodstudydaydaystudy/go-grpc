@@ -23,7 +23,6 @@ type UserLogic struct {
 	walletClient  *wallet.Client
 }
 
-
 func NewUserLogic() (*UserLogic, error) {
 	accountClient, err := account.NewAccountClient()
 	if err != nil {
@@ -146,16 +145,13 @@ func (s *UserLogic) generateToken(userInfo pb.UserInfo) (ss string, err error) {
 	return ss, nil
 }
 
-func (s *UserLogic) OrderNotPay(ctx context.Context, req *pb.OrderNotPayReq) (resp *pb.OrderNotPayResp, err error) {
-	resp = &pb.OrderNotPayResp{}
-	r, err := s.walletClient.OrderNotPay(ctx, req.UserId)
+func (s *UserLogic) RecordOrderNoPaid(ctx context.Context, req *pb.RecordOrderNoPaidReq) (resp *pb.RecordOrderNoPaidResp, err error) {
+	resp = &pb.RecordOrderNoPaidResp{}
+	_, err = s.walletClient.RecordOrderNoPaid(ctx, req.UserId, req.OrderId)
 	if err != nil {
-		log.Println("logic server OrderNotPay failed:", err)
+		log.Println("logic server RecordOrderNoPaid failed:", err)
 		return 
 	}
-
-	resp.OrderId = r.OrderId
-	log.Println("logicServer r.OrderId:", r.OrderId)
 	return resp, nil
 }
 

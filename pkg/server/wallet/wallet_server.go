@@ -14,59 +14,93 @@ import (
 )
 
 type server struct {
-	db  *mysqlStoreManager
-	rdb *redisStoreManager
+	db, rdb  *StoreManager
 }
 
+
 func NewWalletServer() (*server, error) {
-	// create mysql conn
+	// create mysql&redis conn
 	db, err := sqlx.Connect("mysql", "root:8918112lu@/goodStudy")
 	if err != nil {
 		log.Println("NewWallet conn failed: ", err)
 		return nil, err
 	}
 
-	redisClient := NewRedisClient()
-
-	mysqlStore := &mysqlStoreManager{mysqlConn: db}
-	redisStore := &redisStoreManager{redisClient:redisClient}
-
-	go NewTimer(mysqlStore)	// timer for scanning t_order
-
-	return &server{
-		db:  mysqlStore,
-		rdb: redisStore,
-	}, err
-}
-
-
-func NewRedisClient() *redis.Client {
-	client := redis.NewClient(&redis.Options{
+	rdb := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: "",
 		DB:       0,
 	})
-	return client
+
+	mysqlStore := &StoreManager{mysqlConn: db}
+	redisStore := &StoreManager{redisClient: rdb}
+
+	walletServer := &server{
+		db:  mysqlStore,
+		rdb: redisStore,
+	}
+
+	// TODO 排查这两个功能的故障
+	go walletServer.scanAndQueryOrderNoPaid()
+	//go walletServer.expiredOrderToMark(walletServer.getExpiredOrder)
+
+	return walletServer, nil
 }
 
 
-func NewTimer(db *mysqlStoreManager)  {
+// 获取未支付的订单
+func (s *server) scanAndQueryOrderNoPaid()  {
 	ctx := context.Background()
-
 	for {
-		NotPayList, err := db.ScanNotPay(ctx)
+		NoPaidList, err := s.db.ScanNoPaid(ctx)
 		if err != nil {
 			log.Println("server GetNotPayTimer failed:", err)
 			return
 		}
-		if len(NotPayList) != 0 {
-			log.Println("NotPayList:", NotPayList)
+		if len(NoPaidList) != 0 {
+			log.Println("NotPayList:", NoPaidList)
+			// NoPaidList 提供给 app/client核实订单
 		}else {
 			log.Println("NotPayList is empty")
 		}
 		time.Sleep(time.Duration(5)*time.Second)
 	}
 }
+
+
+// go查询redis的expired订单
+func (s *server) getExpiredOrder() []string {
+	log.Println("getExpiredOrder")
+	t := time.Now()
+	deadline := t.Format("2006-01-02 15:04:05")
+	expiredOrderList, err := s.rdb.GetExpiredOrder(deadline)
+	if err != nil {
+		log.Println("wallet server GetExpiredOrder failed:", err)
+		return nil
+	}
+	return expiredOrderList
+}
+
+
+// expired订单发送给db MarkExpiredOrder 修改状态
+func (s *server) expiredOrderToMark(fn func() []string){
+	log.Println("expiredOrderToMark")
+	ctx := context.Background()
+	for {
+		expiredOrderList := fn()
+		if len(expiredOrderList) == 0 {
+			log.Println("expiredOrderList is empty")
+		} else {
+			err := s.db.MarkExpiredOrder(ctx, expiredOrderList)
+			if err != nil {
+				log.Println("wallet server expiredOrderToMark failed:", err)
+				return
+			}
+		}
+		time.Sleep(time.Duration(1)*time.Second)
+	}
+}
+
 
 // 充值 返回 余额
 func (s *server) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.RechargeResp, error) {
@@ -75,7 +109,7 @@ func (s *server) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.Recharg
 		log.Println("server Recharge failed: ", err)
 		return nil, protocol.NewServerError(status.ErrRechargeFailed)
 	}
-	err = s.rdb.Recharge(req.Account, req.Amount)
+	err = s.rdb.Consume(req.UserId, req.Amount)
 	if err != nil {
 		log.Println("server Recharge failed: ", err)
 		return nil, protocol.NewServerError(status.ErrRechargeFailed)
@@ -119,16 +153,14 @@ func (s *server) GetTopUser(ctx context.Context, req *pb.GetTopUserReq) (*pb.Get
 }
 
 // 没有付款的订单
-func (s *server) OrderNotPay(ctx context.Context, req *pb.OrderNotPayReq) (*pb.OrderNotPayResp, error) {
-	orderId, err := s.db.OrderNotPay(ctx, req.UserId)
+func (s *server) RecordOrderNoPaid(ctx context.Context, req *pb.RecordOrderNoPaidReq) (*pb.RecordOrderNoPaidResp, error) {
+	err := s.db.RecordOrderNoPaid(ctx, req.UserId, req.OrderId)
 	if err != nil {
 		log.Println("server OrderNotPay failed:", err)
 		return nil, err
 	}
 
-	return &pb.OrderNotPayResp{
-		OrderId: orderId,
-	}, nil
+	return &pb.RecordOrderNoPaidResp{}, nil
 }
 
 // pay

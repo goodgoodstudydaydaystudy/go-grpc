@@ -7,7 +7,7 @@ service Wallet {
     rpc Recharge (RechargeReq) returns (RechargeResp) {}
     rpc GetUserBalance (GetUserBalanceReq) returns (GetUserBalanceResp) {}
     rpc GetTopUser (GetTopUserReq) returns (GetTopUserResp) {}
-    rpc OrderNotPay (OrderNotPayReq) returns (OrderNotPayResp) {}
+    rpc RecordOrderNoPaid (RecordOrderNoPaidReq) returns (RecordOrderNoPaidResp) {}
     rpc Pay (PayReq) returns (PayResp) {}
 }
 
@@ -36,12 +36,12 @@ message GetTopUserResp {
     string userList = 1;
 }
 
-message OrderNotPayReq {
+message RecordOrderNoPaidReq {
     uint32 userId = 1;
+    string orderId = 2;
 }
 
-message OrderNotPayResp {
-    string orderId = 1;
+message RecordOrderNoPaidResp {
 }
 
 message PayReq {
