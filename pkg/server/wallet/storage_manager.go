@@ -66,8 +66,8 @@ func (st *StoreManager) RecordOrderNoPaid(ctx context.Context, userId uint32, or
 		_ = tx.Commit()
 	}
 	// 写入redis RecordOrderDeadline
-	Dao2 := redis2.NewWalletRedis(st.redisClient)
-	re := Dao2.RecordOrderDeadline(orderId, st.deadline())
+	dao2 := redis2.NewWalletRedis(st.redisClient)
+	re := dao2.RecordOrderDeadline(orderId, st.deadline())
 	if re != nil {
 		return protocol.ToServerError(re)
 	}
@@ -129,8 +129,8 @@ func doTx(ctx context.Context, db *sqlx.DB, fn func(tx *sqlx.Tx) error) error {
 
 // 管理time和写入recharge recording
 func (st *StoreManager) Consume(orderId uint32, amount int64) protocol.ServerError {
-	dao := redis2.NewWalletRedis(st.redisClient)
-	err:= dao.Recharge(orderId, amount, st.rechargeTime())
+	dao2 := redis2.NewWalletRedis(st.redisClient)
+	err:= dao2.Recharge(orderId, amount, st.rechargeTime())
 	if err != nil {
 		return err
 	}
@@ -140,8 +140,8 @@ func (st *StoreManager) Consume(orderId uint32, amount int64) protocol.ServerErr
 
 // getTop列表，生成TopN的map返回给server
 func (st *StoreManager) GetTopUser(n uint) (map[string]uint64, protocol.ServerError) {
-	dao := redis2.NewWalletRedis(st.redisClient)
-	z, err := dao.GetTopData(n, st.rechargeTime())
+	dao2 := redis2.NewWalletRedis(st.redisClient)
+	z, err := dao2.GetTopData(n, st.rechargeTime())
 	if err != nil {
 		log.Println("st GetTopUser failed:", err)
 		return nil, err
@@ -156,8 +156,8 @@ func (st *StoreManager) GetTopUser(n uint) (map[string]uint64, protocol.ServerEr
 
 // 通过时间 返回 过期订单
 func (st *StoreManager) GetExpiredOrder(deadline string) ([]string, protocol.ServerError) {
-	dao := redis2.NewWalletRedis(st.redisClient)
-	expiredOrder, err := dao.GetExpiredOrder(deadline)
+	dao2 := redis2.NewWalletRedis(st.redisClient)
+	expiredOrder, err := dao2.GetExpiredOrder(deadline)
 	if err != nil {
 		return nil, protocol.ToServerError(err)
 	}

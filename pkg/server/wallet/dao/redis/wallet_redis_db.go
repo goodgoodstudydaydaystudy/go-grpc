@@ -51,6 +51,7 @@ func (c *Client) GetTopData(n uint, time string) ([]redis.Z, protocol.ServerErro
 // 写入order的orderId和deadline
 // 用于写入订单的deadline
 func (c *Client) RecordOrderDeadline(orderId string, deadline string) protocol.ServerError {
+	log.Printf("c.cli: %p", &c.cli)
 	err := c.cli.SAdd(deadline, orderId).Err()
 	//err := c.cli.Do("SAdd", deadline, orderId).Err()
 	if err != nil {
