@@ -125,25 +125,24 @@ func (c *WalletMysql) GetNoPaid(ctx context.Context) (NoPaid []string, serverErr
 func (c *WalletMysql) MarkExpiredOrder(ctx context.Context, expiredOder []string) (err protocol.ServerError) {
 	// range expiredOder []string to get order
 	for _, orderId := range expiredOder{
-		go func() {
-			checkOrderExec := "SELECT status FROM t_order WHERE orderId=?"
-			row := c.qe.QueryRowxContext(ctx, checkOrderExec, orderId)
-			var statusNum int
-			err := row.Scan(&statusNum)
+		// TODO 尝试加上 go 协程
+		checkOrderExec := "SELECT status FROM t_order WHERE orderId=?"
+		row := c.qe.QueryRowxContext(ctx, checkOrderExec, orderId)
+		var statusNum int
+		err := row.Scan(&statusNum)
+		if err != nil {
+			log.Println("MarkExpiredOrder get order failed:", err)
+		}
+		// check status
+		// mark status=3
+		if statusNum == 0 {
+			orderExec := "UPDATE t_order SET status=? WHERE orderId=?"
+			_, err := c.qe.ExecContext(ctx, orderExec, 3, orderId)
 			if err != nil {
-				log.Println("MarkExpiredOrder get order failed:", err)
+				log.Println("MarkExpiredOrder exec failed:", err)
+				return nil
 			}
-			// check status
-			// mark status=3
-			if statusNum == 0 {
-				orderExec := "UPDATE t_oder SET status=? WHERE orderId=?"
-				_, err := c.qe.ExecContext(ctx, orderExec, 3, orderId)
-				if err != nil {
-					log.Println("MarkExpiredOrder exec failed:", err)
-					return
-				}
-			}
-		}()
+		}
 		}
 	return nil
 }

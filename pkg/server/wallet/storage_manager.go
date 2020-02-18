@@ -97,7 +97,6 @@ func (st *StoreManager) ScanNoPaid(ctx context.Context) ([]string, protocol.Serv
 
 func (st *StoreManager) MarkExpiredOrder(ctx context.Context, expiredOder []string) protocol.ServerError {
 	// tx
-	log.Println("st MarkExpiredOrder")
 	txErr := doTx(ctx, st.mysqlConn, func(tx *sqlx.Tx) error {
 		dao := mysql.NewWalletMysql(tx)
 		err := dao.MarkExpiredOrder(ctx, expiredOder)

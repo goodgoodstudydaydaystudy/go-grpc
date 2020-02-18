@@ -14,7 +14,7 @@ import (
 )
 
 type server struct {
-	db, rdb  *StoreManager
+	db *StoreManager
 }
 
 
@@ -32,17 +32,17 @@ func NewWalletServer() (*server, error) {
 		DB:       0,
 	})
 
-	mysqlStore := &StoreManager{mysqlConn: db}
-	redisStore := &StoreManager{redisClient: rdb}
-
-	walletServer := &server{
-		db:  mysqlStore,
-		rdb: redisStore,
+	Store := &StoreManager{
+		mysqlConn:   db,
+		redisClient: rdb,
 	}
 
-	// TODO 排查这两个功能的故障
+	walletServer := &server{
+		db:  Store,
+	}
+
 	go walletServer.scanAndQueryOrderNoPaid()
-	//go walletServer.expiredOrderToMark(walletServer.getExpiredOrder)
+	go walletServer.expiredOrderToMark(walletServer.getExpiredOrder)
 
 	return walletServer, nil
 }
@@ -70,10 +70,9 @@ func (s *server) scanAndQueryOrderNoPaid()  {
 
 // go查询redis的expired订单
 func (s *server) getExpiredOrder() []string {
-	log.Println("getExpiredOrder")
 	t := time.Now()
 	deadline := t.Format("2006-01-02 15:04:05")
-	expiredOrderList, err := s.rdb.GetExpiredOrder(deadline)
+	expiredOrderList, err := s.db.GetExpiredOrder(deadline)
 	if err != nil {
 		log.Println("wallet server GetExpiredOrder failed:", err)
 		return nil
@@ -84,7 +83,6 @@ func (s *server) getExpiredOrder() []string {
 
 // expired订单发送给db MarkExpiredOrder 修改状态
 func (s *server) expiredOrderToMark(fn func() []string){
-	log.Println("expiredOrderToMark")
 	ctx := context.Background()
 	for {
 		expiredOrderList := fn()
@@ -109,7 +107,7 @@ func (s *server) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.Recharg
 		log.Println("server Recharge failed: ", err)
 		return nil, protocol.NewServerError(status.ErrRechargeFailed)
 	}
-	err = s.rdb.Consume(req.UserId, req.Amount)
+	err = s.db.Consume(req.UserId, req.Amount)
 	if err != nil {
 		log.Println("server Recharge failed: ", err)
 		return nil, protocol.NewServerError(status.ErrRechargeFailed)
@@ -134,7 +132,7 @@ func (s *server) GetUserBalance(ctx context.Context, req *pb.GetUserBalanceReq) 
 
 // 获取 top 用户
 func (s *server) GetTopUser(ctx context.Context, req *pb.GetTopUserReq) (*pb.GetTopUserResp, error) {
-	r, err := s.rdb.GetTopUser(uint(req.Top))
+	r, err := s.db.GetTopUser(uint(req.Top))
 	if err != nil {
 		log.Println("server GetTopUser failed:", err)
 		return nil, err

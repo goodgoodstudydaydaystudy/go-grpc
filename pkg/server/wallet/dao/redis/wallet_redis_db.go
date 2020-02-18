@@ -1,13 +1,11 @@
 package redis
 
 import (
+	"github.com/go-redis/redis"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	"goodgoodstudy.com/go-grpc/protocol/common/status"
 	"log"
-
-	"github.com/go-redis/redis"
 )
-
 
 type Client struct {
 	cli *redis.Client
@@ -15,7 +13,7 @@ type Client struct {
 
 func NewWalletRedis(cli *redis.Client) *Client {
 	return &Client{
-		cli:cli,
+		cli: cli,
 	}
 }
 
@@ -51,7 +49,6 @@ func (c *Client) GetTopData(n uint, time string) ([]redis.Z, protocol.ServerErro
 // 写入order的orderId和deadline
 // 用于写入订单的deadline
 func (c *Client) RecordOrderDeadline(orderId string, deadline string) protocol.ServerError {
-	log.Printf("c.cli: %p", &c.cli)
 	err := c.cli.SAdd(deadline, orderId).Err()
 	//err := c.cli.Do("SAdd", deadline, orderId).Err()
 	if err != nil {

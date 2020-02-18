@@ -193,3 +193,58 @@ func TestClient_Pay(t *testing.T) {
 func generateOrderId(userId uint32) string {
 	return encode.GenerateMd5(strconv.FormatUint(uint64(userId), 10))
 }
+
+func TestClient_Recharges(t *testing.T) {
+	var i uint32
+	var record map[string]int64
+
+	recharges := func (account string, userId uint32, amount int64) {
+		//t.Logf("account: %v, amount: %v, i: %v", account, amount, i)
+		cli, err := NewUserLogicClient()
+		if err != nil {
+			t.Log("test cli failed:", err)
+		}
+
+		ctx := context.Background()
+		LoginResp, err := cli.Login(ctx, &upb.LoginReq{
+			Account:     account,
+			Password:    "123456",
+		})
+		if err != nil {
+			t.Log("Login failed:", err)
+		}
+
+		//t.Log("login success")
+
+		const grpcToken = "resp_token"
+		token := LoginResp.Token
+		ctx = metadata.AppendToOutgoingContext(ctx, grpcToken, token)
+
+		_, err = cli.Recharge(ctx, &upb.RechargeReq{
+			UserId:               i,
+			Delta:                amount,
+		})
+		//t.Logf("account: %v, amount: %v, i: %v", account, amount, i)
+
+		record[account] = amount
+
+	}
+	//  保证协程安全 waitGroup + mutex
+	record = map[string]int64{}
+	for {
+		for i = 1; i < 12; {
+			account := strconv.FormatUint(uint64(i), 10)
+			amount := rand.New(rand.NewSource(time.Now().UnixNano())).Int63n(1000)
+			if len(account) == 1 {
+				account = "test" + "0" + account
+			}else {
+				account = "test" + account
+			}
+			//t.Logf("account: %v, amount: %v, i: %v", account, amount, i)
+			recharges(account, i, amount)
+			i ++
+		}
+		t.Log(record)
+	}
+
+}
