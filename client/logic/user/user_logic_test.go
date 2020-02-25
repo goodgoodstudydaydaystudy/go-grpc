@@ -7,6 +7,7 @@ import (
 	"google.golang.org/grpc/metadata"
 	"math/rand"
 	"strconv"
+	"sync"
 	"testing"
 	"time"
 )
@@ -19,9 +20,9 @@ func TestClient_Register(t *testing.T) {
 	}
 
 	resp, err := cli.Register(context.Background(), &upb.RegisterReq{
-		Account:              "test11",
+		Account:              "test00",
 		Password:             "123456",
-		Nickname:             "test11",
+		Nickname:             "test00",
 		Gender:               2,
 	})
 	if err != nil {
@@ -151,7 +152,7 @@ func TestClient_OrderNotPay(t *testing.T) {
 	token := LoginResp.Token
 	ctx = metadata.AppendToOutgoingContext(ctx, grpcToken, token)
 
-	orderId, err := cli.RecordOrderNotPay(ctx, &upb.RecordOrderNoPaidReq{
+	orderId, err := cli.WriteNoPaidOrder(ctx, &upb.WriteNoPaidOrderReq{
 		UserId:               1,
 		OrderId:              generateOrderId(1),
 	})
@@ -195,8 +196,8 @@ func generateOrderId(userId uint32) string {
 }
 
 func TestClient_Recharges(t *testing.T) {
-	var i uint32
 	var record map[string]int64
+	var i uint32
 
 	recharges := func (account string, userId uint32, amount int64) {
 		//t.Logf("account: %v, amount: %v, i: %v", account, amount, i)
@@ -227,10 +228,13 @@ func TestClient_Recharges(t *testing.T) {
 		//t.Logf("account: %v, amount: %v, i: %v", account, amount, i)
 
 		record[account] = amount
-
 	}
+
 	//  保证协程安全 waitGroup + mutex
+	var wg sync.WaitGroup
+	var mut sync.Mutex
 	record = map[string]int64{}
+	/*
 	for {
 		for i = 1; i < 12; {
 			account := strconv.FormatUint(uint64(i), 10)
@@ -241,10 +245,67 @@ func TestClient_Recharges(t *testing.T) {
 				account = "test" + account
 			}
 			//t.Logf("account: %v, amount: %v, i: %v", account, amount, i)
-			recharges(account, i, amount)
+			wg.Add(10)
+			go recharges(account, i, amount)
 			i ++
+			wg.Done()
 		}
 		t.Log(record)
 	}
 
+	 */
+	wg.Add(10)
+	for i = 1; i<12; {
+		account := strconv.FormatUint(uint64(i), 10)
+		amount := rand.New(rand.NewSource(time.Now().UnixNano())).Int63n(1000)
+		if len(account) == 1 {
+			account = "test" + "0" + account
+		}else {
+			account = "test" + account
+		}
+		//t.Logf("account: %v, amount: %v, i: %v", account, amount, i)
+		mut.Lock()
+		go recharges(account, i, amount)
+		i ++
+		mut.Unlock()
+		wg.Done()
+	}
+
+}
+
+// 批量注册10k的用户
+func TestClient_Registers(t *testing.T)  {
+	// 使用"test"+"No"作为account和nickname
+	// for循环注册10000个用户
+	cli, err := NewUserLogicClient()
+	if err != nil {
+		t.Fatal(err)
+	}
+	register := func(account string, nickname string, gender upb.Gender) {
+		_, err := cli.Register(context.Background(), &upb.RegisterReq{
+			Account:              account,
+			Password:             "123456",
+			Nickname:             nickname,
+			Gender:               gender,
+		})
+		if err != nil {
+			t.Fatal(err)
+		}else {
+			t.Logf("%v注册成功", account)
+		}
+	}
+
+	for i:=16; i<=10000; i++ {
+		account := "test" + strconv.FormatInt(int64(i), 10)
+		nickname := account
+		var seed uint
+		if i%2 != 0 {
+			seed = 1
+		}else {
+			seed = 2
+		}
+		gender := upb.Gender(seed)
+		// 注册函数
+		register(account, nickname, gender)
+	}
 }

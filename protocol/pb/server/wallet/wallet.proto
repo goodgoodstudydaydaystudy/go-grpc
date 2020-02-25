@@ -6,8 +6,8 @@ option go_package = "pkg/pb/server/wallet";
 service Wallet {
     rpc Recharge (RechargeReq) returns (RechargeResp) {}
     rpc GetUserBalance (GetUserBalanceReq) returns (GetUserBalanceResp) {}
-    rpc GetTopUser (GetTopUserReq) returns (GetTopUserResp) {}
-    rpc RecordOrderNoPaid (RecordOrderNoPaidReq) returns (RecordOrderNoPaidResp) {}
+    rpc GetTopTenUser (GetTopTenUserReq) returns (GetTopTenUserResp) {}
+    rpc WriteNoPaidOrder (WriteNoPaidOrderReq) returns (WriteNoPaidOrderResp) {}
     rpc Pay (PayReq) returns (PayResp) {}
 }
 
@@ -28,20 +28,20 @@ message GetUserBalanceResp {
     int64 balance = 1;
 }
 
-message GetTopUserReq {
+message GetTopTenUserReq {
     uint32 top = 1;
 }
 
-message GetTopUserResp {
+message GetTopTenUserResp {
     string userList = 1;
 }
 
-message RecordOrderNoPaidReq {
+message WriteNoPaidOrderReq {
     uint32 userId = 1;
     string orderId = 2;
 }
 
-message RecordOrderNoPaidResp {
+message WriteNoPaidOrderResp {
 }
 
 message PayReq {

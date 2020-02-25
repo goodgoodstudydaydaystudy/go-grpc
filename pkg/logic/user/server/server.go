@@ -35,11 +35,13 @@ func NewUserLogic() (*UserLogic, error) {
 		return nil, err
 	}
 
+
 	return &UserLogic{
 		accountClient: accountClient,
 		walletClient:  walletClient,
 	}, nil
 }
+
 
 // 2. account的登录服务
 func (s *UserLogic) Login(ctx context.Context, req *pb.LoginReq) (resp *pb.LoginResp, err error) {
@@ -98,7 +100,6 @@ func (s *UserLogic) Recharge(ctx context.Context, req *pb.RechargeReq) (resp *pb
 	resp = &pb.RechargeResp{}
 
 	// 4.1 发送请求
-
 	_, err = s.walletClient.Recharge(ctx, req.Account, req.UserId, req.Delta)
 	if err != nil {
 		log.Println("logic serve Recharge failed: ", err)
@@ -145,9 +146,9 @@ func (s *UserLogic) generateToken(userInfo pb.UserInfo) (ss string, err error) {
 	return ss, nil
 }
 
-func (s *UserLogic) RecordOrderNoPaid(ctx context.Context, req *pb.RecordOrderNoPaidReq) (resp *pb.RecordOrderNoPaidResp, err error) {
-	resp = &pb.RecordOrderNoPaidResp{}
-	_, err = s.walletClient.RecordOrderNoPaid(ctx, req.UserId, req.OrderId)
+func (s *UserLogic) WriteNoPaidOrder(ctx context.Context, req *pb.WriteNoPaidOrderReq) (resp *pb.WriteNoPaidOrderResp, err error) {
+	resp = &pb.WriteNoPaidOrderResp{}
+	_, err = s.walletClient.WriteNoPaidOrder(ctx, req.UserId, req.OrderId)
 	if err != nil {
 		log.Println("logic server RecordOrderNoPaid failed:", err)
 		return 

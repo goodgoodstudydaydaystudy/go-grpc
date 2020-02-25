@@ -188,85 +188,85 @@ func (m *GetUserBalanceResp) GetBalance() int64 {
 	return 0
 }
 
-type GetTopUserReq struct {
+type GetTopTenUserReq struct {
 	Top                  uint32   `protobuf:"varint,1,opt,name=top,proto3" json:"top,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *GetTopUserReq) Reset()         { *m = GetTopUserReq{} }
-func (m *GetTopUserReq) String() string { return proto.CompactTextString(m) }
-func (*GetTopUserReq) ProtoMessage()    {}
-func (*GetTopUserReq) Descriptor() ([]byte, []int) {
+func (m *GetTopTenUserReq) Reset()         { *m = GetTopTenUserReq{} }
+func (m *GetTopTenUserReq) String() string { return proto.CompactTextString(m) }
+func (*GetTopTenUserReq) ProtoMessage()    {}
+func (*GetTopTenUserReq) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6e585c95aeb2fa82, []int{4}
 }
 
-func (m *GetTopUserReq) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GetTopUserReq.Unmarshal(m, b)
+func (m *GetTopTenUserReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetTopTenUserReq.Unmarshal(m, b)
 }
-func (m *GetTopUserReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GetTopUserReq.Marshal(b, m, deterministic)
+func (m *GetTopTenUserReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetTopTenUserReq.Marshal(b, m, deterministic)
 }
-func (m *GetTopUserReq) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetTopUserReq.Merge(m, src)
+func (m *GetTopTenUserReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetTopTenUserReq.Merge(m, src)
 }
-func (m *GetTopUserReq) XXX_Size() int {
-	return xxx_messageInfo_GetTopUserReq.Size(m)
+func (m *GetTopTenUserReq) XXX_Size() int {
+	return xxx_messageInfo_GetTopTenUserReq.Size(m)
 }
-func (m *GetTopUserReq) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetTopUserReq.DiscardUnknown(m)
+func (m *GetTopTenUserReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetTopTenUserReq.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetTopUserReq proto.InternalMessageInfo
+var xxx_messageInfo_GetTopTenUserReq proto.InternalMessageInfo
 
-func (m *GetTopUserReq) GetTop() uint32 {
+func (m *GetTopTenUserReq) GetTop() uint32 {
 	if m != nil {
 		return m.Top
 	}
 	return 0
 }
 
-type GetTopUserResp struct {
+type GetTopTenUserResp struct {
 	UserList             string   `protobuf:"bytes,1,opt,name=userList,proto3" json:"userList,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *GetTopUserResp) Reset()         { *m = GetTopUserResp{} }
-func (m *GetTopUserResp) String() string { return proto.CompactTextString(m) }
-func (*GetTopUserResp) ProtoMessage()    {}
-func (*GetTopUserResp) Descriptor() ([]byte, []int) {
+func (m *GetTopTenUserResp) Reset()         { *m = GetTopTenUserResp{} }
+func (m *GetTopTenUserResp) String() string { return proto.CompactTextString(m) }
+func (*GetTopTenUserResp) ProtoMessage()    {}
+func (*GetTopTenUserResp) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6e585c95aeb2fa82, []int{5}
 }
 
-func (m *GetTopUserResp) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GetTopUserResp.Unmarshal(m, b)
+func (m *GetTopTenUserResp) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_GetTopTenUserResp.Unmarshal(m, b)
 }
-func (m *GetTopUserResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GetTopUserResp.Marshal(b, m, deterministic)
+func (m *GetTopTenUserResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_GetTopTenUserResp.Marshal(b, m, deterministic)
 }
-func (m *GetTopUserResp) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetTopUserResp.Merge(m, src)
+func (m *GetTopTenUserResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetTopTenUserResp.Merge(m, src)
 }
-func (m *GetTopUserResp) XXX_Size() int {
-	return xxx_messageInfo_GetTopUserResp.Size(m)
+func (m *GetTopTenUserResp) XXX_Size() int {
+	return xxx_messageInfo_GetTopTenUserResp.Size(m)
 }
-func (m *GetTopUserResp) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetTopUserResp.DiscardUnknown(m)
+func (m *GetTopTenUserResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetTopTenUserResp.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetTopUserResp proto.InternalMessageInfo
+var xxx_messageInfo_GetTopTenUserResp proto.InternalMessageInfo
 
-func (m *GetTopUserResp) GetUserList() string {
+func (m *GetTopTenUserResp) GetUserList() string {
 	if m != nil {
 		return m.UserList
 	}
 	return ""
 }
 
-type RecordOrderNoPaidReq struct {
+type WriteNoPaidOrderReq struct {
 	UserId               uint32   `protobuf:"varint,1,opt,name=userId,proto3" json:"userId,omitempty"`
 	OrderId              string   `protobuf:"bytes,2,opt,name=orderId,proto3" json:"orderId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -274,75 +274,75 @@ type RecordOrderNoPaidReq struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RecordOrderNoPaidReq) Reset()         { *m = RecordOrderNoPaidReq{} }
-func (m *RecordOrderNoPaidReq) String() string { return proto.CompactTextString(m) }
-func (*RecordOrderNoPaidReq) ProtoMessage()    {}
-func (*RecordOrderNoPaidReq) Descriptor() ([]byte, []int) {
+func (m *WriteNoPaidOrderReq) Reset()         { *m = WriteNoPaidOrderReq{} }
+func (m *WriteNoPaidOrderReq) String() string { return proto.CompactTextString(m) }
+func (*WriteNoPaidOrderReq) ProtoMessage()    {}
+func (*WriteNoPaidOrderReq) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6e585c95aeb2fa82, []int{6}
 }
 
-func (m *RecordOrderNoPaidReq) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RecordOrderNoPaidReq.Unmarshal(m, b)
+func (m *WriteNoPaidOrderReq) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_WriteNoPaidOrderReq.Unmarshal(m, b)
 }
-func (m *RecordOrderNoPaidReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RecordOrderNoPaidReq.Marshal(b, m, deterministic)
+func (m *WriteNoPaidOrderReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_WriteNoPaidOrderReq.Marshal(b, m, deterministic)
 }
-func (m *RecordOrderNoPaidReq) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RecordOrderNoPaidReq.Merge(m, src)
+func (m *WriteNoPaidOrderReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_WriteNoPaidOrderReq.Merge(m, src)
 }
-func (m *RecordOrderNoPaidReq) XXX_Size() int {
-	return xxx_messageInfo_RecordOrderNoPaidReq.Size(m)
+func (m *WriteNoPaidOrderReq) XXX_Size() int {
+	return xxx_messageInfo_WriteNoPaidOrderReq.Size(m)
 }
-func (m *RecordOrderNoPaidReq) XXX_DiscardUnknown() {
-	xxx_messageInfo_RecordOrderNoPaidReq.DiscardUnknown(m)
+func (m *WriteNoPaidOrderReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_WriteNoPaidOrderReq.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_RecordOrderNoPaidReq proto.InternalMessageInfo
+var xxx_messageInfo_WriteNoPaidOrderReq proto.InternalMessageInfo
 
-func (m *RecordOrderNoPaidReq) GetUserId() uint32 {
+func (m *WriteNoPaidOrderReq) GetUserId() uint32 {
 	if m != nil {
 		return m.UserId
 	}
 	return 0
 }
 
-func (m *RecordOrderNoPaidReq) GetOrderId() string {
+func (m *WriteNoPaidOrderReq) GetOrderId() string {
 	if m != nil {
 		return m.OrderId
 	}
 	return ""
 }
 
-type RecordOrderNoPaidResp struct {
+type WriteNoPaidOrderResp struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RecordOrderNoPaidResp) Reset()         { *m = RecordOrderNoPaidResp{} }
-func (m *RecordOrderNoPaidResp) String() string { return proto.CompactTextString(m) }
-func (*RecordOrderNoPaidResp) ProtoMessage()    {}
-func (*RecordOrderNoPaidResp) Descriptor() ([]byte, []int) {
+func (m *WriteNoPaidOrderResp) Reset()         { *m = WriteNoPaidOrderResp{} }
+func (m *WriteNoPaidOrderResp) String() string { return proto.CompactTextString(m) }
+func (*WriteNoPaidOrderResp) ProtoMessage()    {}
+func (*WriteNoPaidOrderResp) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6e585c95aeb2fa82, []int{7}
 }
 
-func (m *RecordOrderNoPaidResp) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RecordOrderNoPaidResp.Unmarshal(m, b)
+func (m *WriteNoPaidOrderResp) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_WriteNoPaidOrderResp.Unmarshal(m, b)
 }
-func (m *RecordOrderNoPaidResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RecordOrderNoPaidResp.Marshal(b, m, deterministic)
+func (m *WriteNoPaidOrderResp) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_WriteNoPaidOrderResp.Marshal(b, m, deterministic)
 }
-func (m *RecordOrderNoPaidResp) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RecordOrderNoPaidResp.Merge(m, src)
+func (m *WriteNoPaidOrderResp) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_WriteNoPaidOrderResp.Merge(m, src)
 }
-func (m *RecordOrderNoPaidResp) XXX_Size() int {
-	return xxx_messageInfo_RecordOrderNoPaidResp.Size(m)
+func (m *WriteNoPaidOrderResp) XXX_Size() int {
+	return xxx_messageInfo_WriteNoPaidOrderResp.Size(m)
 }
-func (m *RecordOrderNoPaidResp) XXX_DiscardUnknown() {
-	xxx_messageInfo_RecordOrderNoPaidResp.DiscardUnknown(m)
+func (m *WriteNoPaidOrderResp) XXX_DiscardUnknown() {
+	xxx_messageInfo_WriteNoPaidOrderResp.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_RecordOrderNoPaidResp proto.InternalMessageInfo
+var xxx_messageInfo_WriteNoPaidOrderResp proto.InternalMessageInfo
 
 type PayReq struct {
 	OrderId              string   `protobuf:"bytes,1,opt,name=orderId,proto3" json:"orderId,omitempty"`
@@ -419,10 +419,10 @@ func init() {
 	proto.RegisterType((*RechargeResp)(nil), "wallet.RechargeResp")
 	proto.RegisterType((*GetUserBalanceReq)(nil), "wallet.GetUserBalanceReq")
 	proto.RegisterType((*GetUserBalanceResp)(nil), "wallet.GetUserBalanceResp")
-	proto.RegisterType((*GetTopUserReq)(nil), "wallet.GetTopUserReq")
-	proto.RegisterType((*GetTopUserResp)(nil), "wallet.GetTopUserResp")
-	proto.RegisterType((*RecordOrderNoPaidReq)(nil), "wallet.RecordOrderNoPaidReq")
-	proto.RegisterType((*RecordOrderNoPaidResp)(nil), "wallet.RecordOrderNoPaidResp")
+	proto.RegisterType((*GetTopTenUserReq)(nil), "wallet.GetTopTenUserReq")
+	proto.RegisterType((*GetTopTenUserResp)(nil), "wallet.GetTopTenUserResp")
+	proto.RegisterType((*WriteNoPaidOrderReq)(nil), "wallet.WriteNoPaidOrderReq")
+	proto.RegisterType((*WriteNoPaidOrderResp)(nil), "wallet.WriteNoPaidOrderResp")
 	proto.RegisterType((*PayReq)(nil), "wallet.PayReq")
 	proto.RegisterType((*PayResp)(nil), "wallet.PayResp")
 }
@@ -431,31 +431,31 @@ func init() { proto.RegisterFile("server/wallet/wallet.proto", fileDescriptor_6e
 
 var fileDescriptor_6e585c95aeb2fa82 = []byte{
 	// 393 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x93, 0xc1, 0x6f, 0xda, 0x30,
-	0x14, 0xc6, 0x17, 0x22, 0x25, 0xe4, 0x6d, 0xb0, 0xe1, 0x41, 0xc8, 0xac, 0x4d, 0x62, 0x3e, 0xe5,
-	0x80, 0x40, 0xda, 0x0e, 0x3b, 0xed, 0xc2, 0x85, 0x21, 0x4d, 0x2d, 0xb2, 0x5a, 0xb5, 0xea, 0xa5,
-	0x32, 0x89, 0x45, 0x51, 0x29, 0x76, 0xed, 0xd0, 0x8a, 0x3f, 0xb1, 0xff, 0x55, 0x65, 0x93, 0x94,
-	0x40, 0x28, 0xa7, 0xe4, 0xf3, 0xfb, 0xbd, 0xef, 0x59, 0xdf, 0x93, 0x01, 0x6b, 0xae, 0x9e, 0xb8,
-	0x1a, 0x3e, 0xb3, 0xe5, 0x92, 0x67, 0xf9, 0x67, 0x20, 0x95, 0xc8, 0x04, 0xf2, 0xb6, 0x8a, 0x5c,
-	0xc3, 0x47, 0xca, 0x93, 0x3b, 0xa6, 0xe6, 0x9c, 0xf2, 0x47, 0xd4, 0x05, 0x7f, 0xad, 0xb9, 0xba,
-	0x5d, 0xa4, 0x91, 0xd3, 0x73, 0xe2, 0x06, 0xf5, 0x8c, 0x9c, 0xa4, 0x28, 0x04, 0x8f, 0x3d, 0x88,
-	0xf5, 0x2a, 0x8b, 0x6a, 0x3d, 0x27, 0x76, 0x69, 0xae, 0x50, 0x04, 0x3e, 0x4b, 0x12, 0x5b, 0x70,
-	0x7b, 0x4e, 0x1c, 0xd0, 0x42, 0x92, 0x26, 0x7c, 0xda, 0x39, 0x6b, 0x49, 0xfa, 0xd0, 0x1a, 0xf3,
-	0xec, 0x52, 0x73, 0x35, 0x62, 0x4b, 0xb6, 0x4a, 0x4e, 0xce, 0x23, 0x03, 0x40, 0x87, 0xb4, 0x96,
-	0x66, 0xda, 0x6c, 0x2b, 0x2d, 0xee, 0xd2, 0x42, 0x92, 0x9f, 0xd0, 0x18, 0xf3, 0xec, 0x42, 0x48,
-	0xd3, 0x62, 0x9c, 0xbf, 0x80, 0x9b, 0x09, 0x99, 0xbb, 0x9a, 0x5f, 0xd2, 0x87, 0x66, 0x19, 0xd1,
-	0x12, 0x61, 0xa8, 0x9b, 0x71, 0xff, 0x17, 0x3a, 0xb3, 0x60, 0x40, 0xdf, 0x34, 0xf9, 0x07, 0x6d,
-	0xca, 0x13, 0xa1, 0xd2, 0x73, 0x95, 0x72, 0x75, 0x26, 0xa6, 0x6c, 0x91, 0x1a, 0xdf, 0x10, 0xf2,
-	0x2b, 0x1e, 0x04, 0x14, 0x81, 0x2f, 0x0c, 0x39, 0x49, 0x6d, 0x42, 0x01, 0x2d, 0x24, 0xe9, 0x42,
-	0xe7, 0x88, 0x93, 0x96, 0x84, 0x80, 0x37, 0x65, 0x1b, 0x63, 0x5a, 0x6a, 0x76, 0xf6, 0x9b, 0x03,
-	0xf0, 0x2d, 0xa3, 0xe5, 0xaf, 0x97, 0x1a, 0x78, 0x57, 0x76, 0x6b, 0xe8, 0x0f, 0xd4, 0x8b, 0x6c,
-	0xd1, 0xd7, 0x41, 0xbe, 0xd8, 0xd2, 0x1e, 0x71, 0xbb, 0x7a, 0xa8, 0x25, 0xf9, 0x80, 0x26, 0x36,
-	0x83, 0x52, 0xac, 0xe8, 0x5b, 0x41, 0x56, 0x96, 0x83, 0xf1, 0x7b, 0x25, 0x6b, 0xf5, 0x17, 0x60,
-	0x17, 0x27, 0xea, 0x94, 0xd8, 0xdd, 0x16, 0x70, 0x78, 0xec, 0xd8, 0xb6, 0x53, 0x68, 0x55, 0x52,
-	0x41, 0xdf, 0x4b, 0xd7, 0xae, 0x44, 0x8f, 0x7f, 0x9c, 0xa8, 0x5a, 0xcf, 0x18, 0xdc, 0x29, 0xdb,
-	0xa0, 0x66, 0xc1, 0x6d, 0xd3, 0xc5, 0x9f, 0xf7, 0xb4, 0x21, 0x47, 0xe1, 0x4d, 0x5b, 0xde, 0xcf,
-	0x87, 0x72, 0x36, 0xdc, 0x7b, 0x23, 0x33, 0xcf, 0xbe, 0x8e, 0xdf, 0xaf, 0x01, 0x00, 0x00, 0xff,
-	0xff, 0x8e, 0x62, 0x5b, 0x0c, 0x3b, 0x03, 0x00, 0x00,
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x93, 0x41, 0x8f, 0xda, 0x30,
+	0x14, 0x84, 0x1b, 0x22, 0x25, 0xe4, 0xb5, 0x50, 0x6a, 0x50, 0x1a, 0xdc, 0x1e, 0x90, 0xd5, 0x43,
+	0x0e, 0x15, 0x91, 0xda, 0x43, 0xef, 0x1c, 0x8a, 0x90, 0xaa, 0x82, 0x2c, 0x2a, 0xaa, 0x5e, 0x2a,
+	0x93, 0x58, 0x34, 0x2a, 0x25, 0xae, 0x6d, 0x76, 0xc5, 0xaf, 0xdc, 0xbf, 0xb4, 0xb2, 0x93, 0xec,
+	0x26, 0xb0, 0xec, 0x09, 0x26, 0xef, 0x7b, 0x63, 0x6b, 0x46, 0x06, 0xac, 0xb8, 0xbc, 0xe1, 0x32,
+	0xb9, 0x65, 0xfb, 0x3d, 0xd7, 0xd5, 0xcf, 0x54, 0xc8, 0x42, 0x17, 0xc8, 0x2b, 0x15, 0xf9, 0x09,
+	0x2f, 0x29, 0x4f, 0xff, 0x30, 0xb9, 0xe3, 0x94, 0xff, 0x47, 0x6f, 0xc1, 0x3f, 0x2a, 0x2e, 0x7f,
+	0xe7, 0x59, 0xe4, 0x4c, 0x9c, 0xb8, 0x47, 0x3d, 0x23, 0x17, 0x19, 0x0a, 0xc1, 0x63, 0xff, 0x8a,
+	0xe3, 0x41, 0x47, 0x9d, 0x89, 0x13, 0xbb, 0xb4, 0x52, 0x28, 0x02, 0x9f, 0xa5, 0xa9, 0x1d, 0xb8,
+	0x13, 0x27, 0x0e, 0x68, 0x2d, 0x49, 0x1f, 0x5e, 0x3d, 0x3a, 0x2b, 0x41, 0x3e, 0xc2, 0x9b, 0x39,
+	0xd7, 0x3f, 0x14, 0x97, 0x33, 0xb6, 0x67, 0x87, 0xf4, 0xd9, 0xf3, 0xc8, 0x14, 0xd0, 0x39, 0xad,
+	0x84, 0x39, 0x6d, 0x5b, 0x4a, 0x8b, 0xbb, 0xb4, 0x96, 0xe4, 0x03, 0x0c, 0xe6, 0x5c, 0xaf, 0x0b,
+	0xb1, 0xe6, 0x07, 0xb3, 0x65, 0xcc, 0x07, 0xe0, 0xea, 0x42, 0x54, 0xc6, 0xe6, 0x2f, 0x49, 0xec,
+	0x1d, 0x9a, 0x94, 0x12, 0x08, 0x43, 0xd7, 0x1c, 0xfa, 0x2d, 0x57, 0xda, 0xb2, 0x01, 0x7d, 0xd0,
+	0x64, 0x0e, 0xc3, 0x8d, 0xcc, 0x35, 0xff, 0x5e, 0xac, 0x58, 0x9e, 0x2d, 0x65, 0x56, 0x3a, 0x87,
+	0x50, 0xdd, 0xf3, 0x2c, 0xa5, 0x08, 0xfc, 0xc2, 0x30, 0x8b, 0xcc, 0xc6, 0x14, 0xd0, 0x5a, 0x92,
+	0x10, 0x46, 0x97, 0x46, 0x4a, 0x10, 0x02, 0xde, 0x8a, 0x9d, 0x8c, 0x67, 0x63, 0xd7, 0x69, 0xef,
+	0x06, 0xe0, 0x5b, 0x46, 0x89, 0x4f, 0x77, 0x1d, 0xf0, 0x36, 0xb6, 0x39, 0xf4, 0x05, 0xba, 0x75,
+	0xbe, 0x68, 0x38, 0xad, 0xca, 0x6d, 0x74, 0x89, 0x47, 0x97, 0x1f, 0x95, 0x20, 0x2f, 0xd0, 0x02,
+	0xfa, 0xed, 0x68, 0xd1, 0xb8, 0x26, 0x2f, 0x0a, 0xc2, 0xf8, 0xda, 0xc8, 0x5a, 0x7d, 0x85, 0x5e,
+	0x2b, 0x4f, 0x14, 0x35, 0xf0, 0x56, 0x19, 0x78, 0x7c, 0x65, 0x62, 0x7d, 0x96, 0x30, 0x38, 0x4f,
+	0x07, 0xbd, 0xab, 0x17, 0x9e, 0x28, 0x00, 0xbf, 0xbf, 0x3e, 0xb4, 0x86, 0x31, 0xb8, 0x2b, 0x76,
+	0x42, 0xfd, 0x1a, 0x2b, 0x33, 0xc6, 0xaf, 0x5b, 0xda, 0x90, 0xb3, 0xf0, 0xd7, 0x48, 0xfc, 0xdd,
+	0x25, 0x62, 0x9b, 0xb4, 0x5e, 0xcb, 0xd6, 0xb3, 0xef, 0xe4, 0xf3, 0x7d, 0x00, 0x00, 0x00, 0xff,
+	0xff, 0xbe, 0xb5, 0x47, 0x10, 0x45, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -472,8 +472,8 @@ const _ = grpc.SupportPackageIsVersion4
 type WalletClient interface {
 	Recharge(ctx context.Context, in *RechargeReq, opts ...grpc.CallOption) (*RechargeResp, error)
 	GetUserBalance(ctx context.Context, in *GetUserBalanceReq, opts ...grpc.CallOption) (*GetUserBalanceResp, error)
-	GetTopUser(ctx context.Context, in *GetTopUserReq, opts ...grpc.CallOption) (*GetTopUserResp, error)
-	RecordOrderNoPaid(ctx context.Context, in *RecordOrderNoPaidReq, opts ...grpc.CallOption) (*RecordOrderNoPaidResp, error)
+	GetTopTenUser(ctx context.Context, in *GetTopTenUserReq, opts ...grpc.CallOption) (*GetTopTenUserResp, error)
+	WriteNoPaidOrder(ctx context.Context, in *WriteNoPaidOrderReq, opts ...grpc.CallOption) (*WriteNoPaidOrderResp, error)
 	Pay(ctx context.Context, in *PayReq, opts ...grpc.CallOption) (*PayResp, error)
 }
 
@@ -503,18 +503,18 @@ func (c *walletClient) GetUserBalance(ctx context.Context, in *GetUserBalanceReq
 	return out, nil
 }
 
-func (c *walletClient) GetTopUser(ctx context.Context, in *GetTopUserReq, opts ...grpc.CallOption) (*GetTopUserResp, error) {
-	out := new(GetTopUserResp)
-	err := c.cc.Invoke(ctx, "/wallet.Wallet/GetTopUser", in, out, opts...)
+func (c *walletClient) GetTopTenUser(ctx context.Context, in *GetTopTenUserReq, opts ...grpc.CallOption) (*GetTopTenUserResp, error) {
+	out := new(GetTopTenUserResp)
+	err := c.cc.Invoke(ctx, "/wallet.Wallet/GetTopTenUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *walletClient) RecordOrderNoPaid(ctx context.Context, in *RecordOrderNoPaidReq, opts ...grpc.CallOption) (*RecordOrderNoPaidResp, error) {
-	out := new(RecordOrderNoPaidResp)
-	err := c.cc.Invoke(ctx, "/wallet.Wallet/RecordOrderNoPaid", in, out, opts...)
+func (c *walletClient) WriteNoPaidOrder(ctx context.Context, in *WriteNoPaidOrderReq, opts ...grpc.CallOption) (*WriteNoPaidOrderResp, error) {
+	out := new(WriteNoPaidOrderResp)
+	err := c.cc.Invoke(ctx, "/wallet.Wallet/WriteNoPaidOrder", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -534,8 +534,8 @@ func (c *walletClient) Pay(ctx context.Context, in *PayReq, opts ...grpc.CallOpt
 type WalletServer interface {
 	Recharge(context.Context, *RechargeReq) (*RechargeResp, error)
 	GetUserBalance(context.Context, *GetUserBalanceReq) (*GetUserBalanceResp, error)
-	GetTopUser(context.Context, *GetTopUserReq) (*GetTopUserResp, error)
-	RecordOrderNoPaid(context.Context, *RecordOrderNoPaidReq) (*RecordOrderNoPaidResp, error)
+	GetTopTenUser(context.Context, *GetTopTenUserReq) (*GetTopTenUserResp, error)
+	WriteNoPaidOrder(context.Context, *WriteNoPaidOrderReq) (*WriteNoPaidOrderResp, error)
 	Pay(context.Context, *PayReq) (*PayResp, error)
 }
 
@@ -549,11 +549,11 @@ func (*UnimplementedWalletServer) Recharge(ctx context.Context, req *RechargeReq
 func (*UnimplementedWalletServer) GetUserBalance(ctx context.Context, req *GetUserBalanceReq) (*GetUserBalanceResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserBalance not implemented")
 }
-func (*UnimplementedWalletServer) GetTopUser(ctx context.Context, req *GetTopUserReq) (*GetTopUserResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTopUser not implemented")
+func (*UnimplementedWalletServer) GetTopTenUser(ctx context.Context, req *GetTopTenUserReq) (*GetTopTenUserResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTopTenUser not implemented")
 }
-func (*UnimplementedWalletServer) RecordOrderNoPaid(ctx context.Context, req *RecordOrderNoPaidReq) (*RecordOrderNoPaidResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RecordOrderNoPaid not implemented")
+func (*UnimplementedWalletServer) WriteNoPaidOrder(ctx context.Context, req *WriteNoPaidOrderReq) (*WriteNoPaidOrderResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method WriteNoPaidOrder not implemented")
 }
 func (*UnimplementedWalletServer) Pay(ctx context.Context, req *PayReq) (*PayResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Pay not implemented")
@@ -599,38 +599,38 @@ func _Wallet_GetUserBalance_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Wallet_GetTopUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTopUserReq)
+func _Wallet_GetTopTenUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTopTenUserReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WalletServer).GetTopUser(ctx, in)
+		return srv.(WalletServer).GetTopTenUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wallet.Wallet/GetTopUser",
+		FullMethod: "/wallet.Wallet/GetTopTenUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WalletServer).GetTopUser(ctx, req.(*GetTopUserReq))
+		return srv.(WalletServer).GetTopTenUser(ctx, req.(*GetTopTenUserReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Wallet_RecordOrderNoPaid_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RecordOrderNoPaidReq)
+func _Wallet_WriteNoPaidOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(WriteNoPaidOrderReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(WalletServer).RecordOrderNoPaid(ctx, in)
+		return srv.(WalletServer).WriteNoPaidOrder(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/wallet.Wallet/RecordOrderNoPaid",
+		FullMethod: "/wallet.Wallet/WriteNoPaidOrder",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(WalletServer).RecordOrderNoPaid(ctx, req.(*RecordOrderNoPaidReq))
+		return srv.(WalletServer).WriteNoPaidOrder(ctx, req.(*WriteNoPaidOrderReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -666,12 +666,12 @@ var _Wallet_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Wallet_GetUserBalance_Handler,
 		},
 		{
-			MethodName: "GetTopUser",
-			Handler:    _Wallet_GetTopUser_Handler,
+			MethodName: "GetTopTenUser",
+			Handler:    _Wallet_GetTopTenUser_Handler,
 		},
 		{
-			MethodName: "RecordOrderNoPaid",
-			Handler:    _Wallet_RecordOrderNoPaid_Handler,
+			MethodName: "WriteNoPaidOrder",
+			Handler:    _Wallet_WriteNoPaidOrder_Handler,
 		},
 		{
 			MethodName: "Pay",

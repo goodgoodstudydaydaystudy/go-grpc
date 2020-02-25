@@ -33,7 +33,7 @@ func (c *Client) Recharge(userId uint32, amount int64, time string) protocol.Ser
 }
 
 // 读取数据{top10 []z}
-func (c *Client) GetTopData(n uint, time string) ([]redis.Z, protocol.ServerError) {
+func (c *Client) GetTopUserData(n uint, time string) ([]redis.Z, protocol.ServerError) {
 	stop := int64(n)
 	z, err := c.cli.ZRangeWithScores(time, 0, stop).Result()
 	if err == redis.Nil {
@@ -48,7 +48,7 @@ func (c *Client) GetTopData(n uint, time string) ([]redis.Z, protocol.ServerErro
 
 // 写入order的orderId和deadline
 // 用于写入订单的deadline
-func (c *Client) RecordOrderDeadline(orderId string, deadline string) protocol.ServerError {
+func (c *Client) WriteOrderDeadline(orderId string, deadline string) protocol.ServerError {
 	err := c.cli.SAdd(deadline, orderId).Err()
 	//err := c.cli.Do("SAdd", deadline, orderId).Err()
 	if err != nil {

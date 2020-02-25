@@ -3,10 +3,14 @@ package wallet
 import (
 	"context"
 	"log"
+	"os"
+	"os/signal"
+	"syscall"
 	"time"
 
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/wallet"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
+	redisDb "goodgoodstudy.com/go-grpc/pkg/server/wallet/dao/redis"
 	"goodgoodstudy.com/go-grpc/protocol/common/status"
 
 	"github.com/go-redis/redis"
@@ -14,9 +18,13 @@ import (
 )
 
 type server struct {
-	db *StoreManager
+	db   *StoreManager
+	rdb  *redis.Client
+	timeManager
 }
 
+type timeManager struct {
+}
 
 func NewWalletServer() (*server, error) {
 	// create mysql&redis conn
@@ -26,7 +34,7 @@ func NewWalletServer() (*server, error) {
 		return nil, err
 	}
 
-	rdb := redis.NewClient(&redis.Options{
+	redisConn := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: "",
 		DB:       0,
@@ -34,12 +42,15 @@ func NewWalletServer() (*server, error) {
 
 	Store := &StoreManager{
 		mysqlConn:   db,
-		redisClient: rdb,
 	}
 
 	walletServer := &server{
 		db:  Store,
+		rdb: redisConn,
 	}
+
+	c := make(chan os.Signal)
+	signal.Notify(c, syscall.SIGINT, syscall.SIGCONT)
 
 	go walletServer.scanAndQueryOrderNoPaid()
 	go walletServer.expiredOrderToMark(walletServer.getExpiredOrder)
@@ -72,7 +83,8 @@ func (s *server) scanAndQueryOrderNoPaid()  {
 func (s *server) getExpiredOrder() []string {
 	t := time.Now()
 	deadline := t.Format("2006-01-02 15:04:05")
-	expiredOrderList, err := s.db.GetExpiredOrder(deadline)
+	//expiredOrderList, err := s.db.GetExpiredOrder(deadline)
+	expiredOrderList, err := redisDb.NewWalletRedis(s.rdb).GetExpiredOrder(deadline)
 	if err != nil {
 		log.Println("wallet server GetExpiredOrder failed:", err)
 		return nil
@@ -107,7 +119,8 @@ func (s *server) Recharge(ctx context.Context, req *pb.RechargeReq) (*pb.Recharg
 		log.Println("server Recharge failed: ", err)
 		return nil, protocol.NewServerError(status.ErrRechargeFailed)
 	}
-	err = s.db.Consume(req.UserId, req.Amount)
+	// 写入充值用户的信息（
+	err = redisDb.NewWalletRedis(s.rdb).Recharge(req.UserId, req.Amount, s.timeManager.rechargeTime())
 	if err != nil {
 		log.Println("server Recharge failed: ", err)
 		return nil, protocol.NewServerError(status.ErrRechargeFailed)
@@ -131,37 +144,49 @@ func (s *server) GetUserBalance(ctx context.Context, req *pb.GetUserBalanceReq) 
 
 
 // 获取 top 用户
-func (s *server) GetTopUser(ctx context.Context, req *pb.GetTopUserReq) (*pb.GetTopUserResp, error) {
-	r, err := s.db.GetTopUser(uint(req.Top))
+func (s *server) GetTopTenUser(ctx context.Context, req *pb.GetTopTenUserReq) (*pb.GetTopTenUserResp, error) {
+	z, err := redisDb.NewWalletRedis(s.rdb).GetTopUserData(uint(req.Top), s.timeManager.rechargeTime())
 	if err != nil {
 		log.Println("server GetTopUser failed:", err)
 		return nil, err
 	}
+
+	topUser := make(map[string]uint64)
+	for _, val := range z {
+		topUser[val.Member.(string)] = uint64(val.Score)
+	}
+
 	var topUserList string
-	for key, _ := range r {
+	for key, _ := range topUser {
 		log.Println("member:", key)
 		topUserList += key + ","
 	}
 
 	//TODO topUser的充值金额要附上
 
-	return &pb.GetTopUserResp{
+	return &pb.GetTopTenUserResp{
 		UserList:  topUserList,
 	}, nil
 }
 
 // 没有付款的订单
-func (s *server) RecordOrderNoPaid(ctx context.Context, req *pb.RecordOrderNoPaidReq) (*pb.RecordOrderNoPaidResp, error) {
-	err := s.db.RecordOrderNoPaid(ctx, req.UserId, req.OrderId)
+func (s *server) WriteNoPaidOrder(ctx context.Context, req *pb.WriteNoPaidOrderReq) (*pb.WriteNoPaidOrderResp, error) {
+	err := s.db.WriteNoPaidOrder(ctx, req.UserId, req.OrderId)
 	if err != nil {
 		log.Println("server OrderNotPay failed:", err)
 		return nil, err
 	}
 
-	return &pb.RecordOrderNoPaidResp{}, nil
+	// 查询获取TopTenUserList
+	err = redisDb.NewWalletRedis(s.rdb).WriteOrderDeadline(req.OrderId, s.timeManager.deadline())
+	if err != nil {
+		log.Println("wallet server RecordOrderDeadline failed:", err)
+		return nil, err
+	}
+	return &pb.WriteNoPaidOrderResp{}, nil
 }
 
-// pay
+// 支付订单后，orderId写入库。
 func (s *server) Pay(ctx context.Context, req *pb.PayReq) (*pb.PayResp, error) {
 	err := s.db.Pay(ctx, req.OrderId)
 	if err != nil {
@@ -169,4 +194,21 @@ func (s *server) Pay(ctx context.Context, req *pb.PayReq) (*pb.PayResp, error) {
 		return nil, err
 	}
 	return &pb.PayResp{}, nil
+}
+
+
+func (t *timeManager)rechargeTime() string {
+	return time.Now().Format("2006-01-02 15")
+}
+
+func (t *timeManager) OrderTime() (orderTime string) {
+	return time.Now().Format("2006-01-02 15:04:05")
+}
+
+func (t *timeManager) deadline() string {
+	now := time.Now()
+	afterOneMin, _ := time.ParseDuration("+1m")
+	r := now.Add(afterOneMin)
+	deadline := r.Format("2006-01-02 15:04:05")
+	return deadline
 }

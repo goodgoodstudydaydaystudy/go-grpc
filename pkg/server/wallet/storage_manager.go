@@ -2,13 +2,13 @@ package wallet
 
 import (
 	"context"
-	"log"
-	"time"
-
-	"github.com/go-redis/redis"
+	//"github.com/go-redis/redis"
 	_ "github.com/go-sql-driver/mysql" // mysql driver
 	"github.com/jmoiron/sqlx"
-	redis2 "goodgoodstudy.com/go-grpc/pkg/server/wallet/dao/redis"
+	/*
+		TODO 将本页的redis服务移到db页。需mysql和redis同步写入的功能，在server同步操作两个库
+	*/
+	//redis2 "goodgoodstudy.com/go-grpc/pkg/server/wallet/dao/redis"
 
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	"goodgoodstudy.com/go-grpc/pkg/server/wallet/dao/mysql"
@@ -17,12 +17,10 @@ import (
 
 type StoreManager struct {
 	mysqlConn   *sqlx.DB
-	redisClient *redis.Client
 	timeManager
 }
 
-type timeManager struct {
-}
+
 
 func (st *StoreManager) Recharge(ctx context.Context, userId uint32, deltaAdd int64) protocol.ServerError {
 	// 1. 开启事务
@@ -49,7 +47,7 @@ func (st *StoreManager) GetUserBalance(ctx context.Context, userId uint32) (int6
 	return dao.GetUserBalance(ctx, userId, false)
 }
 
-func (st *StoreManager) RecordOrderNoPaid(ctx context.Context, userId uint32, orderId string) protocol.ServerError {
+func (st *StoreManager) WriteNoPaidOrder(ctx context.Context, userId uint32, orderId string) protocol.ServerError {
 	// 开启事务
 	db := st.mysqlConn
 	tx, err := db.BeginTxx(ctx, nil)
@@ -64,12 +62,6 @@ func (st *StoreManager) RecordOrderNoPaid(ctx context.Context, userId uint32, or
 		return protocol.ToServerError(err)
 	} else {
 		_ = tx.Commit()
-	}
-	// 写入redis RecordOrderDeadline
-	dao2 := redis2.NewWalletRedis(st.redisClient)
-	re := dao2.RecordOrderDeadline(orderId, st.deadline())
-	if re != nil {
-		return protocol.ToServerError(re)
 	}
 	// return
 	return nil
@@ -126,59 +118,10 @@ func doTx(ctx context.Context, db *sqlx.DB, fn func(tx *sqlx.Tx) error) error {
 	return fn(tx)
 }
 
-// 管理time和写入recharge recording
-func (st *StoreManager) Consume(orderId uint32, amount int64) protocol.ServerError {
-	dao2 := redis2.NewWalletRedis(st.redisClient)
-	err:= dao2.Recharge(orderId, amount, st.rechargeTime())
-	if err != nil {
-		return err
-	}
-	return nil
-}
 
 
-// getTop列表，生成TopN的map返回给server
-func (st *StoreManager) GetTopUser(n uint) (map[string]uint64, protocol.ServerError) {
-	dao2 := redis2.NewWalletRedis(st.redisClient)
-	z, err := dao2.GetTopData(n, st.rechargeTime())
-	if err != nil {
-		log.Println("st GetTopUser failed:", err)
-		return nil, err
-	}
-
-	topUser := make(map[string]uint64)
-	for _, val := range z {
-		topUser[val.Member.(string)] = uint64(val.Score)
-	}
-	return topUser, nil
-}
-
-// 通过时间 返回 过期订单
-func (st *StoreManager) GetExpiredOrder(deadline string) ([]string, protocol.ServerError) {
-	dao2 := redis2.NewWalletRedis(st.redisClient)
-	expiredOrder, err := dao2.GetExpiredOrder(deadline)
-	if err != nil {
-		return nil, protocol.ToServerError(err)
-	}
-	return expiredOrder, nil
-}
 
 
-func (t *timeManager)rechargeTime() string {
-	return time.Now().Format("2006-01-02 15")
-}
-
-func (t *timeManager) RecordOrderTime() (orderTime string) {
-	return time.Now().Format("2006-01-02 15:04:05")
-}
-
-func (t *timeManager) deadline() string {
-	now := time.Now()
-	afterOneMin, _ := time.ParseDuration("+1m")
-	r := now.Add(afterOneMin)
-	deadline := r.Format("2006-01-02 15:04:05")
-	return deadline
-}
 
 
 

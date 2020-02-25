@@ -60,9 +60,9 @@ func (c *Client) GetUserById(ctx context.Context, uid uint32) (*pb.GetUserBalanc
 	return resp, nil
 }
 
-func (c *Client) GetTopUser(ctx context.Context, n uint32) (*pb.GetTopUserResp, protocol.ServerError) {
-	req := &pb.GetTopUserReq{Top:n}
-	resp, err := c.cli.GetTopUser(ctx, req)
+func (c *Client) GetTopUser(ctx context.Context, n uint32) (*pb.GetTopTenUserResp, protocol.ServerError) {
+	req := &pb.GetTopTenUserReq{Top:n}
+	resp, err := c.cli.GetTopTenUser(ctx, req)
 	if err != nil {
 		log.Println("client GetTopUser failed:", err)
 		return resp, protocol.ToServerError(err)
@@ -70,9 +70,9 @@ func (c *Client) GetTopUser(ctx context.Context, n uint32) (*pb.GetTopUserResp, 
 	return resp, nil
 }
 
-func (c *Client) RecordOrderNoPaid(ctx context.Context, userId uint32, orderId string) (*pb.RecordOrderNoPaidResp, protocol.ServerError) {
-	req := &pb.RecordOrderNoPaidReq{UserId: userId, OrderId: orderId}
-	resp, err := c.cli.RecordOrderNoPaid(ctx, req)
+func (c *Client) WriteNoPaidOrder(ctx context.Context, userId uint32, orderId string) (*pb.WriteNoPaidOrderResp, protocol.ServerError) {
+	req := &pb.WriteNoPaidOrderReq{UserId: userId, OrderId: orderId}
+	resp, err := c.cli.WriteNoPaidOrder(ctx, req)
 	if err != nil {
 		log.Println("client RecordOrderNoPaid failed:", err)
 		return resp, protocol.ToServerError(err)
