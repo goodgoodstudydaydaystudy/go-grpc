@@ -1,14 +1,5 @@
 # go-grpc
-2020/1/6
-```
-server/Server.go
 
-func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb.ConsumeResp, error) {
-	return &pb.ConsumeResp{OrderId: consumeReq.GetItemId()}, nil
- ```
- Q: OrderId明明是ConsumeResp结构体里面的方法，怎么会引出consumeReq结构体和里面的字段唉
- 
- ---
 
 ### 笔记：
 
@@ -65,5 +56,5 @@ func (s *ControlServer) Pay(ctx context.Context, consumeReq *pb.ConsumeReq) (*pb
 - [x] 在user-logic加入第一个接口: 登录
   - [x] 校验用户名, 密码 
   - [x] 返回UserInfo, 以及这个人的余额
-- [ ] 在user-logic加入注册接口
-- [ ] logic_test 测试登录返回余额时，wallet_db的get函数有异常
+- [x] 在user-logic加入注册接口
+- [x] logic_test 测试登录返回余额时，wallet_db的get函数有异常
