@@ -9,7 +9,7 @@ type UserInfo struct {
 	Account  string `db:"account"`
 	Password string `db:"password"`
 	Nickname string `db:"name"`
-	Gender   uint32 `db:"gender"` // TODO 要建立一个映射, 把uint32和pb中gender的enum类型对应上, 实际上强制转换也是可以的
+	Gender   uint32 `db:"gender"` // 要建立一个映射, 把uint32和pb中gender的enum类型对应上, 实际上强制转换也是可以的
 }
 
 func UserInfoToPb(userInfo *UserInfo) *pb.UserInfo {

@@ -22,7 +22,6 @@ type Info struct {
 }
 
 func main()  {
-	// TODO
 	/*
 	测试, 应该是有一个/很多个进程/协程, 一直在向logic发送 Recharge的请求,
 	然后时不时把wallet server停掉, 再启动, 再停掉.

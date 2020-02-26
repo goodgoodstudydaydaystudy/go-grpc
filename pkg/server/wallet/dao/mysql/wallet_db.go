@@ -125,7 +125,7 @@ func (c *WalletMysql) GetNoPaid(ctx context.Context) (NoPaid []string, serverErr
 func (c *WalletMysql) MarkExpiredOrder(ctx context.Context, expiredOder []string) (err protocol.ServerError) {
 	// range expiredOder []string to get order
 	for _, orderId := range expiredOder{
-		// TODO 尝试加上 go 协程
+		// TODO 创建一个协程池，并发执行标记任务
 		checkOrderExec := "SELECT status FROM t_order WHERE orderId=?"
 		row := c.qe.QueryRowxContext(ctx, checkOrderExec, orderId)
 		var statusNum int

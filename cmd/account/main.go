@@ -2,13 +2,15 @@ package main
 
 import (
 	"fmt"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
+
 	"log"
 	"net"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 
 	"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server"
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/server/account"

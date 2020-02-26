@@ -24,7 +24,7 @@ func (c *Client) Recharge(userId uint32, amount int64, time string) protocol.Ser
 		Score:  zAmount,
 		Member: userId,
 	}
-	err := c.cli.ZAdd(time, &z).Err()
+	err := c.cli.ZAdd(time, z).Err()
 	if err != nil {
 		log.Println("redis recharge failed:", err)
 		return protocol.NewServerError(status.ErrRedisDB)
