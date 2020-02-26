@@ -3,9 +3,6 @@ package wallet
 import (
 	"context"
 	"log"
-	"os"
-	"os/signal"
-	"syscall"
 	"time"
 
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/server/wallet"
@@ -48,9 +45,6 @@ func NewWalletServer() (*server, error) {
 		db:  Store,
 		rdb: redisConn,
 	}
-
-	c := make(chan os.Signal)
-	signal.Notify(c, syscall.SIGINT, syscall.SIGCONT)
 
 	go walletServer.scanAndQueryOrderNoPaid()
 	go walletServer.expiredOrderToMark(walletServer.getExpiredOrder)

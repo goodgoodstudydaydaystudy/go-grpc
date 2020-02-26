@@ -10,7 +10,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc/reflection"
 
-	//"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server/grpcAuth"
+	//"goodgoodstudy.com/go-grpc/pkg/foundation/grpc/server/grpcAuth"ip
 	logicSvr "goodgoodstudy.com/go-grpc/pkg/logic/user/server"
 	pb "goodgoodstudy.com/go-grpc/pkg/pb/logic/user"
 )

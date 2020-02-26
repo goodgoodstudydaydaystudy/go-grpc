@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"math/rand"
+	"runtime"
 	"strconv"
 	"sync"
 	"time"
@@ -20,8 +21,6 @@ type Info struct {
 	userId uint32
 }
 
-
-
 func main()  {
 	// TODO
 	/*
@@ -31,123 +30,57 @@ func main()  {
 	最后把测试的client进程关掉, 把wallet server打开, 看看数据库的数据对不对, 看看排行榜数据对不对
 
 	用client_test可能不够, 你要自己写个main函数, 搞个for循环一直向logic发请求, 这种测试的小程序就可以放在cmd/ 目录下
-	 */
+	*/
+
 
 	// get a new client by newClient and send/return chan
+	// check err from api. return chan when occurred err
 	// keepConn notice newClient when get errSig return chan
+	// newClient return clientChan
+	// loop check clientChan and get client in main when the chan full
+
 	// need a loop to check sig before get a client from chan
-
-
-	var client *user.Client
-	var mut sync.Mutex
-	var wg  sync.WaitGroup
-	var clientChan  = make(chan *user.Client)
-	var errOccurred = make(chan bool)
-
+	var wg sync.WaitGroup
 
 	client, err := user.NewUserLogicClient()
-	if err != nil {
-		log.Println("NewUserLogicClient failed:", err)
-	}
-	// need a loop to check sig before get a client from chan
 	wg.Add(1)
-	go func() {
-		log.Println("go")
-		for {
-			select {
-			case <-errOccurred:		// errOccurred not done. is nil
-				client =<-clientChan
-			default:
-				// nothing
-			}
-			time.Sleep(time.Second)
-			wg.Done()
-		}
-	}()
-	wg.Wait()
-
 	for {
 		go func() {
-			wg.Add(1)
-			defer func() {
-				mut.Unlock()
-			}()
-			mut.Lock()
+			if err != nil {
+				log.Println("NewUserLogicClient failed:", err)
+				return
+			}
 			userInfo := generateInfo()
-
 			ctx, err := login(client, userInfo.account)
 			if err != nil {
-				log.Println("login failed")
-				clientChan, errOccurred = keepConn(err)
-			}else {
-				log.Printf("%v login success", userInfo.userId)
+				log.Println("login failed:", err)
+				return
 			}
-
 			err = recharge(ctx, client, userInfo.userId, userInfo.account)
 			if err != nil {
-				log.Printf("%v recharge failed:", userInfo.userId)
-				clientChan, errOccurred = keepConn(err)
-			} else {
-				log.Printf("%v recharge success", userInfo.userId)
-
+				log.Println("recharge failed", err)
+				return
 			}
 			wg.Done()
+			wg.Wait()
 		}()
-		wg.Wait()
+		//time.Sleep(time.Millisecond*500)
+		log.Println(runtime.NumGoroutine())
 	}
-}
-
-// the second <return chan *user.Client>
-// new client
-// channel <-client
-// return chan
-func newLogicClientChan() chan *user.Client {
-	clientChan := make(chan *user.Client)
-	client, err := user.NewUserLogicClient()
-	if err != nil {
-		log.Println("NewUserLogicClient failed:", err)
-	}
-	log.Printf("get client")
-	clientChan <-client
-	return clientChan
-}
-
-// the first <check errSig>
-// check errSig and send notice newLogicClient().
-// to new client. return chan
-func keepConn(err error) (chan *user.Client, chan bool) {
-	var errSig      = make(chan error, 1)
-	var clientChan  = make(chan *user.Client)
-	var errOccurred = make(chan bool)
-
-	errSig <-err
-	select {
-		case <-errSig:
-			clientChan = newLogicClientChan()
-			errOccurred <-true
-			return clientChan, errOccurred
-		default:
-			// nothing
-		}
-		time.Sleep(time.Second)
-		log.Printf("repeat conn wait 1 second")
-
-	return nil, nil
 }
 
 
 
 func login(cli *user.Client, account string) (ctx context.Context, err error) {
 	ctx = context.Background()
-
 	LoginResp, err := cli.Login(ctx, &upb.LoginReq{
 		Account:              account,
 		Password:             "123456",
 	})
 	if err != nil {
 		log.Println("login failed:", err)
+		return ctx, err
 	}
-
 	const grpcToken = "resp_token"
 	token := LoginResp.Token
 	ctx = metadata.AppendToOutgoingContext(ctx, grpcToken, token)
@@ -167,14 +100,13 @@ func recharge(ctx context.Context, cli *user.Client, userId uint32, account stri
 	}else {
 		log.Println("recharge success:", amount)
 	}
-	return nil
+	return
 }
 
 
 func generateInfo() *Info {
 	userIdInt := rand.New(rand.NewSource(time.Now().UnixNano())).Int63n(10000)
 	userIdStr := strconv.FormatInt(userIdInt, 10)
-
 
 	var account string
 	if userIdInt < 10 {
