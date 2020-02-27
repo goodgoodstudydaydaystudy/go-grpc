@@ -63,12 +63,9 @@ func main()  {
 			wg.Done()
 			wg.Wait()
 		}()
-		//time.Sleep(time.Millisecond*500)
 		log.Println(runtime.NumGoroutine())
 	}
 }
-
-
 
 func login(cli *user.Client, account string) (ctx context.Context, err error) {
 	ctx = context.Background()

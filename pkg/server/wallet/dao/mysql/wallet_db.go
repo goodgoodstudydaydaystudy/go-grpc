@@ -124,8 +124,21 @@ func (c *WalletMysql) GetNoPaid(ctx context.Context) (NoPaid []string, serverErr
 // 接收过期订单，修改t_order的status=3(expired)
 func (c *WalletMysql) MarkExpiredOrder(ctx context.Context, expiredOder []string) (err protocol.ServerError) {
 	// range expiredOder []string to get order
-	for _, orderId := range expiredOder{
-		// TODO 创建一个协程池，并发执行标记任务
+	p := NewPool(5)
+	go func() {
+		for _, orderId := range expiredOder{
+			for {
+				p.entryChannel <- c.MarkExpiredOrderTask(ctx, orderId)
+			}
+		}
+	}()
+
+	p.runPool()
+	return nil
+}
+
+func (c *WalletMysql) MarkExpiredOrderTask(ctx context.Context, orderId string) *task {
+	task := NewTask(func() error {
 		checkOrderExec := "SELECT status FROM t_order WHERE orderId=?"
 		row := c.qe.QueryRowxContext(ctx, checkOrderExec, orderId)
 		var statusNum int
@@ -140,13 +153,12 @@ func (c *WalletMysql) MarkExpiredOrder(ctx context.Context, expiredOder []string
 			_, err := c.qe.ExecContext(ctx, orderExec, 3, orderId)
 			if err != nil {
 				log.Println("MarkExpiredOrder exec failed:", err)
-				return nil
 			}
 		}
-		}
-	return nil
+		return nil
+	})
+	return task
 }
-
 
 // mysql goodStudy -uroot -p8918112lu;
 // select * from t_wallet;
