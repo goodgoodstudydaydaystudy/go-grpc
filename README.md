@@ -58,3 +58,5 @@
   - [x] 返回UserInfo, 以及这个人的余额
 - [x] 在user-logic加入注册接口
 - [x] logic_test 测试登录返回余额时，wallet_db的get函数有异常
+- [ ] wallet_db创建协程池管理修改order状态的协程
+- [ ] 优化main的代码管理
