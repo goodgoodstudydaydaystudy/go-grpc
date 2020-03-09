@@ -62,7 +62,6 @@ func (c *Client) WriteOrderDeadline(orderId string, deadline string) protocol.Se
 func (c *Client) GetExpiredOrder(deadline string) ([]string, protocol.ServerError){
 	s, err := c.cli.SMembers(deadline).Result()
 	if err != nil {
-		log.Println("redis GetDeadlineOrder failed:", err)
 		return nil, protocol.NewServerError(status.ErrRedisDB)
 	}
 	return s, nil

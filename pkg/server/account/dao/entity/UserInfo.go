@@ -5,7 +5,7 @@ import (
 )
 
 type UserInfo struct {
-	UserID   uint32 `db:"id"` // 这玩意叫tag, 反射的时候可以获得tag信息, sqlx可以根据这个tag把和列名和字段名对应上
+	UserID   int32 `db:"id"` // 这玩意叫tag, 反射的时候可以获得tag信息, sqlx可以根据这个tag把和列名和字段名对应上
 	Account  string `db:"account"`
 	Password string `db:"password"`
 	Nickname string `db:"name"`

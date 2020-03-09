@@ -2,24 +2,40 @@ package account
 
 import (
 	"context"
-	"goodgoodstudy.com/go-grpc/protocol/common/status"
+	"goodgoodstudy.com/go-grpc/pkg/server/account/cao"
+	account "goodgoodstudy.com/go-grpc/pkg/server/account/dao/entity"
 	"log"
 
 	rpb "goodgoodstudy.com/go-grpc/pkg/pb/server/account"
 	protocol "goodgoodstudy.com/go-grpc/pkg/procotol"
 	"goodgoodstudy.com/go-grpc/pkg/server/account/dao"
-	account "goodgoodstudy.com/go-grpc/pkg/server/account/dao/entity"
+	"goodgoodstudy.com/go-grpc/protocol/common/status"
+
+	"github.com/go-redis/redis"
 )
 
 type server struct {
 	db dao.AccountDao
+	ca cao.AccountCache
 }
 
 // server connDb
 func NewAccountServer() (*server, error) {
 	db, err := dao.NewAccountDao("mysql")
+
+	cli := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "",
+		DB:       0,
+	})
+
+	ca := cao.AccountCache{
+		Cli: cli,
+	}
+
 	return &server{
 		db: db,
+		ca: ca,
 	}, err
 }
 
@@ -45,29 +61,66 @@ func (s *server) AddUser(ctx context.Context, req *rpb.AddUserReq) (*rpb.AddUser
 
 // 登录功能
 func (s *server) CheckPwd(ctx context.Context, req *rpb.CheckPwdReq) (resp *rpb.CheckPwdResp, err error) {
-	resp = &rpb.CheckPwdResp{} // 这个东西不能返回nil, 所以一开始初始化了, 省的麻烦
-	pwd, err := s.db.GetUserPasswordByAccount(req.GetAccount())
+	resp = &rpb.CheckPwdResp{}
+	// get data from cache
+	userInfo, isValid, err := s.ca.GetUserInfoByID(req.UserId)
 	if err != nil {
+		log.Println("server GetUserInfoByID failed:", err)
 		return
 	}
+	//log.Println("server userInfo:", userInfo)
+	//log.Printf("userInfo.Password: %v, req.Password: %v", userInfo.Password, req.Password)
 
-	if req.GetPassword() != pwd {
+	// Err password
+	if isValid == true && userInfo.Password != req.Password {
 		err = protocol.NewServerError(status.ErrPasswordError) //  自己把密码错误的错误码加进去status
-		log.Printf("Login: user account %s password wrong\n", req.GetAccount())
+		log.Printf("Login: user account %v password wrong\n", req.UserId)
 		return
 	}
-
-	// 嫌麻烦的话可以用GetUserByAccount一次性查出user所有信息, 包括密码, 但是要注意密码不要包含在UserInfo结构体里面, 不能返回给client
-	// 就不用查两次
-
-	userInfo, err := s.db.GetUserByAccount(req.GetAccount())
-	if err != nil {
-		log.Println("GetUserByAccount failed:", err)
-		return
+	// correct password
+	if isValid == true {
+		return &rpb.CheckPwdResp{
+			Nickname:             userInfo.Nickname,
+			Gender:               userInfo.Gender,
+		}, nil
 	}
 
+	// cache have no data
+	// maybe db also have no data, and get temp data.
+	var newUserInfo *account.UserInfo
+	if isValid == false {
+		//log.Println("isValid == false")
+		// get data from db
+		newUserInfo, err = s.db.GetUserById(req.UserId)
+		//log.Println("srv newUserInfo:", newUserInfo)
+		//log.Println("newUserInfo:", newUserInfo)
+		// data is nil, db have no data
+		if newUserInfo == nil {
+			// temp data write into cache
+			err := s.ca.WriteIntoCache(nil)
+			if err != nil {
+				log.Println("CheckPwd WriteIntoCache failed:", err)
+				return nil, protocol.NewServerError(status.ErrPwdCache)
+			}
+			return nil, protocol.NewServerError(status.ErrAccountExists)
+		}
+		if err != nil {
+			log.Println("CheckPwd GetUserById failed:", err)
+			return nil, protocol.NewServerError(status.ErrDB)
+		}
+	}
+
+	// get valid data from db and write into cache
+	if err := s.ca.WriteIntoCache(newUserInfo, req.UserId); err != nil {
+		log.Println("serve WriteIntoCache second failed:", err)
+		return nil, protocol.NewServerError(status.ErrPwdCache)
+	}
+	//log.Println("server userInfo:", userInfo)
+
+	// return
 	return &rpb.CheckPwdResp{
-		UserInfo: account.UserInfoToPb(userInfo),
+		Nickname:             newUserInfo.Nickname,
+		Gender:               rpb.Gender(newUserInfo.Gender),
 	}, nil
 }
 

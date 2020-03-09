@@ -13,7 +13,7 @@ type AccountDao interface {
 	// 查
 	GetUserPasswordByAccount(acc string) (string, protocol.ServerError)
 	GetUserByAccount(acc string) (*account.UserInfo, protocol.ServerError) // 参数不要和包名冲突, 已经有叫account的包了, 所以要么参数改名, 要么包重命名一下, 建议参数改名, 叫acc或者accStr都可以
-	GetUserById(userId uint32) (*account.UserInfo, protocol.ServerError)
+	GetUserById(userId int32) (*account.UserInfo, protocol.ServerError)
 
 	// 增
 	AddUsr(req *rpb.AddUserReq) protocol.ServerError

@@ -8,6 +8,7 @@ const (
 	ErrDB  = -3 // 数据库错误
 	ErrDBTypeNotSupport = -4 // 数据库类型不支持
 	ErrRedisDB = -5 // redis数据库错误
+	ErrPwdCache = -6 // 登录缓存出错
 
 	// -1000 ~ -1999 Account
 	ErrAccountExists = -1000 // 账号已存在
@@ -38,6 +39,7 @@ var CodeMessageMap = map[int]string{
 	ErrDBTypeNotSupport:		"数据库类型不支持",
 	ErrNotLogin:				"未登陆",
 	ErrRedisDB:					"redis数据库错误",
+	ErrPwdCache:				"登录缓存出错",
 }
 
 // MessageFromCode get message associated with the code

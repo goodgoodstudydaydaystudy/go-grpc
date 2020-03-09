@@ -39,14 +39,13 @@ func TestClient_Login(t *testing.T) {
 
 	resp, err :=cli.Login(context.Background(), &upb.LoginReq{
 		Account:              "test03",
-		Password:             "123456",
+		Password:             "123457",
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
 	t.Log(resp)
 	t.Log(resp.Token)
-
 }
 
 func TestClient_Recharge(t *testing.T) {

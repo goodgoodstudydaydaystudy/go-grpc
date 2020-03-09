@@ -10,6 +10,7 @@ import (
 	account "goodgoodstudy.com/go-grpc/pkg/server/account/dao/entity"
 	"goodgoodstudy.com/go-grpc/protocol/common/status"
 
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 )
@@ -33,6 +34,7 @@ func NewAccountMysql() (*accountMysql, error) {
 
 // 写入't_member'table
 func (c *accountMysql) AddUsr(req *rpb.AddUserReq) protocol.ServerError {
+	log.Printf("get conn from func:%p", c.conn)
 	accountInfo := "INSERT INTO t_member(account, password, name, gender) VALUE (?, ?, ?, ?)"
 	_, err := c.conn.Exec(accountInfo, req.GetAccount(), req.GetPassword(), req.Name, req.GetGender())
 	if err != nil {
@@ -75,19 +77,25 @@ func (c *accountMysql) GetUserByAccount(acc string) (*account.UserInfo, protocol
 }
 
 // 通常来说, 查用户都是用uid查询, 用account查询也可以, 就必须在数据库中给account这个字段添加索引, 不然查找很慢
-func (c *accountMysql) GetUserById(userId uint32) (*account.UserInfo, protocol.ServerError) {
+func (c *accountMysql) GetUserById(userId int32) (*account.UserInfo, protocol.ServerError) {
 	userInfo := &account.UserInfo{}
+	//log.Println("db GetUserById req_userId:", userId)
 	err := c.conn.Get(userInfo, "SELECT * from t_member WHERE id=?", userId) // 这里用了反射, 看UserInfo结构体后面的tag; 通常select *都用这个来查询; 除非遇到只查一两个字段的, 就用Scan
-	if err == sql.ErrNoRows {                                                // 通过sql的查询err判定。
-		return nil, protocol.NewServerError(status.ErrAccountNotExists)
+	if err == sql.ErrNoRows {
+		// 通过sql的查询err判定。
+		//log.Println("db GetUserById ErrNoRows userInfo:", userInfo)
+		return nil, nil
 	}
-
 	if err != nil {
 		return nil, protocol.NewServerError(status.ErrDB) // 这里要换成真正的错误, 比如判断是不是用户不存在, 还是数据库连接不上
 	}
+	//log.Println("db GetUserById:", userInfo)
 
 	return userInfo, nil
 }
+
+
+
 
 // mysql goodStudy -uroot -p8918112lu;
 // select * from t_member;

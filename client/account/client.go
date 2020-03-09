@@ -58,8 +58,8 @@ func (c *Client) AddUser(ctx context.Context, acc string, pwd string, nickname s
 }
 
 // 登录信息
-func (c *Client) CheckPwd(ctx context.Context, acc, pwd string) (*pb.CheckPwdResp, protocol.ServerError) {
-	req := &pb.CheckPwdReq{Account: acc, Password: pwd}
+func (c *Client) CheckPwd(ctx context.Context, id int32, pwd string) (*pb.CheckPwdResp, protocol.ServerError) {
+	req := &pb.CheckPwdReq{UserId: id, Password: pwd}
 	resp, err := c.cli.CheckPwd(ctx, req)
 	if err != nil {
 		log.Println("client LogIn failed:, ", err)
@@ -80,7 +80,7 @@ func (c *Client) GetUserByAccount(ctx context.Context, acc string) (*pb.GetUserB
 }
 
 // 查询user by userId
-func (c *Client) GetUserByUserId(ctx context.Context, uid uint32) (*pb.GetUserByIdResp, protocol.ServerError) {
+func (c *Client) GetUserByUserId(ctx context.Context, uid int32) (*pb.GetUserByIdResp, protocol.ServerError) {
 	req := &pb.GetUserByIdReq{UserId: uid}
 	resp, err := c.cli.GetUserById(ctx, req)
 	if err != nil {

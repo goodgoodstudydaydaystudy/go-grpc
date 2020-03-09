@@ -37,12 +37,12 @@ func NewWalletServer() (*server, error) {
 		DB:       0,
 	})
 
-	Store := &StoreManager{
+	store := &StoreManager{
 		mysqlConn:   db,
 	}
 
 	walletServer := &server{
-		db:  Store,
+		db:  store,
 		rdb: redisConn,
 	}
 
